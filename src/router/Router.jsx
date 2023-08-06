@@ -4,7 +4,7 @@ import Sigin from '../components/login/sigin/index.jsx'
 export default function Router() {
   return (
     <div>
-      {<Sigin /> ? true : ''}
+      {<Sigin /> }
     </div>
   )
 }
