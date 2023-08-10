@@ -1,11 +1,9 @@
-
 import "./App.css";
-import Router from "./router/Router";
-
+import Router from "./router/Router.jsx";
 function App() {
   return (
     <div>
-      <Router />
+      <Router/>
     </div>
   );
 }

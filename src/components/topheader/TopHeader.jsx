@@ -1,7 +1,14 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
 export default function TopHeader() {
   return (
-    <div>TopHeader</div>
+    <>
+      <div className=''>
+
+      </div>
+      <Outlet />
+    </>
+
   )
 }

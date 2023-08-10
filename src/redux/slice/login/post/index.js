@@ -1,11 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
+import { instance } from '../../../../api/Api.jsx';
 export const LoginAdminPost = createAsyncThunk('postLoginformFetch', async (payload) => {
     try {
-        const response = await axios.post(`http://192.168.1.81:8000/api/v1/auth/login/`, {
+        const response = await instance.post(`base/token/login/`, {
             username: payload.username,
             password: payload.password,
+        }).then((res) => {
+            if (res.statusText === "OK") {
+                localStorage.setItem('auth_token', res.data.auth_token)
+            }
         });
 
         return response.data;
@@ -44,11 +47,11 @@ const loginAdminThunk = createSlice({
                 state.status = 'loading';
             })
             .addCase(LoginAdminPost.fulfilled, (state, { payload }) => {
-                if (payload.success === true) {
+                console.log(state, 'payload');
+                if (payload.data.auth_token) {
                     state.status = 'success';
                     state.message = 'Siz muvofiyaqatli kirdingiz';
-                    // localStorage.setItem('admin_AccessToken', payload.data.accessToken);
-                    // localStorage.setItem('admin_RefreshToken', payload.data.refreshToken);
+                    localStorage.setItem('payload.auth_token', payload.auth_token);
                 } else if (payload.success === false) {
                     state.status = 'notFound';
                     state.message = 'Not Found';
