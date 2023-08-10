@@ -1,14 +1,10 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Layout from "../components/layout/Layout";
-import Dashboard from "../pages/Dashboard";
+import React from 'react'
+import Sigin from '../components/login/sigin/index.jsx'
 
 export default function Router() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Dashboard />} />
-      </Route>
-    </Routes>
-  );
+    <div>
+      {<Sigin /> }
+    </div>
+  )
 }
