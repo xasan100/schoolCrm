@@ -588,8 +588,14 @@ video {
   display: flex;
 }
 
+<<<<<<< HEAD
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+=======
 .h-\[400px\] {
   height: 400px;
+>>>>>>> 43b15b5082725ad3228022ab33fb879cf1f8ed3d
 }
 
 .h-\[40px\] {

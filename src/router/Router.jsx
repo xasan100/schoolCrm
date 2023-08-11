@@ -1,14 +1,14 @@
 import React from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import TopHeader from '../components/topheader/TopHeader.jsx'
-import { navbar } from '../utils/navbar.js'
+import Layout from '../components/layout/Layout.jsx'
+import menuItems from '../mock/menu.js'
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-          <Route path="/" element={<TopHeader />}>
-            {navbar?.map(({ path, element, id }) => (
+        <Route path="/" element={<Layout />}>
+          {menuItems?.map(({ path, element, id }) => (
               <Route key={id} path={path} element={element} />
             ))}
           </Route>
@@ -18,5 +18,7 @@ export default function Router() {
         <Route path="*" element={<h1>404 NOT FOUND</h1>} />
       </Routes>
     </BrowserRouter>
+
+
   )
 }
