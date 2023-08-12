@@ -10,9 +10,10 @@ export const AdminAddPost = createAsyncThunk('AdminAddPost', async (payload) => 
                 password: payload.password,
             },
             model: {
-                admin_type: payload.selectChange.slice(0,1),
+                admin_type: payload.selectChange,
                 first_name: payload.FirstName,
-                last_name: payload.LastName
+                last_name: payload.LastName,
+                permission:[12]
             }
             
         })
