@@ -1,12 +1,22 @@
 import React from "react";
 import Sidebar from "../sidebar/Sidebar";
-import { Outlet } from "react-router-dom";
-
+import { Navigate, Outlet } from "react-router-dom";
+import Topheder from "../topheader/TopHeader.jsx";
 export default function Layout() {
+  const token = "1";
   return (
-    <div className="flex">
-      <Sidebar />
-      <Outlet />
-    </div>
+    <>
+      {token === "1" ? (
+        <div className="flex justify-end">
+          <Sidebar />
+          <div className="basis-4/5">
+            <Topheder />
+            <Outlet />
+          </div>
+        </div>
+      ) : (
+        <Navigate to="/login" />
+      )}
+    </>
   );
 }
