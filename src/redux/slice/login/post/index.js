@@ -47,11 +47,9 @@ const loginAdminThunk = createSlice({
                 state.status = 'loading';
             })
             .addCase(LoginAdminPost.fulfilled, (state, { payload }) => {
-                console.log(state, 'payload');
                 if (payload.data.auth_token) {
                     state.status = 'success';
                     state.message = 'Siz muvofiyaqatli kirdingiz';
-                    localStorage.setItem('payload.auth_token', payload.auth_token);
                 } else if (payload.success === false) {
                     state.status = 'notFound';
                     state.message = 'Not Found';

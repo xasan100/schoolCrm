@@ -13,7 +13,7 @@ export default function Router() {
             ))}
           </Route>
         {/* Redirection */}
-        <Route index element={<Navigate to="/home" />} />
+        <Route index element={<Navigate to="/dashboard" />} />
         {/* 404 Route */}
         <Route path="*" element={<h1>404 NOT FOUND</h1>} />
       </Routes>
