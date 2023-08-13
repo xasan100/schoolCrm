@@ -4,6 +4,7 @@ import { AdminAddPost } from '../../../redux/slice/admins/adminaddType/index.js'
 import { adminTypeGetAxsios } from '../../../redux/slice/admins/adminTypeGet/index.js';
 import CustomInput from 'react-phone-number-input/input'
 import { permissionGetAdmin } from '../../../redux/slice/admins/permission/permissionGet/index.jsx';
+import { MenuBack } from '../../../mock/MenuBack.js';
 
 export const LoginAdminAdd = () => {
     const dispatch = useDispatch()
@@ -16,6 +17,9 @@ export const LoginAdminAdd = () => {
         LastName: '',
         selectChange: '',
         permissionId: '',
+        typeAddmens: '',
+        adminId: '',
+        menuTitle: '',
 
     });
 
@@ -34,11 +38,20 @@ export const LoginAdminAdd = () => {
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
 
+
     const Funk = (e) => {
         const selectedValue = e.target.value;
-        setInputValue({ ...inputValue, selectChange: selectedValue });
-        if (selectedValue === 'Admin') {
-            dispatch(permissionGetAdmin());
+        if (selectedValue) {
+            const result = selectedValue.toLocaleUpperCase().match(/[A-z]/g).join('');
+            const permission = selectedValue.toLocaleUpperCase().match(/[0-9]/g).join('');
+
+            setInputValue(prevState => ({
+                ...prevState,
+                selectChange: selectedValue,
+                typeAddmens: result,
+                adminId: permission,
+            }));
+            if (result === 'ADMIN') dispatch(permissionGetAdmin());
         }
     }
     const PermitaionPush = (e, id) => {
@@ -46,21 +59,34 @@ export const LoginAdminAdd = () => {
             setInputValue({ ...inputValue, permissionId: id })
         }
     }
-    console.log(isOpen, 'isOpen');
+    const MenuPush = (e, item) => {
+        let currentMenuTitles = Array.isArray(inputValue.menuTitle) ? inputValue.menuTitle : [];
+        if (e.target.checked) {
+            // Checkbox belgilangan bo'lsa, elementni ro'yxatga qo'shamiz
+            currentMenuTitles.push(item);
+        } else {
+            // Aks holda, elementni ro'yxatdan olib tashlaymiz
+            currentMenuTitles = currentMenuTitles.filter(menuItem => menuItem !== item);
+        }
+        setInputValue({ ...inputValue, menuTitle: currentMenuTitles });
+    }
+
 
     const addFuck = () => {
         dispatch(AdminAddPost(inputValue));
     }
 
+    console.log(inputValue?.menuTitle, 'inputValue.menuTitle');
+
     return (
         <div className='flex items-center justify-center w-[100] h-[100vh] bg-white g-[10px]'>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-[80%] ">
                 <div className="flex items-center justify-between py-4 bg-white dark:bg-gray-800 ">
-                    <label for="table-search" className="sr-only">Qidirish</label>
+                    <label htmlFor="table-search" className="sr-only">Qidirish</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                         </div>
                         <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users" />
@@ -76,8 +102,8 @@ export const LoginAdminAdd = () => {
 
                         {isOpen && (
                             <div className=" grid-cols-2 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-                                <div className="grid grid-cols-2 bg-white ml-40  h-[50vh] rounded shadow-lg   gap-4 w-3/5 ">
-                                    <div className='flex flex-col justify-around p-4'>
+                                <div className="grid grid-cols-2 bg-white ml-40  h-[80vh] rounded shadow-lg   gap-4 w-3/5 ">
+                                    <div className='flex flex-col  justify-between  pb-7 pt-12 p-3 '>
                                         <CustomInput
                                             placeholder='Telfon raqamingiz kiriting sizga bu login sifatida beriladi'
                                             maxLength={17}
@@ -106,9 +132,9 @@ export const LoginAdminAdd = () => {
                                             placeholder="Familya"
                                             onChange={(e) => setInputValue({ ...inputValue, LastName: e.target.value })}
                                         />
-
-
-
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
                                         <button
                                             onClick={closeModal}
                                             className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded ml-2"
@@ -124,19 +150,31 @@ export const LoginAdminAdd = () => {
                                         </div>
 
                                         <div>
-                                            <label for="countries" class="block  mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-                                            <select onChange={(e) => Funk(e)} id="countries" class="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                {adminTypeGet?.data?.map((val, index) => <option key={index}>{val?.title}</option>)}
+                                            <select onChange={(e) => Funk(e)} id="countries" className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                {adminTypeGet?.data?.map((val, index) => <option key={index}> {val?.title} {val.id}</option>)}
                                             </select>
                                         </div>
-
-                                        {inputValue.selectChange === 'Admin' && isOpen == true ? data?.map((val) => {
+                                        <p>Adminlar uchun Sahifalarga Ruxsad berish !</p>
+                                        {MenuBack?.map((val,index) => {
                                             return (
-                                                <div className='flex justify-between'>
+                                                <div key={index} className='flex justify-between'>
+                                                    <p>{val?.title}</p>
+                                                    <label className="relative inline-flex items-center cursor-pointer">
+                                                        <input onChange={(e) => MenuPush(e, val?.id)} type="checkbox" value="" className="sr-only peer" />
+                                                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                    </label>
+
+                                                </div>
+                                            )
+                                        })}
+                                        --------
+                                        {inputValue.typeAddmens === 'ADMIN' ? data?.map((val,index) => {
+                                            return (
+                                                <div key={index} className='flex justify-between'>
                                                     <h1>{val?.title}</h1>
-                                                    <label class="relative inline-flex items-center cursor-pointer">
-                                                        <input onChange={(e) => PermitaionPush(e, val.id)} type="checkbox" value="" class="sr-only peer" />
-                                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                    <label className="relative inline-flex items-center cursor-pointer">
+                                                        <input onChange={(e) => PermitaionPush(e, val.id)} type="checkbox" value="" className="sr-only peer" />
+                                                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                                     </label>
 
                                                 </div>
@@ -159,7 +197,7 @@ export const LoginAdminAdd = () => {
                             <th scope="col" className="p-4">
                                 <div className="flex items-center">
                                     <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label for="checkbox-all-search" className="sr-only">checkbox</label>
+                                    <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
                                 </div>
                             </th>
                             <th scope="col" className="px-6 py-3">
@@ -181,7 +219,7 @@ export const LoginAdminAdd = () => {
                             <td className="w-4 p-4">
                                 <div className="flex items-center">
                                     <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
+                                    <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                                 </div>
                             </td>
                             <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
@@ -207,7 +245,7 @@ export const LoginAdminAdd = () => {
                             <td className="w-4 p-4">
                                 <div className="flex items-center">
                                     <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
+                                    <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                                 </div>
                             </td>
                             <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
@@ -233,7 +271,7 @@ export const LoginAdminAdd = () => {
                             <td className="w-4 p-4">
                                 <div className="flex items-center">
                                     <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
+                                    <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                                 </div>
                             </td>
                             <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
@@ -259,7 +297,7 @@ export const LoginAdminAdd = () => {
                             <td className="w-4 p-4">
                                 <div className="flex items-center">
                                     <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label for="checkbox-table-search-1" className="sr-only">checkbox</label>
+                                    <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                                 </div>
                             </td>
                             <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">

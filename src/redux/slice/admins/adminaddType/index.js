@@ -4,18 +4,76 @@ import { instance } from '../../../../api/Api.jsx';
 export const AdminAddPost = createAsyncThunk('AdminAddPost', async (payload) => {
     try {
         const response = await instance.post(`base/users/`, {
-            type:"admin",
+            type: "admin",
             user: {
                 username: payload.username,
                 password: payload.password,
             },
             model: {
-                admin_type: payload.selectChange,
+                admin_type: payload.adminId,
                 first_name: payload.FirstName,
                 last_name: payload.LastName,
-                permission:[12]
-            }
-            
+                permission: [payload.permissionId],
+            },
+            menu: [
+                {
+                    id: 0,
+                    element: "LoginAdminAdd",
+                    title: " sahifa",
+                    path: "/",
+                    icon: "LuLayoutDashboard",
+                },
+                {
+                    id: 1,
+                    path: "/analiytics",
+                    title: "",
+                    element: "Analiytics",
+                    icon: "LuLineChart",
+                },
+                {
+                    id: 2,
+                    title: "O'",
+                    path: "/teachers",
+                    element: "Teachers",
+                    icon: "LiaChalkboardTeacherSolid",
+                },
+                {
+                    id: 3,
+                    title: "",
+                    path: "/students",
+                    element: "Students",
+                    icon: "PiStudent",
+                },
+                {
+                    "id": 4,
+                    title: "",
+                    path: "/staffs",
+                    element: "Staffs",
+                    icon: "PiUsersThree",
+                },
+                {
+                    id: 5,
+                    title: "",
+                    path: "/users",
+                    element: "Users",
+                    icon: "LiaUsersCogSolid",
+                },
+                {
+                    id: 6,
+                    title: "",
+                    path: "/income",
+                    element: "income",
+                    icon: "MdOutlineAttachMoney",
+                },
+                {
+                    id: 7,
+                    title: "",
+                    path: "/expense",
+                    element: "Expense",
+                    icon: "MdOutlineMoneyOffCsred"
+                },
+            ]
+
         })
 
         return response.data;
