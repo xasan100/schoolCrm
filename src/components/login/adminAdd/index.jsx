@@ -75,7 +75,7 @@ export const LoginAdminAdd = () => {
             </button>
 
             {isOpen && (
-              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-20">
                 <div className="bg-white p-4 rounded shadow-lg flex flex-col gap-4 w-1/3 ">
                   <h2 className="text-xl font-bold mb-2">Modal Content</h2>
                   <label

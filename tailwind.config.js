@@ -4,8 +4,12 @@ module.exports = {
 
   theme: {
     extend: {
+      rotateY: {
+        0: "0deg",
+        180: "180deg",
+      },
       colors: {
-        "primary": "#445C96",
+        primary: "#445C96",
       },
       width: {
         76: "306px",

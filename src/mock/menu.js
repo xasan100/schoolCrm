@@ -1,13 +1,15 @@
-import LoginAdminAdd from "../components/login/adminAdd/index.jsx";
 import { LuLayoutDashboard, LuLineChart } from "react-icons/lu";
 import { LiaChalkboardTeacherSolid, LiaUsersCogSolid } from "react-icons/lia";
 import { PiStudent, PiUsersThree } from "react-icons/pi";
 import { MdOutlineAttachMoney, MdOutlineMoneyOffCsred } from "react-icons/md";
+import Users from "../pages/Users.jsx";
+import Dashboard from "../pages/Dashboard.jsx";
+import Teachers from "../pages/Teachers.jsx";
 
 const menuItems = [
   {
     id: 0,
-    element: <LoginAdminAdd />,
+    element: <Dashboard />,
     title: "Bosh sahifa",
     path: "/",
     private: true,
@@ -29,7 +31,7 @@ const menuItems = [
     path: "/teachers",
     private: true,
     hidden: true,
-    element: "SD",
+    element: <Teachers />,
     icon: <LiaChalkboardTeacherSolid />,
   },
   {
@@ -56,7 +58,7 @@ const menuItems = [
     path: "/users",
     private: true,
     hidden: true,
-    element: "SD",
+    element: <Users />,
     icon: <LiaUsersCogSolid />,
   },
   {
@@ -75,6 +77,15 @@ const menuItems = [
     private: true,
     hidden: true,
     element: "SD",
+    icon: <MdOutlineMoneyOffCsred />,
+  },
+  {
+    id: 7,
+    title: "Chiqim",
+    path: "/expense1",
+    private: true,
+    hidden: true,
+    element: "",
     icon: <MdOutlineMoneyOffCsred />,
   },
 ];
