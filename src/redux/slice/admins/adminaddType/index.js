@@ -5,18 +5,20 @@ export const AdminAddPost = createAsyncThunk(
   "AdminAddPost",
   async (payload) => {
     try {
-      const response = await instance.post(`base/users/`, {
-        type: "admin",
-        user: {
-          username: payload.username,
-          password: payload.password,
-        },
-        model: {
-          admin_type: payload.selectChange.slice(0, 1),
-          first_name: payload.FirstName,
-          last_name: payload.LastName,
-        },
-      });
+        const response = await instance.post(`base/users/`, {
+            type:"admin",
+            user: {
+                username: payload.username,
+                password: payload.password,
+            },
+            model: {
+                admin_type: payload.selectChange,
+                first_name: payload.FirstName,
+                last_name: payload.LastName,
+                permission:[12]
+            }
+            
+        })
 
       return response.data;
     } catch (error) {
