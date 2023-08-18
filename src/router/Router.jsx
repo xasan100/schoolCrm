@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "../components/layout/Layout.jsx";
+import Sigin from "../components/sigin/index.jsx";
 import menuItems from "../mock/menu.js";
-import Sigin from "../components/login/sigin/index.jsx";
 
 export default function Router() {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import LoginAdminAdd from "../components/login/adminAdd";
+import LoginAdminAdd from "../components/admins/admin";
 
 export default function Users() {
   return (

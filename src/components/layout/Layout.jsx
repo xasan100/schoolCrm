@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <>
       {token === "1" ? (
-        <div className="flex justify-end">
+        <div className="flex justify-end ">
           <Sidebar />
           <div className="basis-4/5 layout">
             <Topheder />

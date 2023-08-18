@@ -15,7 +15,7 @@ export const AdminAddPost = createAsyncThunk(
                 admin_type: payload.selectChange,
                 first_name: payload.FirstName,
                 last_name: payload.LastName,
-                permission:[12]
+                permission:""
             }
             
         })
