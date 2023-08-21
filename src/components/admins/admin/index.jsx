@@ -9,6 +9,7 @@ import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
 import { adminCustomGetAxios } from '../../../redux/slice/admins/adminTypeCustom/index.js';
 import Modal from '../../../generic/Modal.jsx';
+import { AdminDeletId } from '../../../redux/slice/admins/adminaDelete/index.js';
 
 
 
@@ -32,9 +33,11 @@ export const LoginAdminAdd = () => {
         permissionId: '',
         typeAddmens: '',
         adminId: '',
-        menuTitle: '',
+        deleteId: '',
+        data: '',
 
     });
+
     // useSelector
     const adminTypeGet = useSelector((store) => store.adminTypeGet)
     const adminCustomGet = useSelector((store) => store.adminCustomGet)
@@ -53,13 +56,15 @@ export const LoginAdminAdd = () => {
         dispatch(adminCustomGetAxios())
     }, [])
 
-    console.log(adminData, 'adminData');
-
+    console.log(inputValue?.data);
     // funcksiya
     const openModal = () => setIsOpen({ ...isOpen, open: true });
     const closeModal = () => setIsOpen({ ...isOpen, open: false });
-    const deletOn = () => setIsOpen({ ...isOpen, delte: true });
     const deletOff = () => setIsOpen({ ...isOpen, delte: false });
+    const deletOn = (id) => {
+        setIsOpen({ ...isOpen, delte: true })
+        setInputValue({ ...inputValue, deleteId: id })
+    };
 
 
     const Funk = (e) => {
@@ -86,9 +91,9 @@ export const LoginAdminAdd = () => {
     const addFuck = () => {
         dispatch(AdminAddPost(inputValue));
     }
-    const pushId = () => {
-        console.log('pushdata');
-    }
+    const pushId = () => dispatch(AdminDeletId(inputValue.deleteId))
+
+
 
     return (
         <div className='flex items-center justify-center w-[100] h-[90vh] bg-white g-[10px]'>
@@ -101,7 +106,7 @@ export const LoginAdminAdd = () => {
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                         </div>
-                        <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users" />
+                        <input onChange={(e) => setInputValue({ ...inputValue, data: e.target.value })} type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users" />
                     </div>
 
                     <div className="flex flex-col items-center justify-center ">
@@ -236,7 +241,7 @@ export const LoginAdminAdd = () => {
                                     <LuEdit2 className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
                                     Taxrirlash
                                 </button>
-                                <button onClick={deletOn}
+                                <button onClick={() => deletOn(person.id)}
                                     type="button"
                                     className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
@@ -244,7 +249,7 @@ export const LoginAdminAdd = () => {
                                     O'chirish
                                 </button>
                                 {isOpen.delte && (
-                                    <Modal addFunc={pushId} closeModal={deletOff}>
+                                    <Modal addFunc={(id) => pushId(person)} closeModal={deletOff}>
                                         <h1>Malumotingiz uchirishga Rozimisiz !!!</h1>
                                         <div></div>
                                         <div></div>
