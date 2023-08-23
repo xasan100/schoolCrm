@@ -2,7 +2,7 @@ import { instance } from "../../../../api/Api.jsx";
 
 export const permissionPostAdmin = createAsyncThunk('permissionPostAdmin', async (payload) => {
     try {
-        const response = await instance.post(`base/users/`, {
+        const response = await instance.post(`users/`, {
             type: "admin",
             user: {
                 username: payload.username,

@@ -1,36 +1,36 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../../../../../api/Api.jsx';
+import { instance } from '../../../../api/Api.jsx';
 
-export const permissionGetAdmin = createAsyncThunk('permissionGetAdmin', async (payload) => {
+export const StudentsGet = createAsyncThunk('StudentsGet', async (payload) => {
     try {
-        const response = await instance.get(`permission-admin/`);
+        const response = await instance.get(`student/`);
         return response.data;
     } catch (error) {
         throw error.response.data;
     }
 });
 
-const permissionGet = createSlice({
-    name: 'permissionGet',
+const StudentsGetDispatch = createSlice({
+    name: 'adminTypeGet',
     initialState: {
         data: [],
         status: null,
     },
     extraReducers: (builder) => {
         builder
-            .addCase(permissionGetAdmin.pending, (state) => {
+            .addCase(StudentsGet.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(permissionGetAdmin.fulfilled, (state, { payload }) => {
+            .addCase(StudentsGet.fulfilled, (state, { payload }) => {
                 state.status = 'success';
                 if (payload) {
                     state.data = payload;
                 }
             })
-            .addCase(permissionGetAdmin.rejected, (state) => {
+            .addCase(StudentsGet.rejected, (state) => {
                 state.status = 'error';
             });
     },
 });
 
-export default permissionGet.reducer;
+export default StudentsGetDispatch.reducer;

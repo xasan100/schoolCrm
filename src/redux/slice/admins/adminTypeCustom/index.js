@@ -1,36 +1,36 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../../../../../api/Api.jsx';
+import { instance } from '../../../../api/Api.jsx';
 
-export const permissionGetAdmin = createAsyncThunk('permissionGetAdmin', async (payload) => {
+export const adminCustomGetAxios = createAsyncThunk('adminCustomGetAxios', async (payload) => {
     try {
-        const response = await instance.get(`permission-admin/`);
+        const response = await instance.get(`custom-admin/`);
         return response.data;
     } catch (error) {
         throw error.response.data;
     }
 });
 
-const permissionGet = createSlice({
-    name: 'permissionGet',
+const adminCustomGet = createSlice({
+    name: 'adminCustomGetAxios',
     initialState: {
         data: [],
         status: null,
     },
     extraReducers: (builder) => {
         builder
-            .addCase(permissionGetAdmin.pending, (state) => {
+            .addCase(adminCustomGetAxios.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(permissionGetAdmin.fulfilled, (state, { payload }) => {
+            .addCase(adminCustomGetAxios.fulfilled, (state, { payload }) => {
                 state.status = 'success';
                 if (payload) {
                     state.data = payload;
                 }
             })
-            .addCase(permissionGetAdmin.rejected, (state) => {
+            .addCase(adminCustomGetAxios.rejected, (state) => {
                 state.status = 'error';
             });
     },
 });
 
-export default permissionGet.reducer;
+export default adminCustomGet.reducer;

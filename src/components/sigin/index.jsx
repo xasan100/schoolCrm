@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { LoginAdminPost } from "../../../redux/slice/login/post/index.js";
+import { LoginAdminPost } from "../../redux/slice/login/post/index.js";
 
 const Sigin = () => {
   const dispatch = useDispatch();

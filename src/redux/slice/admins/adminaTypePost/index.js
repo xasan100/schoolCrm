@@ -1,28 +1,29 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {  createAsyncThunk } from "@reduxjs/toolkit";
 import { instance } from "../../../../api/Api.jsx";
 
 export const AdminAddPost = createAsyncThunk(
   "AdminAddPost",
   async (payload) => {
     try {
-        const response = await instance.post(`base/users/`, {
-            type:"admin",
-            user: {
-                username: payload.username,
-                password: payload.password,
-            },
-            model: {
-                admin_type: payload.selectChange,
-                first_name: payload.FirstName,
-                last_name: payload.LastName,
-                permission:[12]
-            }
-            
+      const response = await instance.post(`custom-admin/`,
+        {
+          "user": {
+            "username": payload.username,
+            "password": payload.password,
+          },
+          "first_name": payload.FirstName,
+          "last_name": payload.LastName,
+          "types": 2,
+          // "permissions": [payload.permissionId],
         })
-
       return response.data;
+      
     } catch (error) {
+      if (instance.isCancel(error)) {
+        console.log(error.message);
+       }
       throw error.response.data;
+
     }
   }
 );
