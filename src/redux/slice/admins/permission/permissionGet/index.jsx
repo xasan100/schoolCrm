@@ -3,7 +3,7 @@ import { instance } from '../../../../../api/Api.jsx';
 
 export const permissionGetAdmin = createAsyncThunk('permissionGetAdmin', async (payload) => {
     try {
-        const response = await instance.get(`base/permission-admin/`);
+        const response = await instance.get(`permission-admin/`);
         return response.data;
     } catch (error) {
         throw error.response.data;

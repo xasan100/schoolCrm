@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { instance } from '../../../../api/Api.jsx';
 
-export const adminTypeGetAxsios = createAsyncThunk('authorGetFetch', async (payload) => {
+export const StudentsGet = createAsyncThunk('StudentsGet', async (payload) => {
     try {
-        const response = await instance.get(`type-admin/`);
+        const response = await instance.get(`student/`);
         return response.data;
     } catch (error) {
         throw error.response.data;
     }
 });
 
-const adminTypeGet = createSlice({
+const StudentsGetDispatch = createSlice({
     name: 'adminTypeGet',
     initialState: {
         data: [],
@@ -18,19 +18,19 @@ const adminTypeGet = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(adminTypeGetAxsios.pending, (state) => {
+            .addCase(StudentsGet.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(adminTypeGetAxsios.fulfilled, (state, { payload }) => {
+            .addCase(StudentsGet.fulfilled, (state, { payload }) => {
                 state.status = 'success';
                 if (payload) {
                     state.data = payload;
                 }
             })
-            .addCase(adminTypeGetAxsios.rejected, (state) => {
+            .addCase(StudentsGet.rejected, (state) => {
                 state.status = 'error';
             });
     },
 });
 
-export default adminTypeGet.reducer;
+export default StudentsGetDispatch.reducer;

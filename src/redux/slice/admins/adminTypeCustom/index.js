@@ -3,7 +3,7 @@ import { instance } from '../../../../api/Api.jsx';
 
 export const adminCustomGetAxios = createAsyncThunk('adminCustomGetAxios', async (payload) => {
     try {
-        const response = await instance.get(`base/custom-admin/`);
+        const response = await instance.get(`custom-admin/`);
         return response.data;
     } catch (error) {
         throw error.response.data;
