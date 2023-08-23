@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AdminAddPost } from '../../redux/slice/admins/adminaTypePost/index.js';
-import { adminTypeGetAxsios } from '../../redux/slice/admins/adminTypeSelectGet/index.js';
 import CustomInput from 'react-phone-number-input/input'
-import { permissionGetAdmin } from '../../redux/slice/admins/permission/permissionGet/index.jsx';
 import { AiOutlineEye, AiOutlineUserAdd } from "react-icons/ai";
 import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
@@ -29,13 +27,6 @@ export const StudentsCom = () => {
         FirstName: '',
         password: '',
         LastName: '',
-        selectChange: '',
-        permissionId: '',
-        typeAddmens: '',
-        adminId: '',
-        deleteId: '',
-        data: '',
-
     });
 
     // useSelector
@@ -45,18 +36,11 @@ export const StudentsCom = () => {
     const { data, status } = useSelector((store) => store.permissionGet)
 
     // useEffect
-    useEffect(() => {
-        if (isOpen.open === true) dispatch(adminTypeGetAxsios())
-        if (adminCustomGet.data) {
-            SetadminData(adminCustomGet.data)
-        }
-    }, [isOpen.open])
 
     useEffect(() => {
         dispatch(StudentsGet())
     }, [])
 
-    console.log(inputValue?.data);
     // funcksiya
     const openModal = () => setIsOpen({ ...isOpen, open: true });
     const closeModal = () => setIsOpen({ ...isOpen, open: false });
@@ -67,29 +51,13 @@ export const StudentsCom = () => {
     };
 
 
-    const Funk = (e) => {
-        const selectedValue = e.target.value;
-        if (selectedValue) {
-            const result = selectedValue.toLocaleUpperCase().match(/[A-z]/g).join('');
-            const permission = selectedValue.toLocaleUpperCase().match(/[0-9]/g).join('');
 
-            setInputValue(prevState => ({
-                ...prevState,
-                selectChange: selectedValue,
-                typeAddmens: result,
-                adminId: permission,
-            }));
-            if (result === 'ADMIN') dispatch(permissionGetAdmin());
-        }
-    }
-    const PermitaionPush = (e, id) => {
-        if (e.target.checked === true) {
-            setInputValue({ ...inputValue, permissionId: id })
-        }
-    }
+
 
     const addFuck = () => {
         dispatch(AdminAddPost(inputValue));
+        const formData = new FormData()
+        formData.append('username', inputValue.username)
     }
     const pushId = () => dispatch(AdminDeletId(inputValue.deleteId))
 
@@ -123,7 +91,10 @@ export const StudentsCom = () => {
 
                         {isOpen.open && (
                             <div className=" grid-cols-2 fixed top-0 left-4 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-                                <div className="p-[30px] bg-white ml-40  h-[92%] rounded shadow-lg    w-3/5 ">
+                                <div className="p-[30px] bg-white ml-40  h-[92%] rounded shadow-lg  w-3/5 ">
+                                    <div  className='flex justify-end cursor-pointer text-[30px]'>
+                                        <h1 onClick={closeModal}>✖︎</h1>
+                                    </div>
                                     <form>
                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                                             <div>
@@ -150,33 +121,31 @@ export const StudentsCom = () => {
                                                 />
                                             </div>
                                             <div>
-                                                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                                                <input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required />
+                                                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                                                <input type="date" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required />
                                             </div>
                                             <div>
-                                                <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                                                <input type="text" id="website" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required />
+                                                <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name </label>
+                                                <input type="text" id="website" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ismi" required />
                                             </div>
                                             <div>
-                                                <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name (per month)</label>
-                                                <input type="text" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Middle Name" required />
+                                                <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name </label>
+                                                <input type="text" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Familyasi" required />
                                             </div>
-                                        </div>
-                                        <div class="mb-6">
-                                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">id card</label>
-                                            <input type="email" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="id card" maxLength={7} required />
-                                        </div>
-                                        <div class="mb-6">
-                                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">id card</label>
-                                            <input type="date" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="id card" maxLength={7} required />
+                                            <div class="mb-6">
+                                                <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name</label>
+                                                <input type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Otasini Ismi" maxLength={7} required />
+                                            </div>
+                                            <div class="mb-6">
+                                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">id card</label>
+                                                <input type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tug‘ilganlik haqida ma’lumotnoma" maxLength={7} required />
+                                            </div>
                                         </div>
 
                                         <div className='flex justify-between'>
-
                                             <button onClick={closeModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold w-[120px] rounded "> Orqaga</button>
                                             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                                         </div>
-                                   
                                     </form>
                                 </div>
                             </div>
