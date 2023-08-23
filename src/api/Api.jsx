@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "https://alcrm.pythonanywhere.com/api/v1/",
+  baseURL: "https://192.168.0.162:8000/api/v1",
   timeout: 1000,
-  headers: { "X-Custom-Header": "foobar" },
 });
