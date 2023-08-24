@@ -80,15 +80,6 @@ const menuItems = [
     element: "SD",
     icon: <MdOutlineMoneyOffCsred />,
   },
-  {
-    id: 7,
-    title: "Chiqim",
-    path: "/expense1",
-    private: true,
-    hidden: true,
-    element: "",
-    icon: <MdOutlineMoneyOffCsred />,
-  },
 ];
 
 export default menuItems;
