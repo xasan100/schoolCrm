@@ -6,13 +6,16 @@ export default function ImageUpload({
   iconName,
   iconTitle,
   LabelFor,
+  setInputValue,
+  inputValue,
+
 }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [image, setImage] = useState(null);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    setInputValue({ ...inputValue, [LabelFor]: file })
     const fileURL = URL.createObjectURL(file);
-    console.log(fileURL);
     setImage(fileURL);
     if (file) {
       if (file.size > 5 * 1024 * 1024) {

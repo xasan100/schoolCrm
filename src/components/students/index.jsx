@@ -10,7 +10,7 @@ import { AdminDeletId } from '../../redux/slice/admins/adminaDelete/index.js';
 import { StudentsGet } from '../../redux/slice/students/studentsGet/index.jsx';
 import ImageUpload from '../ImageUpload/ImageUpload.jsx';
 import { MdOutlineInsertPhoto } from 'react-icons/md';
-
+import { StudentsPost } from '../../redux/slice/students/studentsPost/index.jsx';
 
 export const StudentsCom = () => {
     const dispatch = useDispatch()
@@ -19,16 +19,23 @@ export const StudentsCom = () => {
         {
             open: false,
             delte: false
-        }
-    );
+        });
     const [adminData, SetadminData] = useState([])
     const [inputValue, setInputValue] = useState({
         username: '',
-        FirstName: '',
         password: '',
-        LastName: '',
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        idCard: '',
+        date: '',
+        class_of_school: '',
+        id_card_parents: '',
+        picture_3x4: '',
+        school_tab: '',
+        img: '',
     });
-
+    console.log(inputValue, 'inputValue');
     // useSelector
     const adminTypeGet = useSelector((store) => store.adminTypeGet)
     const adminCustomGet = useSelector((store) => store.adminCustomGet)
@@ -36,11 +43,10 @@ export const StudentsCom = () => {
     const { data, status } = useSelector((store) => store.permissionGet)
 
     // useEffect
-
     useEffect(() => {
         dispatch(StudentsGet())
     }, [])
-
+    console.log(inputValue, 'inputValue');
     // funcksiya
     const openModal = () => setIsOpen({ ...isOpen, open: true });
     const closeModal = () => setIsOpen({ ...isOpen, open: false });
@@ -52,13 +58,38 @@ export const StudentsCom = () => {
 
 
 
-
-
-    const addFuck = () => {
-        dispatch(AdminAddPost(inputValue));
+    const addData = () => {
         const formData = new FormData()
-        formData.append('username', inputValue.username)
+        formData.append('user', {
+            "username": inputValue.username,
+            "password": inputValue.password,
+        })
+        formData.append('first_name', inputValue.firstName)
+        formData.append('last_name', inputValue.lastName)
+        formData.append('middle_name', inputValue.middleName)
+        formData.append('id_card', inputValue.idCard)
+        formData.append('date', inputValue.date)
+        formData.append('class_of_school', inputValue.class_of_school)
+        formData.append('imge', inputValue.img)
+        formData.append('id_card_parents', inputValue.id_card_parents)
+        formData.append('school_tab', inputValue.school_tab)
+        formData.append('picture_3x4', inputValue.picture_3x4)
+
+
+        dispatch(StudentsPost(formData));
+
     }
+
+    // const addData = () => {
+    //     const formData = new FormData();
+    //     for (let key in inputValue) {
+    //         if (inputValue.hasOwnProperty(key)) {
+    //             formData.append(key, inputValue[key]);
+    //         }
+    //     }
+
+    //     dispatch(StudentsPost(formData));
+    // };
     const pushId = () => dispatch(AdminDeletId(inputValue.deleteId))
 
 
@@ -90,63 +121,116 @@ export const StudentsCom = () => {
                         </button>
 
                         {isOpen.open && (
-                            <div className=" grid-cols-2 fixed top-0 left-4 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-                                <div className="p-[30px] bg-white ml-40  h-[92%] rounded shadow-lg  w-3/5 ">
-                                    <div  className='flex justify-end cursor-pointer text-[30px]'>
-                                        <h1 onClick={closeModal}>✖︎</h1>
+                            <div className=" grid-cols-2 p fixed top-0 left-[150px] w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+                                <div className="p-[30px] bg-white   h-[100%] rounded shadow-lg  w-4/5 ">
+                                    <div className='flex justify-end cursor-pointer text-[30px]'>
+                                        {/* <h1 onClick={closeModal}>✖︎</h1> */}
                                     </div>
-                                    <form>
-                                        <div class="grid gap-6 mb-6 md:grid-cols-2">
-                                            <div>
-                                                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-                                                <CustomInput
-                                                    placeholder='Telfon raqamingiz kiriting qayta takrorlanmagan'
-                                                    maxLength={17}
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-[13px] rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    onChange={(e) => setInputValue({ ...inputValue, username: e })}
-                                                    value={inputValue.username}
-                                                />
-                                            </div>
-                                            <div>
-                                                <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Parol Yarating</label>
-                                                <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="********" required />
-                                            </div>
-                                            <div>
-                                                <ImageUpload
-                                                    title={"IMG"}
-                                                    iconName={<MdOutlineInsertPhoto className="text-5xl" />}
-                                                    iconTitle={"Rasmni Yuklash"}
-                                                    fileType={"PNG, JPG, JPEG 5mb gacha"}
-                                                    LabelFor={"passport-image"}
-                                                />
-                                            </div>
-                                            <div>
-                                                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                                                <input type="date" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required />
-                                            </div>
-                                            <div>
-                                                <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name </label>
-                                                <input type="text" id="website" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ismi" required />
-                                            </div>
-                                            <div>
-                                                <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name </label>
-                                                <input type="text" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Familyasi" required />
-                                            </div>
-                                            <div class="mb-6">
-                                                <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name</label>
-                                                <input type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Otasini Ismi" maxLength={7} required />
-                                            </div>
-                                            <div class="mb-6">
-                                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">id card</label>
-                                                <input type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tug‘ilganlik haqida ma’lumotnoma" maxLength={7} required />
-                                            </div>
+                                    <div class="grid gap-1   mb-2 md:grid-cols-3">
+                                        <div>
+                                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                                            <CustomInput
+                                                placeholder='Telfon raqamingiz kiriting qayta takrorlanmagan'
+                                                maxLength={17}
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-[13px] rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                onChange={(e) => setInputValue({ ...inputValue, username: e })}
+                                                value={inputValue.username}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Parol Yarating</label>
+                                            <input onChange={(e) => setInputValue({ ...inputValue, password: e.target.value })} type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="********" required />
                                         </div>
 
-                                        <div className='flex justify-between'>
-                                            <button onClick={closeModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold w-[120px] rounded "> Orqaga</button>
-                                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                                        <div>
+                                            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                                            <input onChange={(e) => setInputValue({ ...inputValue, date: e.target.value })} type="date" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required />
                                         </div>
-                                    </form>
+                                        <div>
+                                            <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name </label>
+                                            <input onChange={(e) => setInputValue({ ...inputValue, firstName: e.target.value })} type="text" id="website" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ismi" required />
+                                        </div>
+                                        <div>
+                                            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name </label>
+                                            <input onChange={(e) => setInputValue({ ...inputValue, lastName: e.target.value })} type="text" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Familyasi" required />
+                                        </div>
+
+                                        <div class="mb-6">
+                                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name</label>
+                                            <input onChange={(e) => setInputValue({ ...inputValue, middleName: e.target.value })} type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Otasini Ismi" maxLength={7} required />
+                                        </div>
+
+                                        <div class="mb-6">
+                                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">id card</label>
+                                            <input onChange={(e) => setInputValue({ ...inputValue, idCard: e.target.value })} type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tug‘ilganlik haqida ma’lumotnoma" maxLength={7} required />
+                                        </div>
+                                        <div class="mb-6">
+                                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">id card Parents</label>
+                                            <input onChange={(e) => setInputValue({ ...inputValue, id_card_parents: e.target.value })} type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tug‘ilganlik haqida ma’lumotnoma" maxLength={7} required />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="">class of school</label>
+                                            <select onChange={(e) => setInputValue({ ...inputValue, class_of_school: e.target.value })} className='class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"'>
+                                                <option value="1">1</option>
+                                                <option value="1">1</option>
+                                                <option value="1">1</option>
+                                                <option value="1">1</option>
+                                                <option value="1">1</option>
+                                                <option value="1">1</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <ImageUpload
+                                                title={"IMG"}
+                                                iconName={<MdOutlineInsertPhoto className="text-5xl" />}
+                                                iconTitle={"Rasmni Yuklash"}
+                                                fileType={"PNG, JPG, JPEG 5mb gacha"}
+                                                LabelFor={"img"}
+                                                setInputValue={setInputValue}
+                                                inputValue={inputValue}
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <ImageUpload
+                                                title={"id card parents"}
+                                                iconName={<MdOutlineInsertPhoto className="text-5xl" />}
+                                                iconTitle={"Rasmni Yuklash"}
+                                                fileType={"PNG, JPG, JPEG 5mb gacha"}
+                                                LabelFor={"id_card_parents"}
+                                                setInputValue={setInputValue}
+                                                inputValue={inputValue}
+                                            />
+                                        </div>
+                                        <div>
+                                            <ImageUpload
+                                                title={"picture 3x4"}
+                                                iconName={<MdOutlineInsertPhoto className="text-5xl" />}
+                                                iconTitle={"Rasmni Yuklash"}
+                                                fileType={"PNG, JPG, JPEG 5mb gacha"}
+                                                LabelFor={"picture_3x4"}
+                                                setInputValue={setInputValue}
+                                                inputValue={inputValue}
+                                            />
+                                        </div>
+                                        <div>
+                                            <ImageUpload
+                                                title={"picture 3x4"}
+                                                iconName={<MdOutlineInsertPhoto className="text-5xl" />}
+                                                iconTitle={"Rasmni Yuklash"}
+                                                fileType={"PNG, JPG, JPEG 5mb gacha"}
+                                                LabelFor={"school_tab"}
+                                                setInputValue={setInputValue}
+                                                inputValue={inputValue}
+                                            />
+                                        </div>
+                                    </div>
+
+
+                                    <div className='flex justify-between'>
+                                        <button onClick={closeModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold w-[120px] rounded "> Orqaga</button>
+                                        <button onClick={addData} type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         )}
