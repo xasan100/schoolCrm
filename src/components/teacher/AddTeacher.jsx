@@ -33,6 +33,33 @@ export default function AddTeacher() {
     medical_book: "",
     picture_3x4: "",
   });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name.includes(".")) {
+      // Agar `name`da nuqta bor bo'lsa, bu ob'ektning ichidagi xususiyatni o'zgartirish kerakligini bildiradi.
+      const keys = name.split(".");
+      setTeacher((prev) => ({
+        ...prev,
+        [keys[0]]: {
+          ...prev[keys[0]],
+          [keys[1]]: value,
+        },
+      }));
+    } else {
+      setTeacher((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(teacher);
+  };
+
   const onClose = () => {
     setOpen(false);
   };
@@ -51,7 +78,7 @@ export default function AddTeacher() {
         O'qituvchi Qo'shish
       </button>
       {opne && (
-        <Modal closeModal={onClose}>
+        <Modal closeModal={onClose} addFunc={handleSubmit}>
           <div className="grid grid-rows-6 grid-cols-4 gap-2">
             <div className="col-span-1 row-span-1">
               <label
@@ -63,10 +90,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="first-name"
-                  name="first-name"
+                  name="first_name"
                   type="text"
-                  autoComplete="first-name"
+                  autoComplete="first_name"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -81,10 +109,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="last-name"
-                  name="last-name"
+                  name="last_name"
                   type="text"
                   autoComplete="last-name"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -99,10 +128,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="middle-name"
-                  name="middle-name"
+                  name="middle_name"
                   type="text"
                   autoComplete="middle-name"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -117,10 +147,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="username"
-                  name="username"
+                  name="user.username"
                   type="text"
                   autoComplete="username"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -135,10 +166,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="password"
-                  name="password"
+                  name="user.password"
                   type="text"
                   autoComplete="password"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -153,10 +185,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="salary"
-                  name="salary"
+                  name="sallery"
                   type="text"
                   autoComplete="salary"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -218,7 +251,7 @@ export default function AddTeacher() {
                 htmlFor="address"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-               Address
+                Address
               </label>
               <div className="mt-2">
                 <input
@@ -227,6 +260,7 @@ export default function AddTeacher() {
                   type="text"
                   autoComplete="address"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -245,6 +279,7 @@ export default function AddTeacher() {
                   type="text"
                   autoComplete="description"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -263,82 +298,75 @@ export default function AddTeacher() {
                   type="text"
                   autoComplete="experience"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
             <div className="col-span-1 row-span-1">
               <label
-                htmlFor="position"
+                htmlFor="science"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
                 Fan
               </label>
               <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
+                <select
+                  id="science"
+                  name="science"
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                >
+                  <option value="0">Hech qanday</option>
+                  <option value="1">Ona tili</option>
+                  <option value="2">Ingiliz tili</option>
+                  <option value="3">Rus tili</option>
+                </select>
               </div>
             </div>
             <div className="col-span-1 row-span-1">
               <label
-                htmlFor="position"
+                htmlFor="gender"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                Lavozimi
+                Jinsi
               </label>
               <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
+                <select
+                  id="gender"
+                  name="gender"
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                >
+                  <option value="male">Erkak</option>
+                  <option value="female">Ayol</option>
+                </select>
               </div>
             </div>
             <div className="col-span-1 row-span-1">
               <label
-                htmlFor="position"
+                htmlFor="work-date"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                Lavozimi
+                Ishga qabul qilingan kun
               </label>
               <div className="mt-2">
                 <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
+                  id="work-date"
+                  name="date_of_employment"
+                  type="date"
+                  autoComplete="work-date"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="position"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Lavozimi
-              </label>
-              <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+            <FileUpload
+              title={"Til Sertifikati"}
+              iconName={<AiOutlineFileAdd className="text-2xl" />}
+              LabelFor={"language-certifikate"}
+            />
           </div>
         </Modal>
       )}
