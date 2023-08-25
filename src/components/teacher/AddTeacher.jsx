@@ -4,10 +4,39 @@ import Modal from "../../generic/Modal";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
+import { useDispatch } from "react-redux";
+import { postTeacher } from "../../redux/slice/teachers/AddTeacherSlice";
 
 export default function AddTeacher() {
   const [opne, setOpen] = useState(false);
-  const [teacher, setTeacher] = useState({
+  const dispatch = useDispatch();
+  const test = {
+    user: {
+      username: "asdasdasd123123sad",
+      password: "string",
+    },
+    first_name: "string",
+    last_name: "string",
+    middle_name: "string",
+    id_card: "string",
+    sallery_type: "FIXED",
+    sallery: 0,
+    date_of_employment: "2023-08-23",
+    gender: "MALE",
+    address: "string",
+    description: "string",
+    experience: "string",
+    language_certificate: "file",
+    science: 0,
+    image: "file",
+    lens: "file",
+    id_card_photo: "file",
+    survey: "file",
+    biography: "file",
+    medical_book: "file",
+    picture_3x4: "file",
+  };
+  const [inputValue, setInputValue] = useState({
     user: {
       username: "",
       password: "",
@@ -33,6 +62,57 @@ export default function AddTeacher() {
     medical_book: "",
     picture_3x4: "",
   });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name.includes(".")) {
+      // Agar `name`da nuqta bor bo'lsa, bu ob'ektning ichidagi xususiyatni o'zgartirish kerakligini bildiradi.
+      const keys = name.split(".");
+      setInputValue((prev) => ({
+        ...prev,
+        [keys[0]]: {
+          ...prev[keys[0]],
+          [keys[1]]: value,
+        },
+      }));
+    } else {
+      setInputValue((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   for (let key in inputValue) {
+  //     if (key === "user") {
+  //       // 'user' ob'ektini JSON sifatida stringga aylantirish va uni formData'ga qo'shish
+  //       formData.append("user", JSON.stringify(inputValue[key]));
+  //     } else {
+  //       formData.append(key, inputValue[key]);
+  //     }
+  //   }
+  //   dispatch(postTeacher(formData));
+  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    for (let key in inputValue) {
+      if (key === "user") {
+        // 'user' ob'ektining har bir xususiyatini alohida formData'ga qo'shish
+        for (let userKey in inputValue[key]) {
+          formData.append(`user[${userKey}]`, inputValue[key][userKey]);
+        }
+      } else {
+        formData.append(key, inputValue[key]);
+      }
+    }
+    dispatch(postTeacher(formData));
+  };
+
   const onClose = () => {
     setOpen(false);
   };
@@ -51,7 +131,7 @@ export default function AddTeacher() {
         O'qituvchi Qo'shish
       </button>
       {opne && (
-        <Modal closeModal={onClose}>
+        <Modal closeModal={onClose} addFunc={handleSubmit}>
           <div className="grid grid-rows-6 grid-cols-4 gap-2">
             <div className="col-span-1 row-span-1">
               <label
@@ -63,10 +143,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="first-name"
-                  name="first-name"
+                  name="first_name"
                   type="text"
-                  autoComplete="first-name"
+                  autoComplete="first_name"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -81,10 +162,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="last-name"
-                  name="last-name"
+                  name="last_name"
                   type="text"
                   autoComplete="last-name"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -99,10 +181,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="middle-name"
-                  name="middle-name"
+                  name="middle_name"
                   type="text"
                   autoComplete="middle-name"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -117,10 +200,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="username"
-                  name="username"
+                  name="user.username"
                   type="text"
                   autoComplete="username"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -135,10 +219,11 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="password"
-                  name="password"
+                  name="user.password"
                   type="text"
                   autoComplete="password"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -153,72 +238,74 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="salary"
-                  name="salary"
+                  name="sallery"
                   type="text"
                   autoComplete="salary"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
             <ImageUpload
-              title={"Passport"}
+              title={"Passport yoki ID karta rasmi"}
               iconName={<MdOutlineInsertPhoto className="text-5xl" />}
               iconTitle={"Rasmni Yuklash"}
               fileType={"PNG, JPG, JPEG 5mb gacha"}
-              LabelFor={"passport-image"}
+              LabelFor={"id_card_photo"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <ImageUpload
               title={"Rasmingiz 3x4"}
               iconName={<MdOutlineInsertPhoto className="text-5xl" />}
               iconTitle={"Rasmni Yuklash"}
               fileType={"PNG, JPG, JPEG 5mb gacha"}
-              LabelFor={"self-image"}
+              LabelFor={"picture_3x4"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="position"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Lavozimi
-              </label>
-              <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+            <FileUpload
+              title={"Til Sertifikati"}
+              iconName={<AiOutlineFileAdd className="text-2xl" />}
+              LabelFor={"language_certificate"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
+            />
             <FileUpload
               title={"Tarjimai hol"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"file-upload"}
+              LabelFor={"biography"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <FileUpload
               title={"Obyektivka"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"obyektivka"}
+              LabelFor={"lens"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <FileUpload
               title={"So'rovnoma"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"questionnaire"}
+              LabelFor={"survey"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <FileUpload
               title={"086 tibbiy malumotnoma"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"medical-form"}
+              LabelFor={"medical_book"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <div className="col-span-1 row-span-1">
               <label
                 htmlFor="address"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-               Address
+                Address
               </label>
               <div className="mt-2">
                 <input
@@ -227,6 +314,7 @@ export default function AddTeacher() {
                   type="text"
                   autoComplete="address"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -245,6 +333,7 @@ export default function AddTeacher() {
                   type="text"
                   autoComplete="description"
                   required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -263,6 +352,26 @@ export default function AddTeacher() {
                   type="text"
                   autoComplete="experience"
                   required
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="id_card"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Passport yoki ID karta raqami
+              </label>
+              <div className="mt-2">
+                <input
+                  id="id_card"
+                  name="id_card"
+                  type="text"
+                  autoComplete="id_card"
+                  required
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -270,73 +379,97 @@ export default function AddTeacher() {
             <div className="col-span-1 row-span-1">
               <label
                 htmlFor="position"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Lavozimi
+              </label>
+              <div className="mt-2">
+                <input
+                  id="position"
+                  name="position"
+                  type="text"
+                  autoComplete="position"
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="gender"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Jinsi
+              </label>
+              <div className="mt-2">
+                <select
+                  id="gender"
+                  name="gender"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="MALE">Erkak</option>
+                  <option value="FEMALE">Ayol</option>
+                </select>
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="sallery_type"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Oylik Turi
+              </label>
+              <div className="mt-2">
+                <select
+                  id="sallery_type"
+                  name="sallery_type"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="FIXED">Doimiy</option>
+                  <option value="PER_HOURS">Soatbay</option>
+                </select>
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="work-date"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Ishga qabul qilingan kun
+              </label>
+              <div className="mt-2">
+                <input
+                  id="work-date"
+                  name="date_of_employment"
+                  type="date"
+                  autoComplete="work-date"
+                  required
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="science"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
                 Fan
               </label>
               <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
+                <select
+                  id="science"
+                  name="science"
+                  onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="position"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Lavozimi
-              </label>
-              <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="position"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Lavozimi
-              </label>
-              <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="position"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Lavozimi
-              </label>
-              <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                >
+                  <option value="0">Hech qanday</option>
+                  <option value="1">Ona tili</option>
+                  <option value="2">Ingiliz tili</option>
+                  <option value="3">Rus tili</option>
+                </select>
               </div>
             </div>
           </div>

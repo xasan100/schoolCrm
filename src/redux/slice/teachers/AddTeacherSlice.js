@@ -1,12 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../../../api/Api.jsx";
+import { instance } from "../../../api/Api";
 
 export const postTeacher = createAsyncThunk(
   "postTeacher",
   async (value, payload) => {
     try {
-      const response = await instance.post("", value);
-      return response.data;
+      await instance.post("teacher/", value, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     } catch (error) {
       throw error.response.data;
     }

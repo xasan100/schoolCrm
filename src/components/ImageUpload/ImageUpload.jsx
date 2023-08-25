@@ -26,14 +26,14 @@ export default function ImageUpload({
     }
   };
   return (
-    <div className="col-span-1 row-span-3">
+    <div className="col-span-1 row-span-2">
       <label
         htmlFor={LabelFor}
         className="block text-sm font-medium leading-6 text-gray-900"
       >
         {title}
       </label>
-      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-3">
         {image ? (
           <label htmlFor={LabelFor}>
             <img src={image} alt="rasm" className="h-24 object-contain" />
@@ -52,7 +52,7 @@ export default function ImageUpload({
             className="text-center flex flex-col items-center cursor-pointer"
           >
             {iconName}
-            <div className="mt-4 flex text-sm leading-6 text-gray-600">
+            <div className="mt-1 flex text-sm leading-6 text-gray-600">
               <label
                 htmlFor={LabelFor}
                 className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600"
