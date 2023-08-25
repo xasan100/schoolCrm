@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-export default function FileUpload({ title, iconName, LabelFor }) {
+export default function FileUpload({
+  title,
+  iconName,
+  LabelFor,
+  setInputValue,
+  inputValue,
+}) {
   const [file, setFile] = useState(null);
 
   const acceptedFormats = [
@@ -15,6 +21,7 @@ export default function FileUpload({ title, iconName, LabelFor }) {
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
+    setInputValue({ ...inputValue, [LabelFor]: selectedFile });
     if (selectedFile) {
       const fileExtension =
         "." + selectedFile.name.split(".").pop().toLowerCase();
@@ -42,7 +49,6 @@ export default function FileUpload({ title, iconName, LabelFor }) {
             <input
               id={LabelFor}
               name={LabelFor}
-              accept="image/*"
               type="file"
               className="sr-only"
               onChange={handleFileChange}
@@ -62,7 +68,6 @@ export default function FileUpload({ title, iconName, LabelFor }) {
                 <input
                   id={LabelFor}
                   name={LabelFor}
-                  accept="image/*"
                   type="file"
                   className="sr-only"
                   onChange={handleFileChange}

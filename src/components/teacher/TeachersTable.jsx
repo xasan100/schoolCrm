@@ -2,8 +2,21 @@ import React from "react";
 import { AiOutlineUserAdd, AiOutlineEye } from "react-icons/ai";
 import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { TeachersGet } from "../../redux/slice/teachers/GetTeachersSlice";
 
 export default function TeachersTable() {
+  const TeachersData = useSelector((state) => state.GetTeachers);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(TeachersGet());
+  }, [dispatch]);
+
+  console.log(TeachersData);
+
   const people = [
     {
       name: "Leslie Alexander",

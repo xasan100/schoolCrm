@@ -4,10 +4,39 @@ import Modal from "../../generic/Modal";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
+import { useDispatch } from "react-redux";
+import { postTeacher } from "../../redux/slice/teachers/AddTeacherSlice";
 
 export default function AddTeacher() {
   const [opne, setOpen] = useState(false);
-  const [teacher, setTeacher] = useState({
+  const dispatch = useDispatch();
+  const test = {
+    user: {
+      username: "asdasdasd123123sad",
+      password: "string",
+    },
+    first_name: "string",
+    last_name: "string",
+    middle_name: "string",
+    id_card: "string",
+    sallery_type: "FIXED",
+    sallery: 0,
+    date_of_employment: "2023-08-23",
+    gender: "MALE",
+    address: "string",
+    description: "string",
+    experience: "string",
+    language_certificate: "file",
+    science: 0,
+    image: "file",
+    lens: "file",
+    id_card_photo: "file",
+    survey: "file",
+    biography: "file",
+    medical_book: "file",
+    picture_3x4: "file",
+  };
+  const [inputValue, setInputValue] = useState({
     user: {
       username: "",
       password: "",
@@ -40,7 +69,7 @@ export default function AddTeacher() {
     if (name.includes(".")) {
       // Agar `name`da nuqta bor bo'lsa, bu ob'ektning ichidagi xususiyatni o'zgartirish kerakligini bildiradi.
       const keys = name.split(".");
-      setTeacher((prev) => ({
+      setInputValue((prev) => ({
         ...prev,
         [keys[0]]: {
           ...prev[keys[0]],
@@ -48,16 +77,40 @@ export default function AddTeacher() {
         },
       }));
     } else {
-      setTeacher((prev) => ({
+      setInputValue((prev) => ({
         ...prev,
         [name]: value,
       }));
     }
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   for (let key in inputValue) {
+  //     if (key === "user") {
+  //       // 'user' ob'ektini JSON sifatida stringga aylantirish va uni formData'ga qo'shish
+  //       formData.append("user", JSON.stringify(inputValue[key]));
+  //     } else {
+  //       formData.append(key, inputValue[key]);
+  //     }
+  //   }
+  //   dispatch(postTeacher(formData));
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(teacher);
+    const formData = new FormData();
+    for (let key in inputValue) {
+      if (key === "user") {
+        // 'user' ob'ektining har bir xususiyatini alohida formData'ga qo'shish
+        for (let userKey in inputValue[key]) {
+          formData.append(`user[${userKey}]`, inputValue[key][userKey]);
+        }
+      } else {
+        formData.append(key, inputValue[key]);
+      }
+    }
+    dispatch(postTeacher(formData));
   };
 
   const onClose = () => {
@@ -195,56 +248,57 @@ export default function AddTeacher() {
               </div>
             </div>
             <ImageUpload
-              title={"Passport"}
+              title={"Passport yoki ID karta rasmi"}
               iconName={<MdOutlineInsertPhoto className="text-5xl" />}
               iconTitle={"Rasmni Yuklash"}
               fileType={"PNG, JPG, JPEG 5mb gacha"}
-              LabelFor={"passport-image"}
+              LabelFor={"id_card_photo"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <ImageUpload
               title={"Rasmingiz 3x4"}
               iconName={<MdOutlineInsertPhoto className="text-5xl" />}
               iconTitle={"Rasmni Yuklash"}
               fileType={"PNG, JPG, JPEG 5mb gacha"}
-              LabelFor={"self-image"}
+              LabelFor={"picture_3x4"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="position"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Lavozimi
-              </label>
-              <div className="mt-2">
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  autoComplete="position"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+            <FileUpload
+              title={"Til Sertifikati"}
+              iconName={<AiOutlineFileAdd className="text-2xl" />}
+              LabelFor={"language_certificate"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
+            />
             <FileUpload
               title={"Tarjimai hol"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"file-upload"}
+              LabelFor={"biography"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <FileUpload
               title={"Obyektivka"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"obyektivka"}
+              LabelFor={"lens"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <FileUpload
               title={"So'rovnoma"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"questionnaire"}
+              LabelFor={"survey"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <FileUpload
               title={"086 tibbiy malumotnoma"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"medical-form"}
+              LabelFor={"medical_book"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
             <div className="col-span-1 row-span-1">
               <label
@@ -305,23 +359,39 @@ export default function AddTeacher() {
             </div>
             <div className="col-span-1 row-span-1">
               <label
-                htmlFor="science"
+                htmlFor="id_card"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                Fan
+                Passport yoki ID karta raqami
               </label>
               <div className="mt-2">
-                <select
-                  id="science"
-                  name="science"
+                <input
+                  id="id_card"
+                  name="id_card"
+                  type="text"
+                  autoComplete="id_card"
+                  required
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="0">Hech qanday</option>
-                  <option value="1">Ona tili</option>
-                  <option value="2">Ingiliz tili</option>
-                  <option value="3">Rus tili</option>
-                </select>
+                />
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="position"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Lavozimi
+              </label>
+              <div className="mt-2">
+                <input
+                  id="position"
+                  name="position"
+                  type="text"
+                  autoComplete="position"
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
               </div>
             </div>
             <div className="col-span-1 row-span-1">
@@ -338,8 +408,27 @@ export default function AddTeacher() {
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
-                  <option value="male">Erkak</option>
-                  <option value="female">Ayol</option>
+                  <option value="MALE">Erkak</option>
+                  <option value="FEMALE">Ayol</option>
+                </select>
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="sallery_type"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Oylik Turi
+              </label>
+              <div className="mt-2">
+                <select
+                  id="sallery_type"
+                  name="sallery_type"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="FIXED">Doimiy</option>
+                  <option value="PER_HOURS">Soatbay</option>
                 </select>
               </div>
             </div>
@@ -362,11 +451,27 @@ export default function AddTeacher() {
                 />
               </div>
             </div>
-            <FileUpload
-              title={"Til Sertifikati"}
-              iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"language-certifikate"}
-            />
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="science"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Fan
+              </label>
+              <div className="mt-2">
+                <select
+                  id="science"
+                  name="science"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="0">Hech qanday</option>
+                  <option value="1">Ona tili</option>
+                  <option value="2">Ingiliz tili</option>
+                  <option value="3">Rus tili</option>
+                </select>
+              </div>
+            </div>
           </div>
         </Modal>
       )}
