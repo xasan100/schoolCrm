@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminAddPost } from '../../redux/slice/admins/adminaTypePost/index.js';
 import CustomInput from 'react-phone-number-input/input'
 import { AiOutlineEye, AiOutlineUserAdd } from "react-icons/ai";
 import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
 import Modal from '../../generic/Modal.jsx';
-import { AdminDeletId } from '../../redux/slice/admins/adminaDelete/index.js';
 import { StudentsGet } from '../../redux/slice/students/studentsGet/index.jsx';
 import ImageUpload from '../ImageUpload/ImageUpload.jsx';
 import { MdOutlineInsertPhoto } from 'react-icons/md';
 import { StudentsPost } from '../../redux/slice/students/studentsPost/index.jsx';
+import { StudentDeletId } from '../../redux/slice/students/studentsDel/index.js';
 
 export const StudentsCom = () => {
     const dispatch = useDispatch()
@@ -34,65 +33,43 @@ export const StudentsCom = () => {
         picture_3x4: '',
         school_tab: '',
         img: '',
+        deleteId: '',
     });
-    console.log(inputValue, 'inputValue');
     // useSelector
-    const adminTypeGet = useSelector((store) => store.adminTypeGet)
+    const { data } = useSelector((store) => store.StudentsGetDispatch)
     const adminCustomGet = useSelector((store) => store.adminCustomGet)
-
-    const { data, status } = useSelector((store) => store.permissionGet)
-
-    // useEffect
+    // const { data, status } = useSelector((store) => store.permissionGet)
+    console.log(data, 'data');
     useEffect(() => {
         dispatch(StudentsGet())
     }, [])
-    console.log(inputValue, 'inputValue');
-    // funcksiya
     const openModal = () => setIsOpen({ ...isOpen, open: true });
     const closeModal = () => setIsOpen({ ...isOpen, open: false });
     const deletOff = () => setIsOpen({ ...isOpen, delte: false });
     const deletOn = (id) => {
         setIsOpen({ ...isOpen, delte: true })
         setInputValue({ ...inputValue, deleteId: id })
+
     };
-
-
 
     const addData = () => {
         const formData = new FormData()
-        formData.append('user', {
-            "username": inputValue.username,
-            "password": inputValue.password,
-        })
+        formData.append('user.username', inputValue.username)
+        formData.append('user.password', inputValue.password)
         formData.append('first_name', inputValue.firstName)
         formData.append('last_name', inputValue.lastName)
         formData.append('middle_name', inputValue.middleName)
         formData.append('id_card', inputValue.idCard)
         formData.append('date', inputValue.date)
-        formData.append('class_of_school', inputValue.class_of_school)
-        formData.append('imge', inputValue.img)
+        formData.append('class', inputValue.class_of_school)
+        formData.append('image', inputValue.img)
         formData.append('id_card_parents', inputValue.id_card_parents)
         formData.append('school_tab', inputValue.school_tab)
         formData.append('picture_3x4', inputValue.picture_3x4)
-
-
         dispatch(StudentsPost(formData));
 
     }
-
-    // const addData = () => {
-    //     const formData = new FormData();
-    //     for (let key in inputValue) {
-    //         if (inputValue.hasOwnProperty(key)) {
-    //             formData.append(key, inputValue[key]);
-    //         }
-    //     }
-
-    //     dispatch(StudentsPost(formData));
-    // };
-    const pushId = () => dispatch(AdminDeletId(inputValue.deleteId))
-
-
+    const pushId = () => dispatch(StudentDeletId(inputValue.deleteId))
 
     return (
         <div className='flex items-center justify-center w-[100] h-[90vh] bg-white g-[10px]'>
@@ -239,7 +216,7 @@ export const StudentsCom = () => {
                 </div>
 
                 <ul className="divide-y overflow-y-auto h-[77vh] divide-gray-100 col-span-12 border rounded-lg overflow-hidden">
-                    {adminData?.map((person, index) => (
+                    {data?.map((person, index) => (
                         <li
                             key={person?.email}
                             className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200"
@@ -249,16 +226,21 @@ export const StudentsCom = () => {
 
                                 <img
                                     className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                                    src={person?.imageUrl}
+                                    src={person?.image}
                                     alt=""
                                 />
                                 <div className="min-w-0 flex-auto">
                                     <p className="text-sm font-semibold leading-6 text-gray-900">
-                                        {person?.first_name}
+                                        {/* {person?.first_name} */}
                                     </p>
                                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                                         {person?.last_name}
+
                                     </p>
+                                    <p>
+                                        {person.user.username}
+                                    </p>
+
                                 </div>
                             </div>
                             <div className="flex gap-2 items-center">
