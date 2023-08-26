@@ -8,7 +8,7 @@ import Modal from '../../generic/Modal.jsx';
 import { StudentsGet } from '../../redux/slice/students/studentsGet/index.jsx';
 import { StudentDeletId } from '../../redux/slice/students/studentsDel/index.js';
 import AddStudent from './AddStudent.jsx';
-
+  
 export const StudentTable = () => {
   const dispatch = useDispatch()
   // state

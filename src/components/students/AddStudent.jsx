@@ -7,6 +7,7 @@ import FileUpload from "../FileUpload/FileUpload";
 import { useDispatch } from "react-redux";
 import { StudentsPost } from "../../redux/slice/students/studentsPost/index.jsx";
 import { StudentsGet } from "../../redux/slice/students/studentsGet/index.jsx";
+import PhoneInput from 'react-phone-number-input'
 
 export default function AddStudent() {
   const [opne, setOpen] = useState(false);
@@ -73,13 +74,11 @@ export default function AddStudent() {
               </label>
               <div className="mt-2">
                 <input
-                  id="first-name"
-                  name="first_name"
-                  type="text"
-                  autoComplete="first_name"
-                  required
-                  onChange={(e) => setInputValue({ ...inputValue, username: e.target.value })}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder='Telfon raqamingiz kiriting qayta takrorlanmagan'
+                  maxLength={17}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-[13px] rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  onChange={(e) => setInputValue({ ...inputValue, username: e })}
+                  value={inputValue.username}
                 />
               </div>
             </div>
