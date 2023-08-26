@@ -5,7 +5,8 @@ import { MdOutlineAttachMoney, MdOutlineMoneyOffCsred } from "react-icons/md";
 import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
-import StudentsCom from "../components/students/index.jsx";
+import StudentsCom from "../components/students/studentTable.jsx";
+import Students from "../pages/Students.jsx";
 
 const menuItems = [
   {
@@ -41,7 +42,7 @@ const menuItems = [
     path: "/students",
     private: true,
     hidden: true,
-    element: <StudentsCom />,
+    element: <Students />,
     icon: <PiStudent />,
   },
   {
