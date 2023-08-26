@@ -5,8 +5,8 @@ import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import { useDispatch } from "react-redux";
-import { postTeacher } from "../../redux/slice/teachers/AddTeacherSlice";
 import { StudentsPost } from "../../redux/slice/students/studentsPost/index.jsx";
+import { StudentsGet } from "../../redux/slice/students/studentsGet/index.jsx";
 
 export default function AddStudent() {
   const [opne, setOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function AddStudent() {
     formData.append('last_name', inputValue.lastName)
     formData.append('middle_name', inputValue.middleName)
     formData.append('id_card', inputValue.idCard)
-    formData.append('date', inputValue.date)
+    formData.append('date_of_admission', inputValue.date)
     formData.append('class', inputValue.class_of_school)
     formData.append('image', inputValue.img)
     formData.append('id_card_parents', inputValue.id_card_parents)
@@ -214,25 +214,6 @@ export default function AddStudent() {
             />
             <div className="col-span-1 row-span-1">
               <label
-                htmlFor="address"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                id card Parents
-              </label>
-              <div className="mt-2">
-                <input
-                  id="address"
-                  name="address"
-                  type="text"
-                  autoComplete="address"
-                  required
-                  onChange={(e) => setInputValue({ ...inputValue, id_card_parents: e.target.value })}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
                 htmlFor="description"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
@@ -245,17 +226,17 @@ export default function AddStudent() {
                   type="text"
                   autoComplete="description"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, idCard: e.target.value })} 
+                  onChange={(e) => setInputValue({ ...inputValue, idCard: e.target.value })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
-       
-      
+
+
             <div className="mt-2">
 
               <label htmlFor="">class of school</label>
-              <select 
+              <select
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 onChange={(e) => setInputValue({ ...inputValue, class_of_school: e.target.value })} >
                 <option value="1">1</option>

@@ -1,15 +1,11 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import CustomInput from 'react-phone-number-input/input'
 import { AiOutlineEye, AiOutlineUserAdd } from "react-icons/ai";
 import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
 import Modal from '../../generic/Modal.jsx';
 import { StudentsGet } from '../../redux/slice/students/studentsGet/index.jsx';
-import ImageUpload from '../ImageUpload/ImageUpload.jsx';
-import { MdOutlineInsertPhoto } from 'react-icons/md';
-import { StudentsPost } from '../../redux/slice/students/studentsPost/index.jsx';
 import { StudentDeletId } from '../../redux/slice/students/studentsDel/index.js';
 import AddStudent from './AddStudent.jsx';
 
@@ -64,7 +60,7 @@ export const StudentTable = () => {
         <ul className="divide-y overflow-y-auto h-[78vh]  divide-gray-100 col-span-12 border rounded-lg overflow-hidden">
           {data?.map((person, index) => (
             <li
-              key={person?.email}
+              key={person?.first_name}
               className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200"
             >
               <div className="flex min-w-0 gap-x-4">
@@ -73,20 +69,16 @@ export const StudentTable = () => {
                 <img
                   className="h-12 w-12 flex-none rounded-full bg-gray-50"
                   src={person?.image}
-                  alt=""
+                  alt="img"
                 />
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900">
-                    {/* {person?.first_name} */}
-                  </p>
+                <div className="min-w-0   flex justify-center flex-col items-center ">
                   <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                     {person?.last_name}
 
                   </p>
                   <p>
-                    {person.user.username}
+                    {person.first_name}
                   </p>
-
                 </div>
               </div>
               <div className="flex gap-2 items-center">
