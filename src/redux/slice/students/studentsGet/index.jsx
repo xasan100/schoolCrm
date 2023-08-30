@@ -30,7 +30,17 @@ const StudentsGetDispatch = createSlice({
             .addCase(StudentsGet.rejected, (state) => {
                 state.status = 'error';
             });
+
+    },
+
+    reducers: {
+        reset(state) {
+            state.data = []
+            state.status = null
+        }
     },
 });
 
+
+export const { reset } = StudentsGetDispatch.actions
 export default StudentsGetDispatch.reducer;

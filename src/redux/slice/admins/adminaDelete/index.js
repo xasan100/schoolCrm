@@ -12,7 +12,7 @@ export const AdminDeletId = createAsyncThunk( "AdminDeletId",
   }
 );
 
-const AdminDelet = createSlice({
+const AdminDeletDispatch = createSlice({
   name: 'adminTypeGet',
   initialState: {
     data: [],
@@ -36,4 +36,4 @@ const AdminDelet = createSlice({
   },
 });
 
-export default AdminDelet.reducer;
+export default AdminDeletDispatch.reducer;
