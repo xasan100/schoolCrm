@@ -17,6 +17,7 @@ export const StudentTable = () => {
       open: false,
       delte: false,
       id: null,
+      prive: false,
     });
 
 
@@ -53,7 +54,7 @@ export const StudentTable = () => {
   useEffect(() => {
     if (StudentDeletIdDispatch.data == "true")
       dispatch(StudentsGet())
-    
+
   }, [StudentDeletIdDispatch])
 
   console.log(StudentDeletIdDispatch.data, 'data');
@@ -117,11 +118,17 @@ export const StudentTable = () => {
                 {isOpen?.prive &&
                   <div className='bg-white'>
                     <Modal className="w-full bg-slate-50" closeModal={PriveClose} >
-                      {/* {isOpen.id === data.id.filter((val) => {
-                        return (
-                          <div>{val?.first_name }</div>
-                        )
-                      })} */}
+                      {/* {data.filter((val) => {
+                          return (<>
+                            {isOpen.id === val.id}&& <div>
+                              {
+                                val?.first_name
+                              }
+                            </div>
+                          </>
+                          )
+                        })
+                        } */}
                       ghfjk
                     </Modal>
                   </div>
