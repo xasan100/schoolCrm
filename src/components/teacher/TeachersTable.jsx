@@ -1,13 +1,15 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchTeachers } from "../../redux/slice/teachers/GetTeachersSlice";
+import React, { useState, useMemo } from "react";
 import AddTeacher from "./AddTeacher";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
-import { deleteTeacher } from "../../redux/slice/teachers/DeleteTeacher";
+import {
+  useDeleteTeacherMutation,
+  useGetTeachersQuery,
+} from "../../redux/slice/teachers/TeachersSlice";
+import { toast } from "react-toastify";
 
 const TeacherItem = ({ teacher, index, deleteTeacher }) => {
   // JSX for each teacher
@@ -59,38 +61,32 @@ const TeacherItem = ({ teacher, index, deleteTeacher }) => {
 };
 
 function TeachersTableComponent() {
-  const TeachersData = useSelector((state) => state.teacherSlice);
-  const status = useSelector((state) => state.teacherSlice.status);
-  const dispatch = useDispatch();
+  // const TeachersData = useSelector((state) => state.teacherSlice);
+  // const status = useSelector((state) => state.teacherSlice.status);
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    dispatch(fetchTeachers());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (status === "loading") {
-      dispatch(fetchTeachers());
-    }
-  }, [dispatch, status]);
-
+  const { data, isLoading } = useGetTeachersQuery();
+  const [deleteTeacher, { isSuccess }] = useDeleteTeacherMutation();
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
-      return TeachersData.data.filter(
+      return data.filter(
         (teacher) =>
           teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           teacher.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     } else {
-      return TeachersData.data;
+      return data;
     }
-  }, [TeachersData.data, searchTerm]);
+  }, [data, searchTerm]);
 
-  const removeTeacher = async (id) => {
-    await dispatch(deleteTeacher(id));
-    dispatch(fetchTeachers());
+  const handleDelete = async (teacherId) => {
+    try {
+      await deleteTeacher({ id: teacherId });
+      toast.success("Teacher deleted successfully!");
+    } catch (err) {
+      toast.error("Failed to delete teacher:", err);
+    }
   };
 
   const handleSearchChange = (e) => {
@@ -135,7 +131,7 @@ function TeachersTableComponent() {
           </div>
           <AddTeacher />
         </div>
-        {status === "loading" ? (
+        {isLoading ? (
           <Loader
             extraClass="col-span-12 flex justify-center"
             Color="#62B238"
@@ -147,7 +143,7 @@ function TeachersTableComponent() {
                 teacher={teacher}
                 index={index}
                 key={teacher.id}
-                deleteTeacher={removeTeacher}
+                deleteTeacher={handleDelete}
               />
             ))}
           </ul>

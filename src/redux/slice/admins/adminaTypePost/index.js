@@ -1,11 +1,11 @@
 import {  createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../../../api/Api.jsx";
+import { api } from "../../../../api/Api.jsx";
 
 export const AdminAddPost = createAsyncThunk(
   "AdminAddPost",
   async (payload) => {
     try {
-      const response = await instance.post(`custom-admin/`,
+      const response = await api.post(`custom-admin/`,
         {
           "user": {
             "username": payload.username,
@@ -19,7 +19,7 @@ export const AdminAddPost = createAsyncThunk(
       return response.data;
       
     } catch (error) {
-      if (instance.isCancel(error)) {
+      if (api.isCancel(error)) {
         console.log(error.message);
        }
       throw error.response.data;

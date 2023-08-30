@@ -1,6 +1,7 @@
 import React from "react";
+import ButtonLoader from "../components/Loader/ButtonLoader";
 
-export default function Modal({ addFunc, closeModal, children }) {
+export default function Modal({ addFunc, closeModal, children, loader }) {
   return (
     <div className="fixed top-0 bottom-3/3 left-0 w-full h-full flex items-center justify-center  z-20">
       <div className="bg-white  p-4 rounded shadow-lg flex flex-col gap-4 w-2/1  ">
@@ -19,7 +20,7 @@ export default function Modal({ addFunc, closeModal, children }) {
             onClick={addFunc}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Saqlash
+            {loader ? <ButtonLoader Size="16" /> : "Saqlash"}
           </button>
           <button
             onClick={closeModal}

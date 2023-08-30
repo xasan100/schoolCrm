@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../../../api/Api.jsx";
+import { api } from "../../../../api/Api.jsx";
 
 export const AdminDeletId = createAsyncThunk( "AdminDeletId",
   async (payload) => {
     try {
-      const response = await instance.delete(`custom-admin/${payload}/`)
+      const response = await api.delete(`custom-admin/${payload}/`)
       return response.data;
     } catch (error) {
       throw error.response.data;

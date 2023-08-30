@@ -4,9 +4,8 @@ import Modal from "../../generic/Modal";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
-import { useDispatch } from "react-redux";
-import { postTeacher } from "../../redux/slice/teachers/AddTeacherSlice";
-import { fetchTeachers } from "../../redux/slice/teachers/GetTeachersSlice";
+import { useCreateTeacherMutation } from "../../redux/slice/teachers/TeachersSlice";
+import { toast } from "react-toastify";
 
 const INITIAL_STATE = {
   user: {
@@ -37,9 +36,8 @@ const INITIAL_STATE = {
 
 export default function AddTeacher() {
   const [opne, setOpen] = useState(false);
-  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
-
+  const [createTeacher, { isSuccess }] = useCreateTeacherMutation();
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -76,8 +74,12 @@ export default function AddTeacher() {
         formData.append(key, inputValue[key]);
       }
     }
-    await dispatch(postTeacher(formData));
-    dispatch(fetchTeachers());
+    try {
+      await createTeacher(formData);
+      toast.success("O'qituvchi qo'shildi!");
+    } catch (err) {
+      toast.error("O'qtuvchi qo'shildi:", err);
+    }
     setOpen(false); // Assuming you've imported and defined `dispatch` somewhere
   };
 
@@ -85,6 +87,7 @@ export default function AddTeacher() {
     setOpen(false);
   };
 
+  console.log(isSuccess);
   return (
     <div>
       <button
@@ -99,7 +102,7 @@ export default function AddTeacher() {
         O'qituvchi Qo'shish
       </button>
       {opne && (
-        <Modal closeModal={onClose} addFunc={handleSubmit}>
+        <Modal closeModal={onClose} addFunc={handleSubmit} loader={isSuccess}>
           <div className="grid grid-rows-6 grid-cols-4 gap-2">
             <div className="col-span-1 row-span-1">
               <label

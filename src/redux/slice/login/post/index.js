@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../../../../api/Api.jsx';
+import { api } from '../../../../api/Api.jsx';
 export const LoginAdminPost = createAsyncThunk('postLoginformFetch', async (payload) => {
     try {
-        const response = await instance.post(`token/login/`, {
+        const response = await api.post(`token/login/`, {
             username: payload.username,
             password: payload.password,
         }).then((res) => {

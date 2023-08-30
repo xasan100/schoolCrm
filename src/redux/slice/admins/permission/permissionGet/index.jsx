@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../../../../../api/Api.jsx';
+import { api } from '../../../../../api/Api.jsx';
 
 export const permissionGetAdmin = createAsyncThunk('permissionGetAdmin', async (payload) => {
     try {
-        const response = await instance.get(`permission-admin/`);
+        const response = await api.get(`permission-admin/`);
         return response.data;
     } catch (error) {
         throw error.response.data;

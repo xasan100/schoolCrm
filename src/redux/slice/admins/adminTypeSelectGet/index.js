@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../../../../api/Api.jsx';
+import { api } from '../../../../api/Api.jsx';
 
 export const adminTypeGetAxsios = createAsyncThunk('authorGetFetch', async (payload) => {
     try {
-        const response = await instance.get(`type-admin/`);
+        const response = await api.get(`type-admin/`);
         return response.data;
     } catch (error) {
         throw error.response.data;

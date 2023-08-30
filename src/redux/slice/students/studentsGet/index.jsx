@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../../../../api/Api.jsx';
+import { api } from '../../../../api/Api.jsx';
 
 export const StudentsGet = createAsyncThunk('StudentsGet', async (payload) => {
     try {
-        const response = await instance.get(`student/`);
+        const response = await api.get(`student/`);
         return response.data;
     } catch (error) {
         throw error.response.data;

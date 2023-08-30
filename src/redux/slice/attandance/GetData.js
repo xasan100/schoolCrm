@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../../api/Api";
+import { api } from "../../../api/Api";
 
 export const GetAttandance = createAsyncThunk(
   "GetAttendance",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await instance.get("davomat/?type=employer");
+      const response = await api.get("davomat/?type=employer");
       return response.data;
     } catch (err) {
       return rejectWithValue(

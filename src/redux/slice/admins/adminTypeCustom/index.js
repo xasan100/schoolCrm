@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../../../../api/Api.jsx';
+import { api } from '../../../../api/Api.jsx';
 
 export const adminCustomGetAxios = createAsyncThunk('adminCustomGetAxios', async (payload) => {
     try {
-        const response = await instance.get(`custom-admin/`);
+        const response = await api.get(`custom-admin/`);
         return response.data;
     } catch (error) {
         throw error.response.data;

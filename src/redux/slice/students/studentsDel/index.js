@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../../../api/Api.jsx";
+import { api } from "../../../../api/Api.jsx";
 
 export const StudentDeletId = createAsyncThunk("StudentDeletId",
     async (payload) => {
         try {
-            const response = await instance.delete(`student/${payload}/`)
+            const response = await api.delete(`student/${payload}/`)
             return response.data;
         } catch (error) {
             throw error.response.data;
