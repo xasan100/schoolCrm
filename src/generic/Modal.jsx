@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Modal({ addFunc, closeModal, children }) {
   return (
-    <div className="fixed top-0 bottom-3/3 left-0 w-full h-full flex items-center justify-center bg-black/50 z-20">
+    <div className="fixed top-0 bottom-3/3 left-0 w-full h-full flex items-center justify-center  z-20">
       <div className="bg-white  p-4 rounded shadow-lg flex flex-col gap-4 w-2/1  ">
         <div className="flex justify-end">
           <p

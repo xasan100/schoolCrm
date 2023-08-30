@@ -12,10 +12,10 @@ export const StudentDeletId = createAsyncThunk("StudentDeletId",
     }
 );
 
-const StudentDeletDistpach = createSlice({
-    name: 'adminTypeGet',
+const StudentDeletIdDispatch = createSlice({
+    name: 'StudentDeletDistpach',
     initialState: {
-        data: [],
+        data: {},
         status: null,
     },
     extraReducers: (builder) => {
@@ -24,11 +24,10 @@ const StudentDeletDistpach = createSlice({
                 state.status = 'loading';
             })
             .addCase(StudentDeletId.fulfilled, (state, { payload }) => {
-                console.log(payload);
-                state.status = 'success';
-                if (payload) {
-                    state.data = payload;
+                if (payload?.success === "true") {
+                    state.data = 'true'
                 }
+
             })
             .addCase(StudentDeletId.rejected, (state) => {
                 state.status = 'error';
@@ -36,4 +35,7 @@ const StudentDeletDistpach = createSlice({
     },
 });
 
-export default StudentDeletDistpach.reducer;
+export default StudentDeletIdDispatch.reducer;
+
+
+

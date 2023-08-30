@@ -5,29 +5,40 @@ import { AiOutlineEye, AiOutlineUserAdd } from "react-icons/ai";
 import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
 import Modal from '../../generic/Modal.jsx';
-import { StudentsGet } from '../../redux/slice/students/studentsGet/index.jsx';
+import { reset, StudentsGet } from '../../redux/slice/students/studentsGet/index.jsx';
 import { StudentDeletId } from '../../redux/slice/students/studentsDel/index.js';
 import AddStudent from './AddStudent.jsx';
-  
+
 export const StudentTable = () => {
   const dispatch = useDispatch()
   // state
   const [isOpen, setIsOpen] = useState(
     {
       open: false,
-      delte: false
+      delte: false,
+      id: null,
     });
+
 
   const [adminData, SetadminData] = useState([])
   const [inputValue, setInputValue] = useState({
     deleteId: '',
   });
   const { data } = useSelector((store) => store.StudentsGetDispatch)
-  const adminCustomGet = useSelector((store) => store.adminCustomGet)
-  console.log(data, 'data');
+  const StudentDeletIdDispatch = useSelector((store) => store.StudentDeletIdDispatch)
+
+
+
+
   useEffect(() => {
     dispatch(StudentsGet())
   }, [])
+
+  const PriveClose = () => setIsOpen({ ...isOpen, prive: false })
+  const Prive = (id) => {
+    setIsOpen({ ...isOpen, prive: true })
+    setIsOpen({ ...isOpen, id: id })
+  }
 
   const deletOff = () => setIsOpen({ ...isOpen, delte: false });
   const deletOn = (id) => {
@@ -36,7 +47,17 @@ export const StudentTable = () => {
   };
 
 
-  const pushId = () => dispatch(StudentDeletId(inputValue.deleteId))
+  const pushId = () => {
+    dispatch(StudentDeletId(inputValue.deleteId))
+  }
+  useEffect(() => {
+    if (StudentDeletIdDispatch.data == "true")
+      dispatch(StudentsGet())
+    
+  }, [StudentDeletIdDispatch])
+
+  console.log(StudentDeletIdDispatch.data, 'data');
+  console.log(StudentDeletIdDispatch.status, 'status');
 
   return (
     <div className='flex items-center justify-center w-[100] h-[90vh]    g-[10px]'>
@@ -82,7 +103,8 @@ export const StudentTable = () => {
                 </div>
               </div>
               <div className="flex gap-2 items-center">
-                <button
+
+                <button onClick={(id) => Prive(person.id)}
                   type="button"
                   className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                 >
@@ -92,6 +114,19 @@ export const StudentTable = () => {
                   />
                   Ko'rish
                 </button>
+                {isOpen?.prive &&
+                  <div className='bg-white'>
+                    <Modal className="w-full bg-slate-50" closeModal={PriveClose} >
+                      {/* {isOpen.id === data.id.filter((val) => {
+                        return (
+                          <div>{val?.first_name }</div>
+                        )
+                      })} */}
+                      ghfjk
+                    </Modal>
+                  </div>
+
+                }
                 <button
                   type="button"
                   className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-400"
