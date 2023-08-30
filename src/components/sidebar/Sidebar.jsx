@@ -12,7 +12,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 flex flex-col justify-between gap-5 h-screen py-4 w-76 shadow-xl z-10 bg-white">
+    <div className="fixed top-0 left-0 flex flex-col justify-between gap-5 h-screen py-4 w-1/5 shadow-xl z-10">
       <div className="flex justify-center">
         <img src={Logo} alt="logo" className="w-3/4" />
       </div>

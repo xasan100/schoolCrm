@@ -6,6 +6,8 @@ import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
 import StudentsCom from "../components/students/index.jsx";
+import { BsTable } from "react-icons/bs";
+import Attendence from "../pages/Attendence.jsx";
 
 const menuItems = [
   {
@@ -43,6 +45,15 @@ const menuItems = [
     hidden: true,
     element: <StudentsCom />,
     icon: <PiStudent />,
+  },
+  {
+    id: 8,
+    title: "Davomat",
+    path: "/attandance",
+    private: true,
+    hidden: true,
+    element: <Attendence />,
+    icon: <BsTable />,
   },
   {
     id: 4,

@@ -1,36 +1,51 @@
+// External libraries
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+// Local imports
 import { instance } from "../../../api/Api";
 
-export const TeachersGet = createAsyncThunk("GetTeachers", async (payload) => {
-  try {
-    const response = await instance.get(`teacher/`);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
+// Asynchronous action to fetch teachers
+export const fetchTeachers = createAsyncThunk(
+  "teachers/fetch",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await instance.get("teacher/");
+      return response.data;
+    } catch (err) {
+      // Return more descriptive error messages
+      const errorMessage = err.response
+        ? err.response.data
+        : "Internet connection problem";
+      return rejectWithValue(errorMessage);
+    }
   }
-});
+);
 
-const GetTeachers = createSlice({
-  name: "adminTypeGet",
+// Slice for teachers
+const teachersSlice = createSlice({
+  name: "teachers",
   initialState: {
     data: [],
-    status: null,
+    status: "idle",
   },
   extraReducers: (builder) => {
     builder
-      .addCase(TeachersGet.pending, (state) => {
+      .addCase(fetchTeachers.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(TeachersGet.fulfilled, (state, { payload }) => {
+      .addCase(fetchTeachers.fulfilled, (state, { payload }) => {
         state.status = "success";
         if (payload) {
           state.data = payload;
         }
       })
-      .addCase(TeachersGet.rejected, (state) => {
+      .addCase(fetchTeachers.rejected, (state, { payload }) => {
         state.status = "error";
+        // Optionally, you can store the error message in the state
+        state.error = payload;
       });
   },
 });
 
-export default GetTeachers.reducer;
+// Export the reducer
+export default teachersSlice.reducer;

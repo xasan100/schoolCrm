@@ -6,69 +6,47 @@ import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import { useDispatch } from "react-redux";
 import { postTeacher } from "../../redux/slice/teachers/AddTeacherSlice";
+import { fetchTeachers } from "../../redux/slice/teachers/GetTeachersSlice";
+
+const INITIAL_STATE = {
+  user: {
+    username: "",
+    password: "",
+  },
+  first_name: "",
+  last_name: "",
+  middle_name: "",
+  id_card: "",
+  sallery_type: "",
+  sallery: 0,
+  date_of_employment: "",
+  gender: "",
+  address: "",
+  description: "",
+  experience: "",
+  language_certificate: "",
+  science: 0,
+  image: "",
+  lens: "",
+  id_card_photo: "",
+  survey: "",
+  biography: "",
+  medical_book: "",
+  picture_3x4: "",
+};
 
 export default function AddTeacher() {
   const [opne, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const test = {
-    user: {
-      username: "asdasdasd123123sad",
-      password: "string",
-    },
-    first_name: "string",
-    last_name: "string",
-    middle_name: "string",
-    id_card: "string",
-    sallery_type: "FIXED",
-    sallery: 0,
-    date_of_employment: "2023-08-23",
-    gender: "MALE",
-    address: "string",
-    description: "string",
-    experience: "string",
-    language_certificate: "file",
-    science: 0,
-    image: "file",
-    lens: "file",
-    id_card_photo: "file",
-    survey: "file",
-    biography: "file",
-    medical_book: "file",
-    picture_3x4: "file",
-  };
-  const [inputValue, setInputValue] = useState({
-    user: {
-      username: "",
-      password: "",
-    },
-    first_name: "",
-    last_name: "",
-    middle_name: "",
-    id_card: "",
-    sallery_type: "",
-    sallery: 0,
-    date_of_employment: "",
-    gender: "",
-    address: "",
-    description: "",
-    experience: "",
-    language_certificate: "",
-    science: 0,
-    image: "",
-    lens: "",
-    id_card_photo: "",
-    survey: "",
-    biography: "",
-    medical_book: "",
-    picture_3x4: "",
-  });
+  const [inputValue, setInputValue] = useState(INITIAL_STATE);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name.includes(".")) {
-      // Agar `name`da nuqta bor bo'lsa, bu ob'ektning ichidagi xususiyatni o'zgartirish kerakligini bildiradi.
-      const keys = name.split(".");
+    // Split the name by '.' to determine if updating a nested property
+    const keys = name.split(".");
+
+    if (keys.length === 2) {
       setInputValue((prev) => ({
         ...prev,
         [keys[0]]: {
@@ -84,33 +62,23 @@ export default function AddTeacher() {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const formData = new FormData();
-  //   for (let key in inputValue) {
-  //     if (key === "user") {
-  //       // 'user' ob'ektini JSON sifatida stringga aylantirish va uni formData'ga qo'shish
-  //       formData.append("user", JSON.stringify(inputValue[key]));
-  //     } else {
-  //       formData.append(key, inputValue[key]);
-  //     }
-  //   }
-  //   dispatch(postTeacher(formData));
-  // };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
+
     for (let key in inputValue) {
       if (key === "user") {
-        // 'user' ob'ektining har bir xususiyatini alohida formData'ga qo'shish
         for (let userKey in inputValue[key]) {
-          formData.append(`user[${userKey}]`, inputValue[key][userKey]);
+          formData.append(`user.${userKey}`, inputValue[key][userKey]);
         }
       } else {
         formData.append(key, inputValue[key]);
       }
     }
-    dispatch(postTeacher(formData));
+    await dispatch(postTeacher(formData));
+    dispatch(fetchTeachers());
+    setOpen(false); // Assuming you've imported and defined `dispatch` somewhere
   };
 
   const onClose = () => {
@@ -118,7 +86,7 @@ export default function AddTeacher() {
   };
 
   return (
-    <div className="col-span-4">
+    <div>
       <button
         onClick={() => setOpen(true)}
         type="button"

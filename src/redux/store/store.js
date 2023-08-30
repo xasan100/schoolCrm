@@ -5,8 +5,10 @@ import permissionGet from "../slice/admins/permission/permissionGet/index.jsx";
 import adminCustomGet from "../slice/admins/adminTypeCustom/index.js";
 import AdminDelet from "../slice/admins/adminaDelete/index.js";
 import StudentsGetDispatch from "../slice/students/studentsGet/index.jsx";
-import AddTeacher from "../slice/teachers/AddTeacherSlice.js";
-import GetTeachers from "../slice/teachers/GetTeachersSlice.js";
+import AddTeacherSlice from "../slice/teachers/AddTeacherSlice.js";
+import teacherSlice from "../slice/teachers/GetTeachersSlice.js";
+import teacherDeletion from "../slice/teachers/DeleteTeacher.js";
+import Attendence from "../slice/attandance/GetData.js";
 
 export default configureStore({
   reducer: {
@@ -16,7 +18,9 @@ export default configureStore({
     adminCustomGet,
     AdminDelet,
     StudentsGetDispatch,
-    AddTeacher,
-    GetTeachers,
+    AddTeacherSlice,
+    teacherSlice,
+    teacherDeletion,
+    Attendence,
   },
 });

@@ -400,7 +400,6 @@ export const StudentsCom = () => {
             )}
           </div>
         </div>
-
         <ul className="divide-y overflow-y-auto h-[77vh] divide-gray-100 col-span-12 border rounded-lg overflow-hidden">
           {adminData?.map((person, index) => (
             <li

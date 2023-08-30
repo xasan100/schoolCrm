@@ -10,6 +10,7 @@ module.exports = {
       },
       colors: {
         primary: "#445C96",
+        "custom-green": "#62B238",
       },
       width: {
         76: "306px",

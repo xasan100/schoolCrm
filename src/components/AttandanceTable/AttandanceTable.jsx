@@ -1,33 +1,51 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTeachers } from "../../redux/slice/teachers/GetTeachersSlice";
-import AddTeacher from "./AddTeacher";
+import { GetAttandance } from "../../redux/slice/attandance/GetData";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-import { LuEdit2 } from "react-icons/lu";
-import { BsTrash } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
-import { deleteTeacher } from "../../redux/slice/teachers/DeleteTeacher";
 
-const TeacherItem = ({ teacher, index, deleteTeacher }) => {
+const TableItem = ({ users, index }) => {
   // JSX for each teacher
+  const [userStatus, setUserStatus] = useState("");
+
+  useEffect(() => {
+    switch (userStatus) {
+      case "KELGAN":
+        setUserStatus("custom-green");
+        break;
+      case "SABABLI":
+        setUserStatus("yellow-300");
+        break;
+      case "SABABSIZ":
+        setUserStatus("red-400");
+        break;
+      default:
+        setUserStatus("red-400");
+    }
+  }, [userStatus]);
+
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-
         <img
           className="h-12 w-12 flex-none rounded-full border"
-          src={teacher?.image}
+          src={users?.image}
           alt="teacher_image"
         />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {teacher?.first_name}
+            {users?.first_name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {teacher?.last_name}
+            {users?.last_name}
           </p>
+        </div>
+        <div
+          className={`py-1 rounded-md shadow-sm border flex items-center justify-center px-2 bg-${userStatus}`}
+        >
+          <p className="text-white">{users?.davomat}</p>
         </div>
       </div>
       <div className="flex gap-2 items-center">
@@ -38,64 +56,40 @@ const TeacherItem = ({ teacher, index, deleteTeacher }) => {
           <AiOutlineEye className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
           Ko'rish
         </button>
-        <button
-          type="button"
-          className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-400"
-        >
-          <LuEdit2 className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-          Taxrirlash
-        </button>
-        <button
-          onClick={() => deleteTeacher(teacher.id)}
-          type="button"
-          className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          <BsTrash className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-          O'chirish
-        </button>
       </div>
     </li>
   );
 };
 
-function TeachersTableComponent() {
-  const TeachersData = useSelector((state) => state.teacherSlice);
-  const status = useSelector((state) => state.teacherSlice.status);
+function AttandanceTableComponent() {
+  const UsersData = useSelector((state) => state.Attendence);
+  const status = "success";
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    dispatch(fetchTeachers());
+    dispatch(GetAttandance());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (status === "loading") {
-      dispatch(fetchTeachers());
-    }
-  }, [dispatch, status]);
 
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
-      return TeachersData.data.filter(
-        (teacher) =>
-          teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
+      return UsersData.data.filter(
+        (users) =>
+          users.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          users.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          users.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     } else {
-      return TeachersData.data;
+      return UsersData.data;
     }
-  }, [TeachersData.data, searchTerm]);
-
-  const removeTeacher = async (id) => {
-    await dispatch(deleteTeacher(id));
-    dispatch(fetchTeachers());
-  };
+  }, [UsersData.data, searchTerm]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
+  console.log(UsersData);
 
   return (
     <div className="h-ful gap-3 col-span-12">
@@ -126,14 +120,33 @@ function TeachersTableComponent() {
               <input
                 type="text"
                 id="table-search-users"
-                className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Izlash..."
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
             </div>
           </div>
-          <AddTeacher />
+          <div className="flex items-center gap-4">
+            <div className="py-1.5 rounded-md shadow-sm border px-2 bg-custom-green">
+              <p className="text-white">Kelgan</p>
+            </div>
+            <div className="py-1.5 rounded-md shadow-sm border px-2 bg-yellow-300">
+              <p className="text-white">Sababli</p>
+            </div>
+            <div className="py-1.5 rounded-md shadow-sm border px-2 bg-red-400">
+              <p className="text-white">Sababsiz</p>
+            </div>
+          </div>
+          <select
+            id="gender"
+            name="gender"
+            className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="teacher">O'qtuvchilar</option>
+            <option value="student">O'quvchilar</option>
+            <option value="employer">Xodimlar</option>
+          </select>
         </div>
         {status === "loading" ? (
           <Loader
@@ -142,13 +155,8 @@ function TeachersTableComponent() {
           />
         ) : filteredTeachers.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-auto h-[68vh] divide-gray-100 border rounded-lg overflow-hidden col-span-12">
-            {filteredTeachers.map((teacher, index) => (
-              <TeacherItem
-                teacher={teacher}
-                index={index}
-                key={teacher.id}
-                deleteTeacher={removeTeacher}
-              />
+            {filteredTeachers.map((users, index) => (
+              <TableItem users={users} index={index} key={users.id} />
             ))}
           </ul>
         ) : (
@@ -159,4 +167,4 @@ function TeachersTableComponent() {
   );
 }
 
-export default React.memo(TeachersTableComponent);
+export default React.memo(AttandanceTableComponent);
