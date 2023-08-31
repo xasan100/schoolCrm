@@ -87,7 +87,6 @@ export default function AddTeacher() {
     setOpen(false);
   };
 
-  console.log(isSuccess);
   return (
     <div>
       <button

@@ -19,7 +19,6 @@ export const LoginAdminAdd = () => {
     // useSelector
     const adminTypeGet = useSelector((store) => store.adminTypeGet)
 
-    console.log(inputValue.selectChange.slice(0, 1));
     // useEffect
     useEffect(() => {
         if (isOpen === true) dispatch(adminTypeGetAxsios())

@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAttandance } from "../../redux/slice/attandance/GetData";
+import { Get } from "../../redux/slice/attandance/GetData";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import { AiOutlineEye } from "react-icons/ai";
+import { useGetAttendanceQuery } from "../../redux/slice/attandance/Attendance.js";
+import Addattandance from "./Addattandance.jsx";
 
 const TableItem = ({ users, index }) => {
   // JSX for each teacher
@@ -24,6 +26,7 @@ const TableItem = ({ users, index }) => {
         setUserStatus("red-400");
     }
   }, [userStatus]);
+  const { data, isLoading } = useGetAttendanceQuery();
 
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
@@ -67,29 +70,28 @@ function AttandanceTableComponent() {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    dispatch(GetAttandance());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(GetAttandance());
+  // }, [dispatch]);
 
-  const filteredTeachers = useMemo(() => {
-    // Computing the filtered teachers list
-    if (searchTerm) {
-      return UsersData.data.filter(
-        (users) =>
-          users.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          users.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          users.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    } else {
-      return UsersData.data;
-    }
-  }, [UsersData.data, searchTerm]);
+  // const filteredTeachers = useMemo(() => {
+  //   // Computing the filtered teachers list
+  //   if (searchTerm) {
+  //     return UsersData.data.filter(
+  //       (users) =>
+  //         users.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //         users.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //         users.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //   } else {
+  //     return UsersData.data;
+  //   }
+  // }, [UsersData.data, searchTerm]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  console.log(UsersData);
 
   return (
     <div className="h-ful gap-3 col-span-12">
@@ -141,14 +143,17 @@ function AttandanceTableComponent() {
           <select
             id="gender"
             name="gender"
-            className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500"
-          >
+            className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500" >
             <option value="teacher">O'qtuvchilar</option>
             <option value="student">O'quvchilar</option>
             <option value="employer">Xodimlar</option>
           </select>
+
+          <div>
+            <Addattandance/>
+          </div>
         </div>
-        {status === "loading" ? (
+        {/* {status === "loading" ? (
           <Loader
             extraClass="col-span-12 flex justify-center"
             Color="#62B238"
@@ -161,7 +166,7 @@ function AttandanceTableComponent() {
           </ul>
         ) : (
           <EmptyBox />
-        )}
+        )} */}
       </div>
     </div>
   );

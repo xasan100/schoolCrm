@@ -56,7 +56,6 @@ export const LoginAdminAdd = () => {
         dispatch(adminCustomGetAxios())
     }, [])
 
-    console.log(inputValue?.data);
     // funcksiya
     const openModal = () => setIsOpen({ ...isOpen, open: true });
     const closeModal = () => setIsOpen({ ...isOpen, open: false });

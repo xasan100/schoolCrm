@@ -1,5 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { StudentsCrud } from "../slice/students/students.js";
+import { TeachersCrud } from "../slice/teachers/TeachersSlice.js";
+import { Attendance } from "../slice/attandance/Attendance.js"
 // import adminTypeGet from "../slice/admins/adminTypeSelectGet/index.js";
 // import loginAdminThunk from "../slice/login/post/index.js";
 // import permissionGet from "../slice/admins/permission/permissionGet/index.jsx";
@@ -10,7 +13,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 // import teacherSlice from "../slice/teachers/GetTeachersSlice.js";
 // import teacherDeletion from "../slice/teachers/DeleteTeacher.js";
 // import Attendence from "../slice/attandance/GetData.js";
-import { TeachersCrud } from "../slice/teachers/TeachersSlice.js";
+
 
 export const store = configureStore({
   reducer: {
@@ -25,9 +28,15 @@ export const store = configureStore({
     // teacherDeletion,
     // Attendence,
     [TeachersCrud.reducerPath]: TeachersCrud.reducer,
+    [StudentsCrud.reducerPath]: StudentsCrud.reducer,
+    [Attendance.reducer]: Attendance.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(TeachersCrud.middleware),
+    getDefaultMiddleware().concat(
+      TeachersCrud.middleware,
+      StudentsCrud.middleware,
+      Attendance.middleware,
+    ),
 });
 
 setupListeners(store.dispatch);

@@ -26,3 +26,26 @@ body {
   transform: translate3d(522.5px, 3847.5px, 0px);
   background: red;
 }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 1px;
+    }
+  
+    ::-webkit-scrollbar-track {
+      width: 10px !important;
+      padding: 0 15px 0 0;
+      background: white;
+      opacity: 0.5;
+      border-radius: 30px;
+      transform: matrix(-1, 0, 0, 1, 0, 0);
+      transform: matrix(-1, 0, 0, 1, 0, 0);
+      padding: 10px !important;
+    }
+  
+    ::-webkit-scrollbar-thumb {
+      padding: 30px 0px;
+      background: #445c96;
+      border-radius: 30px;
+      transform: matrix(-1, 0, 0, 1, 0, 0);
+    }
