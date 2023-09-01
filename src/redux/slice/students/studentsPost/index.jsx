@@ -13,7 +13,6 @@ export const StudentsPost = createAsyncThunk(
             return response.data;
         } catch (error) {
             if (api.isCancel(error)) {
-                console.log(error.message);
             }
             throw error.response.data;
         }

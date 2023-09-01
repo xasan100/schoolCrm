@@ -6,7 +6,6 @@ import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import { useDispatch } from "react-redux";
 import { StudentsPost } from "../../redux/slice/students/studentsPost/index.jsx";
-import { StudentsGet } from "../../redux/slice/students/studentsGet/index.jsx";
 import CustomInput from 'react-phone-number-input/input'
 
 export default function AddStudent() {

@@ -24,7 +24,6 @@ const AdminDeletDispatch = createSlice({
         state.status = 'loading';
       })
       .addCase(AdminDeletId.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.status = 'success';
         if (payload) {
           state.data = payload;

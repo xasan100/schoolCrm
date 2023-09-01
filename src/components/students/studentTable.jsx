@@ -9,23 +9,33 @@ import { reset, StudentsGet } from '../../redux/slice/students/studentsGet/index
 import { StudentDeletId } from '../../redux/slice/students/studentsDel/index.js';
 import AddStudent from './AddStudent.jsx';
 
+import {
+  useGetStudentsQuery,
+  useUpdateStudentsMutation,
+  useDeleteStudentsMutation,
+} from "../../redux/slice/students/students.js";
+import { toast } from "react-toastify";
+import Loader from '../Loader/Loader.jsx';
+
 export const StudentTable = () => {
   const dispatch = useDispatch()
   // state
   const [isOpen, setIsOpen] = useState(
     {
-      open: false,
       delte: false,
       id: null,
-      prive: false,
     });
+
+  const [mod, setMod] = useState(false)
 
 
   const [adminData, SetadminData] = useState([])
   const [inputValue, setInputValue] = useState({
     deleteId: '',
   });
-  const { data } = useSelector((store) => store.StudentsGetDispatch)
+
+  const { data, isLoading } = useGetStudentsQuery();
+  // const { data } = useSelector((store) => store.StudentsGetDispatch)
   const StudentDeletIdDispatch = useSelector((store) => store.StudentDeletIdDispatch)
 
 
@@ -35,11 +45,13 @@ export const StudentTable = () => {
     dispatch(StudentsGet())
   }, [])
 
-  const PriveClose = () => setIsOpen({ ...isOpen, prive: false })
   const Prive = (id) => {
-    setIsOpen({ ...isOpen, prive: true })
-    setIsOpen({ ...isOpen, id: id })
+    setMod(true)
+    // setIsOpen({ ...isOpen, id: id })
   }
+
+  const PriveClose = () => setMod(false)
+
 
   const deletOff = () => setIsOpen({ ...isOpen, delte: false });
   const deletOn = (id) => {
@@ -51,14 +63,12 @@ export const StudentTable = () => {
   const pushId = () => {
     dispatch(StudentDeletId(inputValue.deleteId))
   }
-  useEffect(() => {
-    if (StudentDeletIdDispatch.data == "true")
-      dispatch(StudentsGet())
+  // useEffect(() => {
+  //   if (StudentDeletIdDispatch.data == "true")
+  //     dispatch(StudentsGet())
+  // }, [StudentDeletIdDispatch])
 
-  }, [StudentDeletIdDispatch])
 
-  console.log(StudentDeletIdDispatch.data, 'data');
-  console.log(StudentDeletIdDispatch.status, 'status');
 
   return (
     <div className='flex items-center justify-center w-[100] h-[90vh]    g-[10px]'>
@@ -80,7 +90,7 @@ export const StudentTable = () => {
         </div>
         <br />
         <ul className="divide-y overflow-y-auto h-[78vh]  divide-gray-100 col-span-12 border rounded-lg overflow-hidden">
-          {data?.map((person, index) => (
+          {isLoading ? <Loader /> : data?.map((person, index) => (
             <li
               key={person?.first_name}
               className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200"
@@ -104,7 +114,6 @@ export const StudentTable = () => {
                 </div>
               </div>
               <div className="flex gap-2 items-center">
-
                 <button onClick={(id) => Prive(person.id)}
                   type="button"
                   className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -115,23 +124,15 @@ export const StudentTable = () => {
                   />
                   Ko'rish
                 </button>
-                {isOpen?.prive &&
+                {mod && (
+
                   <div className='bg-white'>
                     <Modal className="w-full bg-slate-50" closeModal={PriveClose} >
-                      {/* {data.filter((val) => {
-                          return (<>
-                            {isOpen.id === val.id}&& <div>
-                              {
-                                val?.first_name
-                              }
-                            </div>
-                          </>
-                          )
-                        })
-                        } */}
-                      ghfjk
+                      <h1>dnsms</h1>
+
                     </Modal>
                   </div>
+                )
 
                 }
                 <button
