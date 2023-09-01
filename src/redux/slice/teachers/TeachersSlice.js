@@ -16,12 +16,18 @@ export const TeachersCrud = createApi({
         method: "POST",
         body,
       }),
+      transformResponse: (response, meta) => {
+        return {
+          data: response, // Buni qo'llash uchun, natijadagi ma'lumotni qaytaradi.
+          status: meta.status, // Javob statusini qaytaradi.
+        };
+      },
       invalidatesTags: ["Teachers"],
     }),
     updateTeacher: build.mutation({
       query: (body) => ({
-        url: `teacher/${body.id}/`,
-        method: "PUT",
+        url: `teacher/${body.get("id")}/`,
+        method: "PATCH",
         body,
       }),
     }),

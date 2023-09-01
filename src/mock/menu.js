@@ -1,6 +1,6 @@
 import { LuLayoutDashboard, LuLineChart } from "react-icons/lu";
 import { LiaChalkboardTeacherSolid, LiaUsersCogSolid } from "react-icons/lia";
-import { PiStudent, PiUsersThree } from "react-icons/pi";
+import { PiStudent, PiUsersThree, PiBooks } from "react-icons/pi";
 import { MdOutlineAttachMoney, MdOutlineMoneyOffCsred } from "react-icons/md";
 import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
@@ -9,6 +9,7 @@ import { BsTable } from "react-icons/bs";
 import Attendence from "../pages/Attendence.jsx";
 import StudentsCom from "../components/students/studentTable.jsx";
 import Students from "../pages/Students.jsx";
+import Sciences from "../pages/Sciences.jsx";
 
 const menuItems = [
   {
@@ -31,6 +32,15 @@ const menuItems = [
   },
   {
     id: 2,
+    path: "/sciences",
+    title: "Fanlar",
+    private: true,
+    hidden: true,
+    element: <Sciences />,
+    icon: <PiBooks />,
+  },
+  {
+    id: 3,
     title: "O'qituvchilar",
     path: "/teachers",
     private: true,
@@ -39,7 +49,7 @@ const menuItems = [
     icon: <LiaChalkboardTeacherSolid />,
   },
   {
-    id: 3,
+    id: 4,
     title: "O'quvchilar",
     path: "/students",
     private: true,
@@ -48,7 +58,7 @@ const menuItems = [
     icon: <PiStudent />,
   },
   {
-    id: 8,
+    id: 5,
     title: "Davomat",
     path: "/attandance",
     private: true,
@@ -57,7 +67,7 @@ const menuItems = [
     icon: <BsTable />,
   },
   {
-    id: 4,
+    id: 6,
     title: "Xodimlar",
     path: "/staffs",
     private: true,
@@ -66,7 +76,7 @@ const menuItems = [
     icon: <PiUsersThree />,
   },
   {
-    id: 5,
+    id: 7,
     title: "Foydalanuvchilar",
     path: "/users",
     private: true,
@@ -75,7 +85,7 @@ const menuItems = [
     icon: <LiaUsersCogSolid />,
   },
   {
-    id: 6,
+    id: 8,
     title: "Kirim",
     path: "/income",
     private: true,
@@ -84,7 +94,7 @@ const menuItems = [
     icon: <MdOutlineAttachMoney />,
   },
   {
-    id: 7,
+    id: 9,
     title: "Chiqim",
     path: "/expense",
     private: true,
