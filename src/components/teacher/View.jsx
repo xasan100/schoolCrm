@@ -22,7 +22,7 @@ export default function View({ object }) {
             <div className="flex w-full h-full items-stretch">
               <div className="w-1/3 p-2 h-full">
                 {/* Left column for avatar, etc. */}
-                <div className="bg-white rounded-lg shadow-lg border p-4">
+                <div className="bg-white rounded-lg shadow-lg border p-4 flex items-center flex-col justify-center">
                   {object?.image && object.image !== "" ? (
                     <img
                       src={object.image}

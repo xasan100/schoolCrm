@@ -126,7 +126,7 @@ export default function UpdateTeacher({ object }) {
               id="first-name"
               name="first_name"
               type="text"
-              value={object.first_name}
+              value={inputValue.first_name}
               autoComplete="first_name"
               handleChange={handleChange}
             />
@@ -135,7 +135,7 @@ export default function UpdateTeacher({ object }) {
               id="last-name"
               name="last_name"
               type="text"
-              value={object.last_name}
+              value={inputValue.last_name}
               autoComplete="last-name"
               handleChange={handleChange}
             />
@@ -144,7 +144,7 @@ export default function UpdateTeacher({ object }) {
               id="middle-name"
               name="middle_name"
               type="text"
-              value={object.middle_name}
+              value={inputValue.middle_name}
               autoComplete="middle-name"
               handleChange={handleChange}
             />
@@ -175,7 +175,7 @@ export default function UpdateTeacher({ object }) {
               id="password"
               name="user.password"
               type="text"
-              value={object.password}
+              value={inputValue.password}
               autoComplete="password"
               handleChange={handleChange}
             />
@@ -191,7 +191,7 @@ export default function UpdateTeacher({ object }) {
                   id="salary"
                   name="sallery"
                   type="text"
-                  value={object.sallery}
+                  value={inputValue.sallery}
                   autoComplete="sallery"
                   required
                   onChange={(e) => handleChange(e)}
@@ -269,7 +269,7 @@ export default function UpdateTeacher({ object }) {
               id="address"
               name="address"
               type="text"
-              value={object.address}
+              value={inputValue.address}
               autoComplete="address"
               handleChange={handleChange}
             />
@@ -278,7 +278,7 @@ export default function UpdateTeacher({ object }) {
               id="description"
               name="description"
               type="text"
-              value={object.description}
+              value={inputValue.description}
               autoComplete="description"
               handleChange={handleChange}
             />
@@ -287,7 +287,7 @@ export default function UpdateTeacher({ object }) {
               id="experience"
               name="experience"
               type="text"
-              value={object.experience}
+              value={inputValue.experience}
               autoComplete="experience"
               handleChange={handleChange}
             />
@@ -296,7 +296,7 @@ export default function UpdateTeacher({ object }) {
               id="id_card"
               name="id_card"
               type="text"
-              value={object.id_card}
+              value={inputValue.id_card}
               autoComplete="id_card"
               handleChange={handleChange}
             />
@@ -309,7 +309,7 @@ export default function UpdateTeacher({ object }) {
               </label>
               <div className="mt-2">
                 <select
-                  defaultValue={object.gender}
+                  defaultValue={inputValue.gender}
                   id="gender"
                   name="gender"
                   onChange={(e) => handleChange(e)}
@@ -329,7 +329,7 @@ export default function UpdateTeacher({ object }) {
               </label>
               <div className="mt-2">
                 <select
-                  defaultValue={object.sallery_type}
+                  defaultValue={inputValue.sallery_type}
                   id="sallery_type"
                   name="sallery_type"
                   onChange={(e) => handleChange(e)}
@@ -349,7 +349,7 @@ export default function UpdateTeacher({ object }) {
               </label>
               <div className="mt-2">
                 <input
-                  value={object.date_of_employment}
+                  value={inputValue.date_of_employment}
                   id="work-date"
                   name="date_of_employment"
                   type="date"
@@ -369,7 +369,7 @@ export default function UpdateTeacher({ object }) {
               </label>
               <div className="mt-2">
                 <select
-                  defaultValue={object.scince}
+                  defaultValue={inputValue.scince}
                   id="science"
                   name="science"
                   onChange={(e) => handleChange(e)}

@@ -30,6 +30,7 @@ export const TeachersCrud = createApi({
         method: "PATCH",
         body,
       }),
+      invalidatesTags: ["Teachers"],
     }),
     deleteTeacher: build.mutation({
       query: (body) => ({
