@@ -17,7 +17,6 @@ export default function Modal({ title, addFunc, closeModal, children, loader }) 
           </p>
         </div>
         {children}
-
         <div className="flex items-center gap-4 justify-end">
           <button
             onClick={addFunc}

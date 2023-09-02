@@ -1,46 +1,44 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { api } from "../../../api/Api";
+import { api } from "../../../api/Api.jsx"
 
-export const Attendance = createApi({
-  reducerPath: "AttendanceData",
+export const AttendanceCrud = createApi({
+  reducerPath: 'Attendance',
   baseQuery: api,
-  tagTypes: ["Attendance"],
+  tagTypes: ['Attendance'],
   endpoints: (build) => ({
     getAttendance: build.query({
       query: () => "davomat/",
-      providesTags: ["Attendance"],
+      providesTags: ['Attendance'],
     }),
-    attendance: build.mutation({
+    createAttendance: build.mutation({
       query: (body) => ({
-        url: `davomat//`,
-        method: "POST",
-        body: {
-          "user": 0,
-          "davomat": "SABABLI"
-        }
+        url: 'davomat/',
+        method: 'POST',
+        body,
       }),
-      invalidatesTags: ["Attendance"],
+      invalidatesTags: ["Attendance"]
     }),
-    // updateTeacher: build.mutation({
-    //   query: (body) => ({
-    //     url: `teacher/${body.id}/`,
-    //     method: "PUT",
-    //     body,
-    //   }),
-    // }),
-
-    // deleteTeacher: build.mutation({
-    //   query: (body) => ({
-    //     url: `teacher/${body.id}/`,
-    //     method: "DELETE",
-    //     body,
-    //   }),
-    //   invalidatesTags: ["Teachers"],
-    // }),
+    updateAttendance: build.mutation({
+      query: (body) => ({
+        url: `student/${body.id}/`,
+        method: 'PUT',
+        body,
+      }),
+    }),
+    deleteAttendance: build.mutation({
+      query: (body) => ({
+        url: `student/${body.id}`,
+        method: 'DELETE',
+        body,
+      }),
+      invalidatesTags: ["Attendance"]
+    }),
   }),
+
 });
 
 export const {
-  useAttendanceMutation,
   useGetAttendanceQuery,
-} = Attendance;
+  useCreateAttendanceMutation,
+  useDeleteAttendanceMutation,
+} = AttendanceCrud

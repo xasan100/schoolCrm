@@ -9,7 +9,9 @@ import {
   useDeleteTeacherMutation,
   useGetTeachersQuery,
 } from "../../redux/slice/teachers/TeachersSlice";
+
 import { toast } from "react-toastify";
+import { useGetAttendanceQuery } from "../../redux/slice/attandance/Attendance.js";
 
 const TeacherItem = ({ teacher, index, deleteTeacher }) => {
   // JSX for each teacher
@@ -92,6 +94,8 @@ function TeachersTableComponent() {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
+
 
   return (
     <div className="h-ful gap-3 col-span-12">

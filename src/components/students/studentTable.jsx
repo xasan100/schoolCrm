@@ -28,26 +28,17 @@ export const StudentTable = () => {
 
   const [mod, setMod] = useState(false)
 
-
   const [adminData, SetadminData] = useState([])
   const [inputValue, setInputValue] = useState({
     deleteId: '',
   });
 
   const { data, isLoading } = useGetStudentsQuery();
-  // const { data } = useSelector((store) => store.StudentsGetDispatch)
-  const StudentDeletIdDispatch = useSelector((store) => store.StudentDeletIdDispatch)
 
 
-
-
-  useEffect(() => {
-    dispatch(StudentsGet())
-  }, [])
 
   const Prive = (id) => {
     setMod(true)
-    // setIsOpen({ ...isOpen, id: id })
   }
 
   const PriveClose = () => setMod(false)
@@ -59,14 +50,9 @@ export const StudentTable = () => {
     setInputValue({ ...inputValue, deleteId: id })
   };
 
-
   const pushId = () => {
     dispatch(StudentDeletId(inputValue.deleteId))
   }
-  // useEffect(() => {
-  //   if (StudentDeletIdDispatch.data == "true")
-  //     dispatch(StudentsGet())
-  // }, [StudentDeletIdDispatch])
 
 
 
@@ -90,7 +76,10 @@ export const StudentTable = () => {
         </div>
         <br />
         <ul className="divide-y overflow-y-auto h-[78vh]  divide-gray-100 col-span-12 border rounded-lg overflow-hidden">
-          {isLoading ? <Loader /> : data?.map((person, index) => (
+          {isLoading ? <Loader
+            extraClass="col-span-12 flex justify-center  "
+            Color="#62B238"
+          /> : data?.map((person, index) => (
             <li
               key={person?.first_name}
               className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200"

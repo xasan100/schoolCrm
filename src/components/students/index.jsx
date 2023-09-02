@@ -10,6 +10,7 @@ import {
   useGetStudentsQuery,
 } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
+import { useGetAttendanceQuery } from "../../redux/slice/attandance/Attendance.js";
 
 const TeacherItem = ({ teacher, index, deleteTeacher }) => {
   // JSX for each teacher
@@ -63,6 +64,8 @@ const TeacherItem = ({ teacher, index, deleteTeacher }) => {
 function TeachersTableComponent() {
   // const TeachersData = useSelector((state) => state.teacherSlice);
   // const status = useSelector((state) => state.teacherSlice.status);
+
+
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsQuery();
   const [deleteTeacher, { isSuccess }] = useDeleteStudentsMutation();

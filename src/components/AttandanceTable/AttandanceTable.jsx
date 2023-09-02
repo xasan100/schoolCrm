@@ -1,96 +1,44 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Get } from "../../redux/slice/attandance/GetData";
-import EmptyBox from "../EmptyBox/EmptyBox";
-import Loader from "../Loader/Loader";
 import { AiOutlineEye } from "react-icons/ai";
+
 import { useGetAttendanceQuery } from "../../redux/slice/attandance/Attendance.js";
 import Addattandance from "./Addattandance.jsx";
-
-const TableItem = ({ users, index }) => {
-  // JSX for each teacher
-  const [userStatus, setUserStatus] = useState("");
-
-  useEffect(() => {
-    switch (userStatus) {
-      case "KELGAN":
-        setUserStatus("custom-green");
-        break;
-      case "SABABLI":
-        setUserStatus("yellow-300");
-        break;
-      case "SABABSIZ":
-        setUserStatus("red-400");
-        break;
-      default:
-        setUserStatus("red-400");
-    }
-  }, [userStatus]);
-  const { data, isLoading } = useGetAttendanceQuery();
-
-  return (
-    <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
-      <div className="flex min-w-0 gap-x-4">
-        <h1>{index + 1}.</h1>
-        <img
-          className="h-12 w-12 flex-none rounded-full border"
-          src={users?.image}
-          alt="teacher_image"
-        />
-        <div className="min-w-0 flex-auto">
-          <p className="text-sm font-semibold leading-6 text-gray-900">
-            {users?.first_name}
-          </p>
-          <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {users?.last_name}
-          </p>
-        </div>
-        <div
-          className={`py-1 rounded-md shadow-sm border flex items-center justify-center px-2 bg-${userStatus}`}
-        >
-          <p className="text-white">{users?.davomat}</p>
-        </div>
-      </div>
-      <div className="flex gap-2 items-center">
-        <button
-          type="button"
-          className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-        >
-          <AiOutlineEye className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-          Ko'rish
-        </button>
-      </div>
-    </li>
-  );
-};
+import Loader from "../Loader/Loader.jsx";
 
 function AttandanceTableComponent() {
-  const UsersData = useSelector((state) => state.Attendence);
-  const status = "success";
-  const dispatch = useDispatch();
-  const [searchTerm, setSearchTerm] = useState("");
 
-  // useEffect(() => {
-  //   dispatch(GetAttandance());
-  // }, [dispatch]);
+  const { data, isLoading } = useGetAttendanceQuery()
 
-  // const filteredTeachers = useMemo(() => {
-  //   // Computing the filtered teachers list
-  //   if (searchTerm) {
-  //     return UsersData.data.filter(
-  //       (users) =>
-  //         users.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //         users.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //         users.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //   } else {
-  //     return UsersData.data;
-  //   }
-  // }, [UsersData.data, searchTerm]);
+  const [type, setType] = useState('all');
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  useEffect(() => {
+    let typesToFilter = [type];
+    if (type === 'employer') {
+      typesToFilter = ['employer', 'tasischi', 'admin'];
+    }
+    const result = type === 'all' ? data : data?.filter(user => typesToFilter.includes(user.types));
+    setFilteredData(result);
+  }, [type, data]);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+  const filter = (name) => {
+    let res = data.filter((val => val.davomat === name))
+    setFilteredData(res)
+  }
+
+  const filteredUsers = filteredData?.filter((users) => {
+    const username = users?.user_dict?.user.username.toLowerCase();
+    const firstName = users?.user_dict.first_name.toLowerCase();
+    const davomat = users?.davomat.toLowerCase();
+    const lowerCaseSearchQuery = searchQuery.toLowerCase();
+
+    return (
+      username.includes(lowerCaseSearchQuery) ||
+      firstName.includes(lowerCaseSearchQuery) ||
+      davomat.includes(lowerCaseSearchQuery)
+    );
+  });
 
 
   return (
@@ -124,51 +72,79 @@ function AttandanceTableComponent() {
                 id="table-search-users"
                 className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Izlash..."
-                value={searchTerm}
-                onChange={handleSearchChange}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="py-1.5 rounded-md shadow-sm border px-2 bg-custom-green">
+            <div onClick={() => filter('KELGAN')} className="py-1.5 rounded-md shadow-sm border px-2 cursor-pointer  bg-custom-green">
               <p className="text-white">Kelgan</p>
             </div>
-            <div className="py-1.5 rounded-md shadow-sm border px-2 bg-yellow-300">
+            <div onClick={() => filter('SABABLI')} className="py-1.5 rounded-md shadow-sm border px-2 cursor-pointer bg-yellow-300">
               <p className="text-white">Sababli</p>
             </div>
-            <div className="py-1.5 rounded-md shadow-sm border px-2 bg-red-400">
+            <div onClick={() => filter('SABABSIZ')} className="py-1.5 rounded-md shadow-sm border px-2 cursor-pointer bg-red-400">
               <p className="text-white">Sababsiz</p>
             </div>
           </div>
           <select
+            onChange={(e) => setType(e.target.value)}
             id="gender"
             name="gender"
             className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500" >
+            <option value="all">Hammasi</option>
             <option value="teacher">O'qtuvchilar</option>
             <option value="student">O'quvchilar</option>
             <option value="employer">Xodimlar</option>
           </select>
 
           <div>
-            <Addattandance/>
+            <Addattandance />
           </div>
         </div>
-        {/* {status === "loading" ? (
-          <Loader
-            extraClass="col-span-12 flex justify-center"
-            Color="#62B238"
-          />
-        ) : filteredTeachers.length > 0 ? (
-          <ul className="divide-y-reverse overflow-y-auto h-[68vh] divide-gray-100 border rounded-lg overflow-hidden col-span-12">
-            {filteredTeachers.map((users, index) => (
-              <TableItem users={users} index={index} key={users.id} />
-            ))}
-          </ul>
-        ) : (
-          <EmptyBox />
-        )} */}
+
+
+        <ul className="divide-y-reverse overflow-y-auto h-[68vh] divide-gray-100 border rounded-lg overflow-hidden col-span-12">
+          {isLoading ? <h1>Loading...</h1> : filteredData?.map((users, index) => (
+
+            <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
+              <div className="flex min-w-0 gap-x-4">
+                <h1>{index + 1}.</h1>
+                <img
+                  className="h-12 w-12 flex-none rounded-full border"
+                  src={users?.user_dict?.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG6a6KfKK66Jy1eCuDau7yp2rb5dIfGvl45g&usqp=CAU'}
+                  alt="teacher_image"
+                />
+                <div className="min-w-0 flex-auto">
+                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                    {users?.user_dict?.user.username}
+                  </p>
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                    {users?.user_dict.first_name}
+                  </p>
+                </div>
+                <div
+                >
+                  <p className={` text-white py-1.5 rounded-md shadow-sm border px-2 cursor-pointer   ${users?.davomat === 'KELGAN' && 'bg-custom-green'}  ${users?.davomat === 'SABABLI' && 'bg-yellow-300'}  ${users?.davomat === 'SABABSIZ' && 'bg-red-400'} `} >{users?.davomat}</p>
+                </div>
+              </div>
+              <div className="flex gap-2 items-center">
+                <button
+                  type="button"
+                  className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                >
+                  <AiOutlineEye className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                  Ko'rish
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+
       </div>
-    </div>
+    </div >
   );
 }
 

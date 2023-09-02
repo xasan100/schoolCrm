@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { StudentsCrud } from "../slice/students/students.js";
 import { TeachersCrud } from "../slice/teachers/TeachersSlice.js";
-import { Attendance } from "../slice/attandance/Attendance.js"
+import {  AttendanceCrud } from "../slice/attandance/Attendance.js"
 // import adminTypeGet from "../slice/admins/adminTypeSelectGet/index.js";
 // import loginAdminThunk from "../slice/login/post/index.js";
 // import permissionGet from "../slice/admins/permission/permissionGet/index.jsx";
@@ -29,13 +29,13 @@ export const store = configureStore({
     // Attendence,
     [TeachersCrud.reducerPath]: TeachersCrud.reducer,
     [StudentsCrud.reducerPath]: StudentsCrud.reducer,
-    [Attendance.reducer]: Attendance.reducer,
+    [AttendanceCrud.reducerPath]: AttendanceCrud.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       TeachersCrud.middleware,
       StudentsCrud.middleware,
-      Attendance.middleware,
+      AttendanceCrud.middleware,
     ),
 });
 
