@@ -6,9 +6,18 @@ import Logo from "../../assets/logo.png";
 export default function Sidebar() {
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown uchun yangi state
+
   const handleMenuItemClick = (path, item) => {
     setActive(item.id);
     navigate(path);
+
+    // Agar "Analitik" bosilsa, dropdownni ochish/yopish
+    if (item.title === "Analiytika") {
+      setDropdownOpen(!dropdownOpen);
+    } else {
+      setDropdownOpen(false); // boshqa tugma bosilganda dropdownni yopish
+    }
   };
 
   return (
@@ -26,6 +35,17 @@ export default function Sidebar() {
             onClick={() => handleMenuItemClick(item.path, item)}
           >
             <span className="text-2xl">{item.icon}</span> {item.title}
+            {/* Dropdown for Analitik */}
+            {item.title === "Analiytika" && dropdownOpen && (
+              <ul className="ml-5 mt-2 flex flex-col list-none">
+                <li className="py-1 px-4 cursor-pointer hover:bg-gray-300">
+                  Kirim
+                </li>
+                <li className="py-1 px-4 cursor-pointer hover:bg-gray-300">
+                  Chiqim
+                </li>
+              </ul>
+            )}
           </li>
         ))}
       </ul>

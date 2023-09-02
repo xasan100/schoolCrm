@@ -1,49 +1,23 @@
 import React, { useState } from "react";
-import { AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
+import { toast } from "react-toastify";
+import {
+  useGetTeachersQuery,
+  useUpdateTeacherMutation,
+} from "../../redux/slice/teachers/TeachersSlice";
 import Modal from "../../generic/Modal";
+import { AiOutlineFileAdd } from "react-icons/ai";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
-import {
-  useCreateTeacherMutation,
-  useGetTeachersQuery,
-} from "../../redux/slice/teachers/TeachersSlice";
-import { toast } from "react-toastify";
-import CustomInput from "react-phone-number-input/input";
+import { LuEdit2 } from "react-icons/lu";
 import { useEffect } from "react";
+import CustomInput from "react-phone-number-input/input";
 import InputField from "../../generic/InputField";
 
-const INITIAL_STATE = {
-  user: {
-    username: "",
-    password: "",
-  },
-  first_name: "",
-  last_name: "",
-  middle_name: "",
-  id_card: "",
-  sallery_type: "FIXED",
-  sallery: 0,
-  date_of_employment: "",
-  gender: "MALE",
-  address: "",
-  description: "",
-  experience: "",
-  language_certificate: "",
-  science: 0,
-  image: "",
-  lens: "",
-  id_card_photo: "",
-  survey: "",
-  biography: "",
-  medical_book: "",
-  picture_3x4: "",
-};
-
-export default function AddTeacher() {
+export default function UpdateTeacher({ object }) {
   const [opne, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(INITIAL_STATE);
-  const [createTeacher, { isLoading, isSuccess }] = useCreateTeacherMutation();
+  const [inputValue, setInputValue] = useState(object);
+  const [updateTeacher, { isLoading, isSuccess }] = useUpdateTeacherMutation();
   const { data } = useGetTeachersQuery();
   const [error, setError] = useState({ sallery: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -51,15 +25,14 @@ export default function AddTeacher() {
   useEffect(() => {
     if (hasSubmitted) {
       if (isSuccess) {
-        toast.success("O'qituvchi qo'shildi");
+        toast.success("O'qituvchi o'zgartirildi");
         setOpen(false);
       } else if (!isLoading && !isSuccess) {
-        toast.error("O'qituvchi qo'shilmadi");
+        toast.error("O'qituvchi o'zgartirilmadi");
       }
     }
   }, [isSuccess, isLoading, hasSubmitted]);
 
-  // Inputdagi qiymatni olganda raqam yoki raqam emasligini tekshirish uchun qo'shimcha funksiya
   const updateNestedValue = (prev, keys, validatedValue) => ({
     ...prev,
     [keys[0]]: {
@@ -68,37 +41,9 @@ export default function AddTeacher() {
     },
   });
 
-  //Har bir inputga qiymat berilgan yoki berilmaganini tekshirish
-  const isAnyFieldEmpty = (input) => {
-    for (let key in input) {
-      const value = input[key];
-
-      if (typeof value === "object") {
-        if (Array.isArray(value) && value.length === 0) {
-          return true;
-        }
-        if (value instanceof File) {
-          continue; // Fayl tekshiruvini oʻtkazib yuborish
-        }
-        for (let innerKey in value) {
-          if (!value[innerKey] && value[innerKey] !== 0) {
-            return true;
-          }
-        }
-      } else {
-        if (!value && value !== 0) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
-
-  const isDisabled = isAnyFieldEmpty(inputValue);
-
-  //Faqatgina username inputidan qiymat olish chunki u boshqacha component
   const handleUsernameChange = (e) => {
     const value = e;
+
     const isUsernameExists = data.some(
       (teacher) => teacher.user.username === value
     );
@@ -114,7 +59,6 @@ export default function AddTeacher() {
     }));
   };
 
-  //Har bir inputdan qiymat olish
   const handleChange = (e) => {
     const { name, value } = e.target;
     const numberPattern = /^[0-9]*$/;
@@ -138,7 +82,6 @@ export default function AddTeacher() {
     }
   };
 
-  //O'qituvchi qo'shish
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -155,14 +98,12 @@ export default function AddTeacher() {
 
     try {
       setHasSubmitted(true);
-      await createTeacher(formData);
-      setInputValue(INITIAL_STATE);
-      setHasSubmitted(false);
+      await updateTeacher(formData);
+      setInputValue();
     } catch (error) {
-      toast.error("O'qituvchi qo'shishda xatolik", error.message);
+      toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
     }
   };
-
   const onClose = () => {
     setOpen(false);
   };
@@ -172,27 +113,20 @@ export default function AddTeacher() {
       <button
         onClick={() => setOpen(true)}
         type="button"
-        className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-400"
       >
-        <AiOutlineUserAdd
-          className="-ml-0.5 mr-1.5 text-xl"
-          aria-hidden="true"
-        />
-        O'qituvchi Qo'shish
+        <LuEdit2 className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+        Taxrirlash
       </button>
       {opne && (
-        <Modal
-          closeModal={onClose}
-          addFunc={handleSubmit}
-          loader={isLoading}
-          isDisabled={isDisabled}
-        >
+        <Modal closeModal={onClose} addFunc={handleSubmit} loader={isLoading}>
           <div className="grid grid-rows-6 grid-cols-4 gap-2">
             <InputField
               label="Ism"
               id="first-name"
               name="first_name"
               type="text"
+              value={inputValue.first_name}
               autoComplete="first_name"
               handleChange={handleChange}
             />
@@ -201,6 +135,7 @@ export default function AddTeacher() {
               id="last-name"
               name="last_name"
               type="text"
+              value={inputValue.last_name}
               autoComplete="last-name"
               handleChange={handleChange}
             />
@@ -209,6 +144,7 @@ export default function AddTeacher() {
               id="middle-name"
               name="middle_name"
               type="text"
+              value={inputValue.middle_name}
               autoComplete="middle-name"
               handleChange={handleChange}
             />
@@ -222,10 +158,10 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <CustomInput
                   placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
-                  maxLength={17}
+                  maxLength={13}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   onChange={(e) => handleUsernameChange(e)}
-                  value={inputValue.username}
+                  value={inputValue.user.username}
                 />
               </div>
               {error.username && (
@@ -239,6 +175,7 @@ export default function AddTeacher() {
               id="password"
               name="user.password"
               type="text"
+              value={inputValue.password}
               autoComplete="password"
               handleChange={handleChange}
             />
@@ -254,7 +191,8 @@ export default function AddTeacher() {
                   id="salary"
                   name="sallery"
                   type="text"
-                  autoComplete="salary"
+                  value={inputValue.sallery}
+                  autoComplete="sallery"
                   required
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -331,6 +269,7 @@ export default function AddTeacher() {
               id="address"
               name="address"
               type="text"
+              value={inputValue.address}
               autoComplete="address"
               handleChange={handleChange}
             />
@@ -339,6 +278,7 @@ export default function AddTeacher() {
               id="description"
               name="description"
               type="text"
+              value={inputValue.description}
               autoComplete="description"
               handleChange={handleChange}
             />
@@ -347,6 +287,7 @@ export default function AddTeacher() {
               id="experience"
               name="experience"
               type="text"
+              value={inputValue.experience}
               autoComplete="experience"
               handleChange={handleChange}
             />
@@ -355,6 +296,7 @@ export default function AddTeacher() {
               id="id_card"
               name="id_card"
               type="text"
+              value={inputValue.id_card}
               autoComplete="id_card"
               handleChange={handleChange}
             />
@@ -367,6 +309,7 @@ export default function AddTeacher() {
               </label>
               <div className="mt-2">
                 <select
+                  defaultValue={inputValue.gender}
                   id="gender"
                   name="gender"
                   onChange={(e) => handleChange(e)}
@@ -386,6 +329,7 @@ export default function AddTeacher() {
               </label>
               <div className="mt-2">
                 <select
+                  defaultValue={inputValue.sallery_type}
                   id="sallery_type"
                   name="sallery_type"
                   onChange={(e) => handleChange(e)}
@@ -405,6 +349,7 @@ export default function AddTeacher() {
               </label>
               <div className="mt-2">
                 <input
+                  value={inputValue.date_of_employment}
                   id="work-date"
                   name="date_of_employment"
                   type="date"
@@ -424,6 +369,7 @@ export default function AddTeacher() {
               </label>
               <div className="mt-2">
                 <select
+                  defaultValue={inputValue.scince}
                   id="science"
                   name="science"
                   onChange={(e) => handleChange(e)}
