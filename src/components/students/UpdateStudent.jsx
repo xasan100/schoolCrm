@@ -13,7 +13,7 @@ export default function UpdateStudent({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
   const [updateTeacher, { isLoading, isSuccess }] = useUpdateStudentsMutation();
-
+  console.log(inputValue,'object');
 
   const updateUser = () => {
     setInputValue({
@@ -45,6 +45,9 @@ export default function UpdateStudent({ object }) {
 
     try {
       await updateTeacher(formData);
+      toast.success(`O'quvchi ${inputValue.first_name} O'zgartirildi`);
+
+      setOpen(false);
     } catch (error) {
       toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
     }
@@ -122,7 +125,8 @@ export default function UpdateStudent({ object }) {
                   type="date"
                   autoComplete="work-date"
                   required
-                  // onChange={(e) => handleChange(e)}
+                  onChange={(e) => setInputValue({ ...inputValue, date_of_admission: e.target.value })}
+
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

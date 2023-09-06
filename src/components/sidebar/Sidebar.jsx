@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import menuItems from "../../mock/menu";
 import Logo from "../../assets/logo.png";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -28,23 +29,36 @@ export default function Sidebar() {
       <ul className="flex flex-col list-none">
         {menuItems.map((item) => (
           <li
-            className={`flex items-center gap-4 py-2 px-4 text-lg font-semibold  rounded-r-3xl cursor-pointer  ${
+            className={`flex items-start gap-4 py-2 px-4 text-lg font-semibold rounded-r-3xl cursor-pointer ${
               active === item.id ? "bg-primary text-white" : "text-gray-700"
             }`}
             key={item.id}
             onClick={() => handleMenuItemClick(item.path, item)}
           >
-            <span className="text-2xl">{item.icon}</span> {item.title}
-            {/* Dropdown for Analitik */}
-            {item.title === "Analiytika" && dropdownOpen && (
-              <ul className="ml-5 mt-2 flex flex-col list-none">
-                <li className="py-1 px-4 cursor-pointer hover:bg-gray-300">
-                  Kirim
-                </li>
-                <li className="py-1 px-4 cursor-pointer hover:bg-gray-300">
-                  Chiqim
-                </li>
-              </ul>
+            <span className="text-2xl gap-2">{item.icon}</span>
+            <div className="flex items-center flex-col">
+              {item.title}
+              {item.title === "Analiytika" && (
+                <ul
+                  className="ml-5 mt-2 flex flex-col list-none overflow-hidden transition-all duration-2000 ease-in-out transform origin-top"
+                  style={{
+                    transform: dropdownOpen ? "scaleY(1)" : "scaleY(0)",
+                    maxHeight: dropdownOpen ? "200px" : "0px",
+                  }}
+                >
+                  <li className="py-1 px-4 cursor-pointer hover:bg-gray-300">
+                    Kirim
+                  </li>
+                  <li className="py-1 px-4 cursor-pointer hover:bg-gray-300">
+                    Chiqim
+                  </li>
+                </ul>
+              )}
+            </div>
+            {item.title === "Analiytika" && (
+              <span className="text-2xl">
+                <MdKeyboardArrowDown />
+              </span>
             )}
           </li>
         ))}

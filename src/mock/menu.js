@@ -7,15 +7,15 @@ import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
 import { BsTable } from "react-icons/bs";
 import Attendence from "../pages/Attendence.jsx";
-import StudentsCom from "../components/students/studentTable.jsx";
 import Students from "../pages/Students.jsx";
 import Sciences from "../pages/Sciences.jsx";
+import Staff from "../pages/Staff.jsx";
 
 const menuItems = [
   {
     id: 0,
     element: <Dashboard />,
-    title: "Bosh sahifa",
+    title: "Boshsahifa",
     path: "/",
     private: true,
     hidden: true,
@@ -23,11 +23,28 @@ const menuItems = [
   },
   {
     id: 1,
-    path: "/analiytics",
     title: "Analiytika",
     private: true,
-    hidden: true,
-    element: "SD",
+    submenu: [
+      {
+        id: 8,
+        title: "Kirim",
+        path: "/income",
+        private: true,
+        hidden: true,
+        element: "Kirim",
+        icon: <MdOutlineAttachMoney />,
+      },
+      {
+        id: 9,
+        title: "Chiqim",
+        path: "/expense",
+        private: true,
+        hidden: true,
+        element: "Chiqim",
+        icon: <MdOutlineMoneyOffCsred />,
+      },
+    ],
     icon: <LuLineChart />,
   },
   {
@@ -72,7 +89,7 @@ const menuItems = [
     path: "/staffs",
     private: true,
     hidden: true,
-    element: "SD",
+    element: <Staff />,
     icon: <PiUsersThree />,
   },
   {
@@ -84,26 +101,6 @@ const menuItems = [
     element: <Users />,
     icon: <LiaUsersCogSolid />,
   },
-  {
-    id: 8,
-    title: "Kirim",
-    path: "/income",
-    private: true,
-    hidden: true,
-    element: "SD",
-    icon: <MdOutlineAttachMoney />,
-  },
-  {
-    id: 9,
-    title: "Chiqim",
-    path: "/expense",
-    private: true,
-    hidden: true,
-    element: "SD",
-    icon: <MdOutlineMoneyOffCsred />,
-  },
 ];
-
-
 
 export default menuItems;

@@ -4,7 +4,7 @@ import Modal from "../../generic/Modal";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
-import CustomInput from 'react-phone-number-input/input'
+import CustomInput from "react-phone-number-input/input";
 import { useCreateStudentMutation } from "../../redux/slice/students/students.js";
 import { toast } from "react-toastify";
 
@@ -13,19 +13,19 @@ export function AddStudent() {
   const [createStudent, { isLoading, isSuccess }] = useCreateStudentMutation();
 
   const [inputValue, setInputValue] = useState({
-    username: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    idCard: '',
-    date: '',
-    class_of_school: '',
-    id_card_parents: '',
-    picture_3x4: '',
-    school_tab: '',
-    img: '',
-    deleteId: '',
+    username: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    idCard: "",
+    date: "",
+    class_of_school: "",
+    id_card_parents: "",
+    picture_3x4: "",
+    school_tab: "",
+    img: "",
+    deleteId: "",
   });
 
   const addData = async () => {
@@ -68,7 +68,7 @@ export function AddStudent() {
           className="-ml-0.5 mr-1.5 text-xl"
           aria-hidden="true"
         />
-        O'qituvchi Qo'shish
+        O'quvchi Qo'shish
       </button>
       {open && (
         <Modal
@@ -84,10 +84,12 @@ export function AddStudent() {
               </label>
               <div className="mt-2">
                 <CustomInput
-                  placeholder='Telfon raqamingiz kiriting qayta takrorlanmagan'
+                  placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
                   maxLength={17}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) => setInputValue({ ...inputValue, username: e })}
+                  onChange={(e) =>
+                    setInputValue({ ...inputValue, username: e })
+                  }
                   value={inputValue.username}
                 />
               </div>
@@ -106,7 +108,9 @@ export function AddStudent() {
                   type="text"
                   autoComplete="last-name"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, password: e.target.value })}
+                  onChange={(e) =>
+                    setInputValue({ ...inputValue, password: e.target.value })
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -125,7 +129,9 @@ export function AddStudent() {
                   type="date"
                   autoComplete="middle-name"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, date: e.target.value })}
+                  onChange={(e) =>
+                    setInputValue({ ...inputValue, date: e.target.value })
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -144,7 +150,9 @@ export function AddStudent() {
                   type="text"
                   autoComplete="username"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, firstName: e.target.value })}
+                  onChange={(e) =>
+                    setInputValue({ ...inputValue, firstName: e.target.value })
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -163,7 +171,9 @@ export function AddStudent() {
                   type="text"
                   autoComplete="password"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, lastName: e.target.value })}
+                  onChange={(e) =>
+                    setInputValue({ ...inputValue, lastName: e.target.value })
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -182,12 +192,12 @@ export function AddStudent() {
                   type="text"
                   autoComplete="salary"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, middleName: e.target.value })}
+                  onChange={(e) =>
+                    setInputValue({ ...inputValue, middleName: e.target.value })
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-
-
             </div>
             <ImageUpload
               title={"IMG"}
@@ -235,19 +245,25 @@ export function AddStudent() {
                   type="text"
                   autoComplete="description"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, idCard: e.target.value })}
+                  onChange={(e) =>
+                    setInputValue({ ...inputValue, idCard: e.target.value })
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
-
             <div className="mt-2">
-
               <label htmlFor="">class of school</label>
               <select
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={(e) => setInputValue({ ...inputValue, class_of_school: e.target.value })} >
+                onChange={(e) =>
+                  setInputValue({
+                    ...inputValue,
+                    class_of_school: e.target.value,
+                  })
+                }
+              >
                 <option value="1">1</option>
                 <option value="1">2</option>
                 <option value="1">3</option>

@@ -2,34 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { StudentsCrud } from "../slice/students/students.js";
 import { TeachersCrud } from "../slice/teachers/TeachersSlice.js";
-import { AttendanceCrud } from "../slice/attandance/Attendance.js"
-import { UserCrud } from "../slice/user/user.js";
-// import adminTypeGet from "../slice/admins/adminTypeSelectGet/index.js";
-// import loginAdminThunk from "../slice/login/post/index.js";
-// import permissionGet from "../slice/admins/permission/permissionGet/index.jsx";
-// import adminCustomGet from "../slice/admins/adminTypeCustom/index.js";
-// import AdminDelet from "../slice/admins/adminaDelete/index.js";
-// import StudentsGetDispatch from "../slice/students/studentsGet/index.jsx";
-// import AddTeacherSlice from "../slice/teachers/AddTeacherSlice.js";
-// import teacherSlice from "../slice/teachers/GetTeachersSlice.js";
-// import teacherDeletion from "../slice/teachers/DeleteTeacher.js";
-// import Attendence from "../slice/attandance/GetData.js";
-
-
+import { StaffCrud } from "../slice/staff/StaffSlice.js";
+import { SciencesCrud } from "../slice/sciences/SciencesSlice.js";
+import { AttendanceCrud } from "../slice/attandance/Attendance.js";
+import { UserCrud } from "../slice/user/user.js"
 export const store = configureStore({
   reducer: {
-    // loginAdminThunk,
-    // adminTypeGet,
-    // permissionGet,
-    // adminCustomGet,
-    // AdminDelet,
-    // StudentsGetDispatch,
-    // AddTeacherSlice,
-    // teacherSlice,
-    // teacherDeletion,
-    // Attendence,
     [TeachersCrud.reducerPath]: TeachersCrud.reducer,
     [StudentsCrud.reducerPath]: StudentsCrud.reducer,
+    [StaffCrud.reducerPath]: StaffCrud.reducer,
+    [SciencesCrud.reducerPath]: SciencesCrud.reducer,
     [AttendanceCrud.reducerPath]: AttendanceCrud.reducer,
     [UserCrud.reducerPath]: UserCrud.reducer,
   },
@@ -39,6 +21,8 @@ export const store = configureStore({
       StudentsCrud.middleware,
       AttendanceCrud.middleware,
       UserCrud.middleware,
+      SciencesCrud.middleware,
+      StaffCrud.middleware,
     ),
 });
 

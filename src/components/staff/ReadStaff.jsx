@@ -1,22 +1,22 @@
 import React, { useState, useMemo } from "react";
-import AddTeacher from "./AddTeacher";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
-import DeleteTeacher from "./DeleteTeacher";
-import UpdateTeacher from "./UpdateTeacher";
 import { FaUserTie } from "react-icons/fa";
-import View from "./View";
+import { useGetStaffQuery } from "../../redux/slice/staff/StaffSlice";
+import AddStaff from "./AddStaff";
+import ViewStaff from "./ViewStaff";
+import UpdateStaff from "./UpdateStaff";
+import DeleteStaff from "./DeleteStaff";
 
-const TeacherItem = ({ teacher, index }) => {
-
+const StaffItem = ({ staff, index }) => {
+  // JSX for each teacher
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {teacher?.image && teacher.image !== "" ? (
+        {staff?.image && staff.image !== "" ? (
           <img
-            src={teacher.image}
+            src={staff.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -27,34 +27,33 @@ const TeacherItem = ({ teacher, index }) => {
         )}
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {teacher?.first_name}
+            {staff?.first_name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {teacher?.last_name}
+            {staff?.last_name}
           </p>
         </div>
       </div>
       <div className="flex gap-2 items-center">
-        <View object={teacher} />
-        <UpdateTeacher object={teacher} />
-        <DeleteTeacher ID={teacher.id} />
+        <ViewStaff object={staff} />
+        <UpdateStaff object={staff} />
+        <DeleteStaff ID={staff.id} />
       </div>
     </li>
   );
 };
 
-function TeachersTableComponent() {
+function StaffTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading } = useGetTeachersQuery();
+  const { data, isLoading } = useGetStaffQuery();
 
-  const filteredTeachers = useMemo(() => {
+  const filteredStaff = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
       return data.filter(
-        (teacher) =>
-          teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
+        (staff) =>
+          staff.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          staff.last_name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     } else {
       return data;
@@ -65,11 +64,9 @@ function TeachersTableComponent() {
     setSearchTerm(e.target.value);
   };
 
-
-
   return (
-    <div className="h-full gap-3 col-span-12 sx:overflow-x-auto">
-      <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start overflow-hidden  sx:w-max">
+    <div className="h-ful gap-3 col-span-12 sx:overflow-x-auto">
+      <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start overflow-hidden sx:w-max">
         <div className="col-span-12 flex items-center justify-between p-3">
           <div>
             <label htmlFor="table-search" className="sr-only">
@@ -103,17 +100,17 @@ function TeachersTableComponent() {
               />
             </div>
           </div>
-          <AddTeacher />
+          <AddStaff />
         </div>
         {isLoading ? (
           <Loader
             extraClass="col-span-12 flex justify-center"
             Color="#62B238"
           />
-        ) : filteredTeachers.length > 0 ? (
+        ) : filteredStaff.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
-            {filteredTeachers.map((teacher, index) => (
-              <TeacherItem teacher={teacher} index={index} key={teacher.id} />
+            {filteredStaff.map((staff, index) => (
+              <StaffItem staff={staff} index={index} key={staff.id} />
             ))}
           </ul>
         ) : (
@@ -124,4 +121,4 @@ function TeachersTableComponent() {
   );
 }
 
-export default React.memo(TeachersTableComponent);
+export default React.memo(StaffTableComponent);
