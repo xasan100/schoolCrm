@@ -3,6 +3,12 @@ module.exports = {
   content: ["./src/**/*.{html,js,jsx}", "./node_modules/flowbite/**/*.js"],
 
   theme: {
+    screens: {
+      sx: { max: "576px" },
+      sm: "576px",
+      md: "960px",
+      lg: "1440px",
+    },
     extend: {
       rotateY: {
         0: "0deg",
@@ -17,5 +23,19 @@ module.exports = {
       },
     },
   },
-  plugins: [require("flowbite/plugin")],
+  plugins: [
+    require("flowbite/plugin"),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".scrollbar-hide": {
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 };

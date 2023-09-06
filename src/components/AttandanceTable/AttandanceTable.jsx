@@ -92,11 +92,10 @@ function AttandanceTableComponent() {
     setSearchTerm(e.target.value);
   };
 
-
   return (
     <div className="h-ful gap-3 col-span-12">
       <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start">
-        <div className="col-span-12 flex items-center justify-between p-3">
+        <div className="col-span-12 flex items-center justify-between p-3 sx:flex-col sx:gap-2 sx:items-stretch">
           <div>
             <label htmlFor="table-search" className="sr-only">
               Qidirish
@@ -122,14 +121,14 @@ function AttandanceTableComponent() {
               <input
                 type="text"
                 id="table-search-users"
-                className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg md:w-80 sm:w-44 sx:w-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Izlash..."
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center md:gap-4 sm:gap-2 sx:justify-between">
             <div className="py-1.5 rounded-md shadow-sm border px-2 bg-custom-green">
               <p className="text-white">Kelgan</p>
             </div>
@@ -143,14 +142,15 @@ function AttandanceTableComponent() {
           <select
             id="gender"
             name="gender"
-            className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500" >
+            className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500"
+          >
             <option value="teacher">O'qtuvchilar</option>
             <option value="student">O'quvchilar</option>
             <option value="employer">Xodimlar</option>
           </select>
 
           <div>
-            <Addattandance/>
+            <Addattandance />
           </div>
         </div>
         {/* {status === "loading" ? (

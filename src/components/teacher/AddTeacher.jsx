@@ -8,6 +8,7 @@ import {
   useCreateTeacherMutation,
   useGetTeachersQuery,
 } from "../../redux/slice/teachers/TeachersSlice";
+import { useGetSciencesQuery } from "../../redux/slice/sciences/SciencesSlice";
 import { toast } from "react-toastify";
 import CustomInput from "react-phone-number-input/input";
 import { useEffect } from "react";
@@ -22,7 +23,7 @@ const INITIAL_STATE = {
   last_name: "",
   middle_name: "",
   id_card: "",
-  sallery_type: "FIXED",
+  salary_type: "FIXED",
   sallery: 0,
   date_of_employment: "",
   gender: "MALE",
@@ -45,6 +46,7 @@ export default function AddTeacher() {
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
   const [createTeacher, { isLoading, isSuccess }] = useCreateTeacherMutation();
   const { data } = useGetTeachersQuery();
+  const { data: science } = useGetSciencesQuery();
   const [error, setError] = useState({ sallery: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -187,7 +189,7 @@ export default function AddTeacher() {
           loader={isLoading}
           isDisabled={isDisabled}
         >
-          <div className="grid grid-rows-6 grid-cols-4 gap-2">
+          <div className="grid grid-rows-6 md:grid-cols-4 sm:grid-cols-2 sx:grid-cols-1 gap-2">
             <InputField
               label="Ism"
               id="first-name"
@@ -379,15 +381,15 @@ export default function AddTeacher() {
             </div>
             <div className="col-span-1 row-span-1">
               <label
-                htmlFor="sallery_type"
+                htmlFor="salary_type"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
                 Oylik Turi
               </label>
               <div className="mt-2">
                 <select
-                  id="sallery_type"
-                  name="sallery_type"
+                  id="salary_type"
+                  name="salary_type"
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
@@ -430,9 +432,11 @@ export default function AddTeacher() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value="0">Hech qanday</option>
-                  <option value="1">Ona tili</option>
-                  <option value="2">Ingiliz tili</option>
-                  <option value="3">Rus tili</option>
+                  {science.map((e) => (
+                    <option key={e.id} value={e.id}>
+                      {e.title}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

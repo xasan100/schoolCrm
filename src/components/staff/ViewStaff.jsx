@@ -3,7 +3,7 @@ import Modal from "../../generic/Modal";
 import { AiOutlineEye } from "react-icons/ai";
 import { FaUserTie } from "react-icons/fa";
 
-export default function View({ object }) {
+export default function ViewStaff({ object }) {
   const [open, setOpen] = useState(false);
   const onClose = () => setOpen(!open);
   return (
@@ -18,7 +18,7 @@ export default function View({ object }) {
       </button>
       {open && (
         <Modal closeModal={onClose} actionType="view">
-          <div className="w-[50vw] p-4">
+          <div className="w-[50vw] sx:w-[80vw] p-4">
             <div className="flex w-full h-full md:items-stretch md:flex-row sm:flex-col sm:items-center sx:flex-col">
               <div className="md:w-1/3 sm:w-full sx:w-full p-2 h-full">
                 {/* Left column for avatar, etc. */}
@@ -50,25 +50,7 @@ export default function View({ object }) {
                     <strong>Foydalanuvchi nomi:</strong> {object.user.username}
                   </p>
                   <p>
-                    <strong>Ismi:</strong> {object.first_name}
-                  </p>
-                  <p>
-                    <strong>Familiyasi:</strong> {object.last_name}
-                  </p>
-                  <p>
-                    <strong>Jinsi:</strong> {object.gender}
-                  </p>
-                  <p>
-                    <strong>Manzili:</strong> {object.address}
-                  </p>
-                  <p>
-                    <strong>Tajribasi:</strong> {object.experience}
-                  </p>
-                  <p>
-                    <strong>Maosh:</strong> {object.sallery}
-                  </p>
-                  <p>
-                    <strong>Maosh turi:</strong> {object.sallery_type}
+                    <strong>Maosh:</strong> {object.salary}
                   </p>
                 </div>
               </div>

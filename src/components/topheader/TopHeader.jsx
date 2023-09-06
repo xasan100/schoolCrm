@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegBell } from "react-icons/fa";
 
 export default function TopHeader() {
   const [day, setDay] = useState(true);
@@ -15,7 +15,7 @@ export default function TopHeader() {
           {day ? <BsSun /> : <BsMoon />}
         </span>
         <span className="hover:bg-gray-200 p-2 rounded-full text-3xl cursor-pointer select-none delay-150">
-          <FaRegUserCircle />
+          <FaRegBell />
         </span>
       </div>
     </div>

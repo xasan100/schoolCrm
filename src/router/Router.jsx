@@ -11,13 +11,22 @@ export default function Router() {
       <Routes>
         <Route path="/login" element={<Sigin />} />
         <Route element={<Layout />}>
-          {menuItems?.map(({ path, element, id }) => (
-            <Route key={id} path={path} element={element} />
-          ))}
+          {menuItems
+            ?.flatMap((menu) => [
+              { id: menu.id, path: menu.path, element: menu.element },
+              ...(menu.submenu?.map((sub) => ({
+                id: sub.id,
+                path: sub.path,
+                element: sub.element,
+              })) || []),
+            ])
+            .map((item) => (
+              <Route key={item.id} path={item.path} element={item.element} />
+            ))}
         </Route>
         {/* Redirection */}
         {/* 404 Route */}
-        <Route path="*" element={<Error/>} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );

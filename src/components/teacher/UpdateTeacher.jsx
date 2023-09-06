@@ -99,7 +99,8 @@ export default function UpdateTeacher({ object }) {
     try {
       setHasSubmitted(true);
       await updateTeacher(formData);
-      setInputValue();
+      setInputValue("");
+      setHasSubmitted(false);
     } catch (error) {
       toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
     }
@@ -120,7 +121,7 @@ export default function UpdateTeacher({ object }) {
       </button>
       {opne && (
         <Modal closeModal={onClose} addFunc={handleSubmit} loader={isLoading}>
-          <div className="grid grid-rows-6 grid-cols-4 gap-2">
+          <div className="grid grid-rows-6 md:grid-cols-4 sm:grid-cols-2 sx:grid-cols-1 gap-2">
             <InputField
               label="Ism"
               id="first-name"

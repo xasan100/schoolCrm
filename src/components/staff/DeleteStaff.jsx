@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import Modal from "../../generic/Modal";
-import { useDeleteTeacherMutation } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
+import { useDeleteStaffMutation } from "../../redux/slice/staff/StaffSlice";
 
-export default function DeleteTeacher({ ID }) {
+export default function DeleteStaff({ ID }) {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(!isOpen);
-  const [deleteTeacher, { isLoading }] = useDeleteTeacherMutation();
+  const [deleteStaff, { isLoading }] = useDeleteStaffMutation();
   const handleDelete = async (id) => {
     try {
-      await deleteTeacher({ id });
-      toast.success("O'qituvchi o'chirildi!");
+      await deleteStaff({ id });
+      toast.success("Xodim o'chirildi!");
       setIsOpen(false);
     } catch (err) {
-      toast.error("O'qituvchi o'chirishda xatolik:", err);
+      toast.error("Xodim o'chirishda xatolik:", err);
     }
   };
   return (

@@ -71,7 +71,7 @@ export const StudentTable = () => {
 
 
   return (
-    <div className='flex items-center justify-center w-[100] h-[90vh]    g-[10px]'>
+    <div className='flex items-center justify-center col-span-12 h-[90vh]    g-[10px]'>
       <div className="relative  overflow-x-auto shadow-md sl:rounded-lg w-[100%]  p-[15px]" >
         <div className="flex items-center justify-between  bg-white dark:bg-gray-800 ">
           <label htmlFor="table-search" className="sr-only">Qidirish</label>
