@@ -7,7 +7,7 @@ import { permissionGetAdmin } from '../../../redux/slice/admins/permission/permi
 import { AiOutlineEye, AiOutlineUserAdd } from "react-icons/ai";
 import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
-import { adminCustomGetAxios } from '../../../redux/slice/admins/adminTypeCustom/index.js';
+// import { adminCustomGetAxios } from '../../../redux/slice/admins/adminTypeCustom/index.js';
 import Modal from '../../../generic/Modal.jsx';
 import { AdminDeletId } from '../../../redux/slice/admins/adminaDelete/index.js';
 
@@ -39,22 +39,22 @@ export const LoginAdminAdd = () => {
     });
 
     // useSelector
-    const adminTypeGet = useSelector((store) => store.adminTypeGet)
-    const adminCustomGet = useSelector((store) => store.adminCustomGet)
+    // const adminTypeGet = useSelector((store) => store.adminTypeGet)
+    // const adminCustomGet = useSelector((store) => store.adminCustomGet)
 
-    const { data, status } = useSelector((store) => store.permissionGet)
+    // const { data, status } = useSelector((store) => store.permissionGet)
 
     // useEffect
-    useEffect(() => {
-        if (isOpen.open === true) dispatch(adminTypeGetAxsios())
-        if (adminCustomGet.data) {
-            SetadminData(adminCustomGet.data)
-        }
-    }, [isOpen.open])
+    // useEffect(() => {
+    //     if (isOpen.open === true) dispatch(adminTypeGetAxsios())
+    //     if (adminCustomGet.data) {
+    //         SetadminData(adminCustomGet.data)
+    //     }
+    // }, [isOpen.open])
 
-    useEffect(() => {
-        dispatch(adminCustomGetAxios())
-    }, [])
+    // useEffect(() => {
+    //     dispatch(adminCustomGetAxios())
+    // }, [])
 
     // funcksiya
     const openModal = () => setIsOpen({ ...isOpen, open: true });
@@ -171,11 +171,11 @@ export const LoginAdminAdd = () => {
 
                                         <div>
                                             <select onChange={(e) => Funk(e)} id="countries" className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                {adminTypeGet?.data?.map((val, index) => <option key={index}> {val?.title} {val.id}</option>)}
+                                                {/* {.data?.map((val, index) => <option key={index}> {val?.title} {val.id}</option>)} */}
                                             </select>
                                         </div>
 
-                                        {inputValue.typeAddmens === 'ADMIN' ? data?.map((val, index) => {
+                                        {/* {inputValue.typeAddmens === 'ADMIN' ? data?.map((val, index) => {
                                             return (
                                                 <div key={index} className='flex justify-between'>
                                                     <h1>{val?.title}</h1>
@@ -186,7 +186,7 @@ export const LoginAdminAdd = () => {
 
                                                 </div>
                                             )
-                                        }) : ''}
+                                        }) : ''} */}
 
                                         <button onClick={addFuck} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                             Yuborish
@@ -199,7 +199,7 @@ export const LoginAdminAdd = () => {
 
                 </div>
 
-                <ul className="divide-y overflow-y-auto h-[77vh] divide-gray-100 col-span-12 border rounded-lg overflow-hidden">
+                {/* <ul className="divide-y overflow-y-auto h-[77vh] divide-gray-100 col-span-12 border rounded-lg overflow-hidden">
                     {adminData?.map((person, index) => (
                         <li
                             key={person?.email}
@@ -262,7 +262,7 @@ export const LoginAdminAdd = () => {
                             </div>
                         </li>
                     ))}
-                </ul>
+                </ul> */}
             </div>
         </div>
 

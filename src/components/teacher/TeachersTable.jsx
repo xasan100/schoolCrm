@@ -65,6 +65,8 @@ function TeachersTableComponent() {
     setSearchTerm(e.target.value);
   };
 
+
+
   return (
     <div className="h-full gap-3 col-span-12 sx:overflow-x-auto">
       <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start overflow-hidden  sx:w-max">
