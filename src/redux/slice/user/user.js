@@ -1,22 +1,22 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { api } from "../../../api/Api.jsx"
 
-export const StudentsCrud = createApi({
-    reducerPath: 'StudentData',
+export const UserCrud = createApi({
+    reducerPath: 'UserCrud',
     baseQuery: api,
     tagTypes: ['Students'],
     endpoints: (build) => ({
-        getStudents: build.query({
-            query: () => "student/",
-            providesTags: ['Students'],
+        getUser: build.query({
+            query: () => "custom-admin/",
+            providesTags: ['UserCrud'],
         }),
-        createStudent: build.mutation({
+        createUser: build.mutation({
             query: (body) => ({
                 url: 'student/',
                 method: 'POST',
                 body,
             }),
-            invalidatesTags: ["Students"]
+            invalidatesTags: ["UserCrud"]
         }),
         transformResponse: (response, meta) => {
             return {
@@ -24,31 +24,31 @@ export const StudentsCrud = createApi({
                 status: meta.status, // Javob statusini qaytaradi.
             };
         },
-        invalidatesTags: ["Students"],
+        invalidatesTags: ["UserCrud"],
 
-        updateStudents: build.mutation({
+        updateUser: build.mutation({
             query: (body) => ({
-                url: `student/${body.get("id")}/`,
+                url: `custom-admin/${body.get("id")}/`,
                 method: "PATCH",
                 body,
             }),
-            invalidatesTags: ["Students"],
+            invalidatesTags: ["UserCrud"],
         }),
-        deleteStudents: build.mutation({
+        deleteUser: build.mutation({
             query: (body) => ({
-                url: `student/${body.id}`,
+                url: `custom-admin/${body.id}`,
                 method: 'DELETE',
                 body,
             }),
-            invalidatesTags: ["Students"]
+            invalidatesTags: ["UserCrud"]
         }),
     }),
 
 });
 
 export const {
-    useCreateStudentMutation,
-    useGetStudentsQuery,
-    useUpdateStudentsMutation,
-    useDeleteStudentsMutation,
-} = StudentsCrud
+    useGetUserQuery,
+    useCreateUserMutaion,
+    useUpdateUserMutaion,
+    useDeleteUserMutaion,
+} = UserCrud

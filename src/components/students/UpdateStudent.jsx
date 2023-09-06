@@ -1,79 +1,72 @@
 import React, { useState } from "react";
-import { AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
+import { toast } from "react-toastify";
 import Modal from "../../generic/Modal";
+import { AiOutlineFileAdd } from "react-icons/ai";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
-import CustomInput from 'react-phone-number-input/input'
-import { useCreateStudentMutation } from "../../redux/slice/students/students.js";
-import { toast } from "react-toastify";
+import { LuEdit2 } from "react-icons/lu";
+import CustomInput from "react-phone-number-input/input";
+import { useGetStudentsQuery, useUpdateStudentsMutation } from "../../redux/slice/students/students.js";
 
-export function AddStudent() {
-  const [open, setOpen] = useState(false); // Fixed the typo here
-  const [createStudent, { isLoading, isSuccess }] = useCreateStudentMutation();
+export default function UpdateStudent({ object }) {
+  const [opne, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState(object);
+  const [updateTeacher, { isLoading, isSuccess }] = useUpdateStudentsMutation();
 
-  const [inputValue, setInputValue] = useState({
-    username: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    idCard: '',
-    date: '',
-    class_of_school: '',
-    id_card_parents: '',
-    picture_3x4: '',
-    school_tab: '',
-    img: '',
-    deleteId: '',
-  });
 
-  const addData = async () => {
+  const updateUser = () => {
+    setInputValue({
+      ...inputValue,
+      user: {
+        ...inputValue.user,
+        username: "newUsername"
+      }
+    });
+  }
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
-    formData.append('user.username', inputValue.username);
+    formData.append('user.username', inputValue.user.username);
     formData.append('user.password', inputValue.password);
-    formData.append('first_name', inputValue.firstName);
-    formData.append('last_name', inputValue.lastName);
-    formData.append('middle_name', inputValue.middleName);
-    formData.append('id_card', inputValue.idCard);
-    formData.append('date_of_admission', inputValue.date);
+    formData.append('first_name', inputValue.first_name);
+    formData.append('last_name', inputValue.last_name);
+    formData.append('middle_name', inputValue.middle_name);
+    formData.append('id_card', inputValue.id_card);
+    formData.append('date_of_admission', inputValue.date_of_admission);
     formData.append('class', inputValue.class_of_school);
     formData.append('image', inputValue.img);
     formData.append('id_card_parents', inputValue.id_card_parents);
     formData.append('school_tab', inputValue.school_tab);
     formData.append('picture_3x4', inputValue.picture_3x4);
+    formData.append('id', inputValue.id);
 
     try {
-      await createStudent(formData).unwrap();  
-      toast.success(`O'quvchi ${inputValue.firstName} qo'shildi`);
-   
-      setOpen(false);
+      await updateTeacher(formData);
     } catch (error) {
-      toast.error("O'qituvchi qo'shilmadi");
-      console.error('Failed to add student:', error);
+      toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
     }
-  }
+  };
   const onClose = () => {
     setOpen(false);
   };
 
   return (
-    <div className="col-span-4">
+    <div>
       <button
         onClick={() => setOpen(true)}
         type="button"
-        className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-400"
       >
-        <AiOutlineUserAdd
-          className="-ml-0.5 mr-1.5 text-xl"
-          aria-hidden="true"
-        />
-        O'qituvchi Qo'shish
+        <LuEdit2 className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+        Taxrirlash
       </button>
-      {open && (
+      {opne && (
         <Modal
           loader={isLoading}
-          closeModal={onClose} addFunc={addData}>
+          closeModal={onClose} addFunc={handleSubmit}>
           <div className="grid grid-rows-6 grid-cols-4 gap-2">
             <div className="col-span-1 row-span-1">
               <label
@@ -87,8 +80,8 @@ export function AddStudent() {
                   placeholder='Telfon raqamingiz kiriting qayta takrorlanmagan'
                   maxLength={17}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) => setInputValue({ ...inputValue, username: e })}
-                  value={inputValue.username}
+                  onChange={(e) => setInputValue({ ...inputValue, user: { ...inputValue.user, username: e } })}
+                  value={inputValue.user.username}
                 />
               </div>
             </div>
@@ -102,12 +95,15 @@ export function AddStudent() {
               <div className="mt-2">
                 <input
                   id="last-name"
-                  name="last_name"
+                  name="user.password"
                   type="text"
-                  autoComplete="last-name"
+                  autoComplete="password"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, password: e.target.value })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={inputValue.password}
+                  onChange={(e) => setInputValue({ ...inputValue, password: e.target.value })}
+                // handleChange={handleChange}
+
                 />
               </div>
             </div>
@@ -120,12 +116,13 @@ export function AddStudent() {
               </label>
               <div className="mt-2">
                 <input
-                  id="middle-name"
-                  name="middle_name"
+                  value={inputValue.date_of_admission}
+                  id="work-date"
+                  name="date_of_employment"
                   type="date"
-                  autoComplete="middle-name"
+                  autoComplete="work-date"
                   required
-                  onChange={(e) => setInputValue({ ...inputValue, date: e.target.value })}
+                  // onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -139,12 +136,13 @@ export function AddStudent() {
               </label>
               <div className="mt-2">
                 <input
-                  id="username"
-                  name="user.username"
+                  id="first-name"
+                  name="first_name"
                   type="text"
-                  autoComplete="username"
-                  required
-                  onChange={(e) => setInputValue({ ...inputValue, firstName: e.target.value })}
+                  value={inputValue.first_name}
+                  autoComplete="first_name"
+                  // handleChange={handleChange}
+                  onChange={(e) => setInputValue({ ...inputValue, first_name: e.target.value })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -159,11 +157,13 @@ export function AddStudent() {
               <div className="mt-2">
                 <input
                   id="password"
-                  name="user.password"
+                  label="Familiya"
+                  name="last_name"
                   type="text"
-                  autoComplete="password"
-                  required
-                  onChange={(e) => setInputValue({ ...inputValue, lastName: e.target.value })}
+                  value={inputValue.last_name}
+                  onChange={(e) => setInputValue({ ...inputValue, last_name: e.target.value })}
+                  autoComplete="last-name"
+                  // handleChange={handleChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -177,12 +177,14 @@ export function AddStudent() {
               </label>
               <div className="mt-2">
                 <input
-                  id="salary"
-                  name="sallery"
+                  label="Otasining Ismi"
+                  id="middle-name"
+                  name="middle_name"
                   type="text"
-                  autoComplete="salary"
-                  required
-                  onChange={(e) => setInputValue({ ...inputValue, middleName: e.target.value })}
+                  value={inputValue.middle_name}
+                  autoComplete="middle-name"
+                  // handleChange={handleChange}
+                  onChange={(e) => setInputValue({ ...inputValue, middle_name: e.target.value })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -195,6 +197,7 @@ export function AddStudent() {
               iconTitle={"Rasmni Yuklash"}
               fileType={"PNG, JPG, JPEG 5mb gacha"}
               LabelFor={"img"}
+              onChange={(e) => setInputValue({ ...inputValue, img: e.target.value })}
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
@@ -204,6 +207,8 @@ export function AddStudent() {
               iconTitle={"Rasmni Yuklash"}
               fileType={"PNG, JPG, JPEG 5mb gacha"}
               LabelFor={"picture_3x4"}
+              onChange={(e) => setInputValue({ ...inputValue, picture_3x4: e.target.value })}
+              value={inputValue.picture_3x4}
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
@@ -211,15 +216,20 @@ export function AddStudent() {
               title={"Id card parents"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
               LabelFor={"id_card_parents"}
+              onChange={(e) => setInputValue({ ...inputValue, id_card_parents: e.target.value })}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              value={inputValue.id_card_parents}
+
             />
             <FileUpload
               title={"school_tab"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
               LabelFor={"school_tab"}
+              onChange={(e) => setInputValue({ ...inputValue, school_tab: e.target.value })}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              value={inputValue.school_tab}
             />
             <div className="col-span-1 row-span-1">
               <label
@@ -230,12 +240,13 @@ export function AddStudent() {
               </label>
               <div className="mt-2">
                 <input
-                  id="description"
-                  name="description"
+                  id="id_card"
+                  name="id_card"
                   type="text"
-                  autoComplete="description"
-                  required
-                  onChange={(e) => setInputValue({ ...inputValue, idCard: e.target.value })}
+                  value={inputValue.id_card}
+                  onChange={(e) => setInputValue({ ...inputValue, id_card: e.target.value })}
+                  autoComplete="id_card"
+                  // handleChange={handleChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -247,7 +258,12 @@ export function AddStudent() {
               <label htmlFor="">class of school</label>
               <select
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={(e) => setInputValue({ ...inputValue, class_of_school: e.target.value })} >
+                defaultValue={inputValue.scince}
+                id="science"
+                name="science"
+                value={inputValue.class_of_school}
+                onChange={(e) => setInputValue({ ...inputValue, class_of_school: e.target.value })}
+              >
                 <option value="1">1</option>
                 <option value="1">2</option>
                 <option value="1">3</option>
@@ -262,5 +278,3 @@ export function AddStudent() {
     </div>
   );
 }
-
-export default AddStudent

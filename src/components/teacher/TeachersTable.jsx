@@ -9,7 +9,7 @@ import { FaUserTie } from "react-icons/fa";
 import View from "./View";
 
 const TeacherItem = ({ teacher, index }) => {
-  // JSX for each teacher
+
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">

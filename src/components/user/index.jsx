@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminAddPost } from '../../../redux/slice/admins/adminaTypePost/index.js';
-import { adminTypeGetAxsios } from '../../../redux/slice/admins/adminTypeSelectGet/index.js';
+import { AdminAddPost } from '../../../redux/slice/user/adminaTypePost/index.js';
+import { adminTypeGetAxsios } from '../../../redux/slice/user/adminTypeSelectGet/index.js';
 import CustomInput from 'react-phone-number-input/input'
-import { permissionGetAdmin } from '../../../redux/slice/admins/permission/permissionGet/index.jsx';
+import { permissionGetAdmin } from '../../../redux/slice/user/permission/permissionGet/index.jsx';
 import { AiOutlineEye, AiOutlineUserAdd } from "react-icons/ai";
 import { LuEdit2 } from "react-icons/lu";
 import { BsTrash } from "react-icons/bs";
 // import { adminCustomGetAxios } from '../../../redux/slice/admins/adminTypeCustom/index.js';
 import Modal from '../../../generic/Modal.jsx';
-import { AdminDeletId } from '../../../redux/slice/admins/adminaDelete/index.js';
+import { AdminDeletId } from '../../../redux/slice/user/adminaDelete/index.js';
 
 
 

@@ -84,24 +84,24 @@ const menuItems = [
     element: <Users />,
     icon: <LiaUsersCogSolid />,
   },
-  // {
-  //   id: 8,
-  //   title: "Kirim",
-  //   path: "/income",
-  //   private: true,
-  //   hidden: true,
-  //   element: "SD",
-  //   icon: <MdOutlineAttachMoney />,
-  // },
-  // {
-  //   id: 9,
-  //   title: "Chiqim",
-  //   path: "/expense",
-  //   private: true,
-  //   hidden: true,
-  //   element: "SD",
-  //   icon: <MdOutlineMoneyOffCsred />,
-  // },
+  {
+    id: 8,
+    title: "Kirim",
+    path: "/income",
+    private: true,
+    hidden: true,
+    element: "SD",
+    icon: <MdOutlineAttachMoney />,
+  },
+  {
+    id: 9,
+    title: "Chiqim",
+    path: "/expense",
+    private: true,
+    hidden: true,
+    element: "SD",
+    icon: <MdOutlineMoneyOffCsred />,
+  },
 ];
 
 
