@@ -55,21 +55,19 @@ export default function View({ object }) {
                   <p>
                     <strong>Familiyasi:</strong> {object.last_name}
                   </p>
+
                   <p>
-                    <strong>Jinsi:</strong> {object.gender}
+                    <strong>Maosh:</strong> {object.salary}
                   </p>
-                  <p>
-                    <strong>Manzili:</strong> {object.address}
-                  </p>
-                  <p>
-                    <strong>Tajribasi:</strong> {object.experience}
-                  </p>
-                  <p>
-                    <strong>Maosh:</strong> {object.sallery}
-                  </p>
-                  <p>
-                    <strong>Maosh turi:</strong> {object.sallery_type}
-                  </p>
+                  {
+                    object.permissions_dict?.map((val, index) => {
+                      return (
+                        <p>
+                          <strong>Imkonyatlari:</strong> {val.title}
+                        </p>
+                      )
+                    })
+                  }
                 </div>
               </div>
             </div>

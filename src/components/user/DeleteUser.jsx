@@ -3,15 +3,16 @@ import { BsTrash } from "react-icons/bs";
 import Modal from "../../generic/Modal";
 import { useDeleteTeacherMutation } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
+import { useDeleteUserMutation } from "../../redux/slice/user/user.js";
 
-export default function DeleteTeacher({ ID }) {
+export default function DeleteUser({ ID ,}) {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(!isOpen);
-  const [deleteTeacher, { isLoading }] = useDeleteTeacherMutation();
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
   const handleDelete = async (id) => {
     try {
-      await deleteTeacher({ id });
-      toast.success("O'qituvchi o'chirildi!");
+      await deleteUser({ id });
+      toast.success(`Foydalanuvchi o'chirildi!`);
       setIsOpen(false);
     } catch (err) {
       toast.error("O'qituvchi o'chirishda xatolik:", err);

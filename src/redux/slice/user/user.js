@@ -4,7 +4,7 @@ import { api } from "../../../api/Api.jsx"
 export const UserCrud = createApi({
     reducerPath: 'UserCrud',
     baseQuery: api,
-    tagTypes: ['Students'],
+    tagTypes: ['UserCrud'],
     endpoints: (build) => ({
         getUser: build.query({
             query: () => "custom-admin/",
@@ -12,24 +12,16 @@ export const UserCrud = createApi({
         }),
         createUser: build.mutation({
             query: (body) => ({
-                url: 'student/',
+                url: 'custom-admin/',
                 method: 'POST',
                 body,
             }),
             invalidatesTags: ["UserCrud"]
         }),
-        transformResponse: (response, meta) => {
-            return {
-                data: response, // Buni qo'llash uchun, natijadagi ma'lumotni qaytaradi.
-                status: meta.status, // Javob statusini qaytaradi.
-            };
-        },
-        invalidatesTags: ["UserCrud"],
-
         updateUser: build.mutation({
             query: (body) => ({
                 url: `custom-admin/${body.get("id")}/`,
-                method: "PATCH",
+                method: "PUT",
                 body,
             }),
             invalidatesTags: ["UserCrud"],
@@ -48,7 +40,7 @@ export const UserCrud = createApi({
 
 export const {
     useGetUserQuery,
-    useCreateUserMutaion,
-    useUpdateUserMutaion,
-    useDeleteUserMutaion,
+    useCreateUserMutation,
+    useUpdateUserMutation,
+    useDeleteUserMutation,
 } = UserCrud

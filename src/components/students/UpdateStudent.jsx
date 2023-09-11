@@ -13,7 +13,6 @@ export default function UpdateStudent({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
   const [updateTeacher, { isLoading, isSuccess }] = useUpdateStudentsMutation();
-  console.log(inputValue,'object');
 
   const updateUser = () => {
     setInputValue({
@@ -46,7 +45,6 @@ export default function UpdateStudent({ object }) {
     try {
       await updateTeacher(formData);
       toast.success(`O'quvchi ${inputValue.first_name} O'zgartirildi`);
-
       setOpen(false);
     } catch (error) {
       toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);

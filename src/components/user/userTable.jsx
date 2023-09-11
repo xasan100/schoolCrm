@@ -1,15 +1,14 @@
 import React, { useState, useMemo } from "react";
-// import AddTeacher from "./AddTeacher";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-// import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
-// import DeleteTeacher from "./DeleteTeacher";
-// import UpdateTeacher from "./UpdateUser";
+import DeleteTeacher from "./DeleteUser.jsx";
 import { FaUserTie } from "react-icons/fa";
-import { useGetUserQuery } from "../../redux/slice/user/user.js";
-// import View from "./View";
+import { useCreateUserMutation, useGetUserQuery } from "../../redux/slice/user/user.js";
 
 import AddUser from "./AddUser.jsx"
+import UpdateUserCom from "./UpdateUsers.jsx";
+import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
+import View from "./View.jsx";
 const TeacherItem = ({ teacher, index }) => {
 
   return (
@@ -37,9 +36,9 @@ const TeacherItem = ({ teacher, index }) => {
         </div>
       </div>
       <div className="flex gap-2 items-center">
-        {/* <View object={teacher} />
-        <UpdateTeacher object={teacher} />
-        <DeleteTeacher ID={teacher.id} /> */}
+        <View object={teacher} />
+        <UpdateUserCom object={teacher} />
+        <DeleteTeacher ID={teacher.id} />
       </div>
     </li>
   );
@@ -48,12 +47,15 @@ const TeacherItem = ({ teacher, index }) => {
 function UserTableCom() {
   const { data, isLoading } = useGetUserQuery();
 
+  const [createUser, { isLoading: Lo, isSuccess }] = useCreateUserMutation();
+  const { data: permitiondata } = useGetPermitionQuery()
+
 
   const [searchTerm, setSearchTerm] = useState("");
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
-      return data.filter(
+      return data?.filter(
         (teacher) =>
           teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -106,7 +108,7 @@ function UserTableCom() {
               />
             </div>
           </div>
-          <AddUser/>
+          <AddUser />
         </div>
         {isLoading ? (
           <Loader

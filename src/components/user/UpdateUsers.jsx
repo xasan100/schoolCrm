@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { AiOutlineUserAdd } from "react-icons/ai";
-import Modal from "../../generic/Modal";
-import { useCreateStudentMutation } from "../../redux/slice/students/students.js";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { useGetTypeQuery } from "../../redux/slice/user/typeAdmin.js";
-import Loader from "../Loader/Loader.jsx";
-import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
+import Modal from "../../generic/Modal";
+import { LuEdit2 } from "react-icons/lu";
 import CustomInput from "react-phone-number-input/input";
-import { useCreateUserMutation } from "../../redux/slice/user/user.js";
+import { useUpdateUserMutation } from "../../redux/slice/user/user.js";
+import Loader from "../Loader/Loader.jsx";
+import { useGetTypeQuery } from "../../redux/slice/user/typeAdmin.js";
+import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
+import { useEffect } from "react";
 
-export function AddStudent() {
-  // state
-  const [open, setOpen] = useState(false);
+export default function UpdateStudent({ object }) {
+  const [opne, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState(object);
   const [checkedIds, setCheckedIds] = useState([]);
+  const [updateTeacher, { isLoading, isSuccess }] = useUpdateUserMutation();
+  const { data } = useGetTypeQuery()
+  const { data: permitiondata } = useGetPermitionQuery()
   const [types, setTypes] = useState()
-  const [inputValue, setInputValue] = useState({
-    types: '',
-    username: '',
-    password: '',
-    first_name: '',
-    last_name: '',
-    salary: null,
 
-  },
-  );
+  const updateUser = () => {
+    setInputValue({
+      ...inputValue,
+      user: {
+        ...inputValue.user,
+        username: "newUsername"
+      }
+    });
+  }
+
+
 
   useEffect(() => {
     if (types == 4) setTypes('Admin')
 
   }, [types])
-  // get
-  const { data } = useGetTypeQuery()
-  const [createUser, { isLoading, isSuccess }] = useCreateUserMutation();
-  const { data: permitiondata } = useGetPermitionQuery()
-
+  console.log(types, 'types');
   const handleCheckboxChange = (id, isChecked) => {
     if (isChecked) {
       setCheckedIds(prevIds => [...prevIds, id]);
@@ -41,16 +42,12 @@ export function AddStudent() {
       setCheckedIds(prevIds => prevIds.filter(prevId => prevId !== id));
     }
   };
-  console.log(types, 'typeId');
-
-  const addData = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('types', types === 'Admin' ? 4 : types);
+    formData.append('types', inputValue?.types);
     formData.append('user.username', inputValue?.username);
     formData.append('user.password', inputValue?.password);
-    formData.append('user.image', inputValue.img);
-
     formData.append('first_name', inputValue?.first_name);
     formData.append('last_name', inputValue?.last_name);
     formData.append('salary', inputValue?.salary);
@@ -63,7 +60,7 @@ export function AddStudent() {
       formData.append('permissions', []);
     }
     try {
-      await createUser(formData);
+      await updateTeacher(formData);
       toast.success(`O'quvchi ${inputValue?.first_name} O'zgartirildi`);
       setOpen(false);
     } catch (error) {
@@ -76,22 +73,19 @@ export function AddStudent() {
 
 
   return (
-    <div className="col-span-4">
+    <div>
       <button
         onClick={() => setOpen(true)}
         type="button"
-        className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-400"
       >
-        <AiOutlineUserAdd
-          className="-ml-0.5 mr-1.5 text-xl"
-          aria-hidden="true"
-        />
-        O'qituvchi Qo'shish
+        <LuEdit2 className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+        Taxrirlash
       </button>
-      {open && (
-        <Modal title={<h1>Admin Q'shshish</h1>}
+      {opne && (
+        <Modal
           loader={isLoading}
-          closeModal={onClose} addFunc={addData}>
+          closeModal={onClose} addFunc={handleSubmit}>
           <div className="grid  grid-cols-2    ">
             <div className="grid gap-5 grid-cols-3">
               <div className="grid gap-2">
@@ -106,6 +100,8 @@ export function AddStudent() {
                     {isLoading ? <Loader /> : data?.map((val) => (
                       <option
                         value={val.id}> {val.title}</option>
+
+
                     ))}
                   </select>
                 </div>
@@ -118,7 +114,7 @@ export function AddStudent() {
                     onChange={(e) =>
                       setInputValue({ ...inputValue, username: e })
                     }
-                    value={inputValue.username}
+                    value={inputValue?.user.username}
                   />
                 </div>
                 <div>
@@ -129,6 +125,8 @@ export function AddStudent() {
                     type="text"
                     autoComplete="password"
                     required
+                    value={inputValue?.user.password}
+
                     onChange={(e) =>
                       setInputValue({ ...inputValue, password: e.target.value })
                     }
@@ -146,6 +144,7 @@ export function AddStudent() {
                     type="text"
                     autoComplete="password"
                     required
+                    value={inputValue?.salary}
                     onChange={(e) =>
                       setInputValue({ ...inputValue, salary: e.target.value })
                     }
@@ -160,6 +159,7 @@ export function AddStudent() {
                     type="text"
                     autoComplete="password"
                     required
+                    value={inputValue?.first_name}
                     onChange={(e) =>
                       setInputValue({ ...inputValue, first_name: e.target.value })
                     }
@@ -173,6 +173,7 @@ export function AddStudent() {
                     name="user.password"
                     type="text"
                     autoComplete="password"
+                    value={inputValue?.last_name}
                     required
                     onChange={(e) =>
                       setInputValue({ ...inputValue, last_name: e.target.value })
@@ -185,7 +186,7 @@ export function AddStudent() {
             </div>
             <div className="grid gap-5 grid-cols-2">
               {
-                types === 'Admin' ? permitiondata?.map((val) => {
+                types == 'Admin' ? permitiondata?.map((val) => {
                   return (
                     <div className="flex items-center mb-4" key={val.id}>
                       <input
@@ -206,10 +207,7 @@ export function AddStudent() {
             </div>
           </div>
         </Modal>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 }
-
-export default AddStudent
