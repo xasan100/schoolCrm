@@ -16,6 +16,7 @@ import Sciences from "../pages/Sciences.jsx";
 import Staff from "../pages/Staff.jsx";
 import LessonTable from "../pages/LessonTable.jsx";
 import Rooms from "../pages/Rooms.jsx";
+import StudentsClass from "../pages/StudentsClas.jsx";
 
 const menuItems = [
   {
@@ -72,7 +73,7 @@ const menuItems = [
         path: "/classes",
         private: true,
         hidden: true,
-        element: "Class",
+        element: <StudentsClass />,
       },
       {
         id: 13,

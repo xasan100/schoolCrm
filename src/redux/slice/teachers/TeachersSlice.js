@@ -4,7 +4,7 @@ import { api } from "../../../api/Api";
 export const TeachersCrud = createApi({
   reducerPath: "TeachersData",
   baseQuery: api,
-  tagTypes: ["Staff"],
+  tagTypes: ["Teachers"],
   endpoints: (build) => ({
     getTeachers: build.query({
       query: () => "teachers",
