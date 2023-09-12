@@ -63,12 +63,7 @@ export function SidebarItem({
         )}
       </div>
       {openDropdown === link.id && (
-        <ul
-          className="p-2 flex flex-col list-none bg-white transition-all duration-200 ease-in-out overflow-hidden rounded-md"
-          style={{
-            maxHeight: openDropdown === link.id ? "100%" : "0px",
-          }}
-        >
+        <ul className="p-2 flex flex-col list-none bg-white transition-all duration-500  ease-in-out overflow-hidden rounded-md">
           {link.submenu.map((sub) => (
             <li
               key={sub.id}
@@ -118,7 +113,7 @@ export default function SecondSidebar() {
   return (
     <aside className="h-screen">
       <nav className="h-full flex flex-col justify-between bg-white border-r shadow-sm">
-        <div className="pb-2 flex justify-between items-center flex-col overflow-hidden">
+        <div className="pb-2 flex justify-between items-center flex-col overflow-hidden scrollbar-hide">
           <div className="p-3 flex justify-between items-center w-full">
             <img
               src={Logo}

@@ -1,7 +1,11 @@
 import { LuLayoutDashboard, LuLineChart } from "react-icons/lu";
 import { LiaChalkboardTeacherSolid, LiaUsersCogSolid } from "react-icons/lia";
 import { PiStudent, PiUsersThree, PiBooks } from "react-icons/pi";
-import { MdOutlineAttachMoney, MdOutlineMoneyOffCsred } from "react-icons/md";
+import {
+  MdOutlineAttachMoney,
+  MdOutlineMoneyOffCsred,
+  MdCastForEducation,
+} from "react-icons/md";
 import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
@@ -10,6 +14,8 @@ import Attendence from "../pages/Attendence.jsx";
 import Students from "../pages/Students.jsx";
 import Sciences from "../pages/Sciences.jsx";
 import Staff from "../pages/Staff.jsx";
+import LessonTable from "../pages/LessonTable.jsx";
+import Rooms from "../pages/Rooms.jsx";
 
 const menuItems = [
   {
@@ -32,7 +38,7 @@ const menuItems = [
         path: "/income",
         private: true,
         hidden: true,
-        element: "Kirim",
+        element: "kirim",
         icon: <MdOutlineAttachMoney />,
       },
       {
@@ -48,13 +54,44 @@ const menuItems = [
     icon: <LuLineChart />,
   },
   {
-    id: 2,
-    path: "/sciences",
-    title: "Fanlar",
+    id: 10,
+    title: "Ta'lim",
     private: true,
-    hidden: true,
-    element: <Sciences />,
-    icon: <PiBooks />,
+    submenu: [
+      {
+        id: 11,
+        path: "/sciences",
+        title: "Fanlar",
+        private: true,
+        hidden: true,
+        element: <Sciences />,
+      },
+      {
+        id: 12,
+        title: "Sinflar",
+        path: "/classes",
+        private: true,
+        hidden: true,
+        element: "Class",
+      },
+      {
+        id: 13,
+        title: "Xonalar",
+        path: "/rooms",
+        private: true,
+        hidden: true,
+        element: <Rooms />,
+      },
+      {
+        id: 14,
+        title: "Dars Jadvali",
+        path: "/lesson-table",
+        private: true,
+        hidden: true,
+        element: <LessonTable />,
+      },
+    ],
+    icon: <MdCastForEducation />,
   },
   {
     id: 3,

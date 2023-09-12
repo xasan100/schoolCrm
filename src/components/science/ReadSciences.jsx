@@ -32,7 +32,7 @@ export default function ReadSciences() {
             extraClass="col-span-12 flex justify-center items-center h-full"
           />
         ) : (
-          <div className="flex justify-start gap-2 h-[75vh] flex-col w-full  overflow-y-scroll">
+          <div className="flex justify-start gap-2 h-[75vh] sx:h-[52vh] flex-col w-full  overflow-y-scroll">
             {data.map((e, i) => (
               <div
                 key={e.id}
