@@ -36,17 +36,17 @@ export function AddStudent() {
     formData.append('user.last_name', inputValue.lastName);
     formData.append('user.middle_name', inputValue.middleName);
     formData.append('id_card', inputValue.idCard);
-    formData.append('user.date_of_admission', inputValue.date);
-    formData.append('user.class_of_school', inputValue.class_of_school);
+    formData.append('date_of_admission', inputValue.date);
+    formData.append('class_of_school', '');
     formData.append('user.image', inputValue.img);
-    formData.append('user.id_card_parents', inputValue.id_card_parents);
-    formData.append('user.school_tab', inputValue.school_tab);
-    formData.append('user.picture_3x4', inputValue.picture_3x4);
+    formData.append('id_card_parents', inputValue.id_card_parents);
+    formData.append('school_tab', inputValue.school_tab);
+    formData.append('picture_3x4', inputValue.picture_3x4);
 
     try {
-      await createStudent(formData).unwrap();  
+      await createStudent(formData).unwrap();
       toast.success(`O'quvchi ${inputValue.firstName} qo'shildi`);
-   
+
       setOpen(false);
     } catch (error) {
       toast.error("O'qituvchi qo'shilmadi");

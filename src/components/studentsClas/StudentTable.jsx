@@ -2,16 +2,10 @@ import React, { useState, useMemo } from "react";
 
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-// import UpdateTeacher from "./UpdateTeacher";
 import { FaUserTie } from "react-icons/fa";
-import DeleteStudent from "./DeleteStudents.jsx";
-import AddStudent, { AddStudentClas } from "./AddStudent.jsx"
-import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
-import View from "./View.jsx";
+import  { AddStudentClas } from "./AddStudent.jsx"
 import DeleteStudentClas from "./DeleteStudents.jsx";
-import UpdateStudentClas from "./UpdateStudent.jsx";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
-import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice.js";
 
 const TeacherItem = ({ teacher, index }) => {
 
@@ -32,16 +26,14 @@ const TeacherItem = ({ teacher, index }) => {
         )}
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {teacher?.first_name}
+            {teacher?.title}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {teacher?.last_name}
+            {teacher?.teacher}
           </p>
         </div>
       </div>
       <div className="flex gap-2 items-center">
-        <View object={teacher} />
-        <UpdateStudentClas object={teacher} />
         <DeleteStudentClas ID={teacher?.id} />
       </div>
     </li>
@@ -71,8 +63,6 @@ function StudentsClasCom() {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-
-
 
   return (
     <div className="h-ful gap-3 col-span-12">

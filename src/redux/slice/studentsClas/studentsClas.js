@@ -12,7 +12,7 @@ export const StudentsClasCrud = createApi({
         }),
         createStudentClass: build.mutation({
             query: (body) => ({
-                url: 'StudentsClas/',
+                url: 'classes/',
                 method: 'POST',
                 body,
             }),
@@ -34,7 +34,7 @@ export const StudentsClasCrud = createApi({
             }),
             invalidatesTags: ["StudentsClass"],
         }),
-        deleteStudents: build.mutation({
+        deleteStudentsClas: build.mutation({
             query: (body) => ({
                 url: `classes/${body.id}`,
                 method: 'DELETE',
@@ -50,5 +50,5 @@ export const {
     useGetStudentsClassQuery,
     useCreateStudentClassMutation,
     useUpdateStudentsClassMutation,
-    useDeleteStudentsMutation,
+     useDeleteStudentsClasMutation,
 } = StudentsClasCrud
