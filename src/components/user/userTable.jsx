@@ -57,9 +57,9 @@ function UserTableCom() {
     if (searchTerm) {
       return data?.filter(
         (teacher) =>
-          teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
+          teacher?.first_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+          teacher?.last_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+          teacher?.middle_name.toLowerCase().includes(searchTerm?.toLowerCase())
       );
     } else {
       return data;
@@ -115,9 +115,9 @@ function UserTableCom() {
             extraClass="col-span-12 flex justify-center"
             Color="#62B238"
           />
-        ) : filteredTeachers.length > 0 ? (
+        ) : filteredTeachers?.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
-            {filteredTeachers.map((teacher, index) => (
+            {filteredTeachers?.map((teacher, index) => (
               <TeacherItem teacher={teacher} index={index} key={teacher.id} />
             ))}
           </ul>

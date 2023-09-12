@@ -7,12 +7,12 @@ export const UserCrud = createApi({
     tagTypes: ['UserCrud'],
     endpoints: (build) => ({
         getUser: build.query({
-            query: () => "custom-admin/",
+            query: () => "admins/",
             providesTags: ['UserCrud'],
         }),
         createUser: build.mutation({
             query: (body) => ({
-                url: 'custom-admin/',
+                url: 'admins/',
                 method: 'POST',
                 body,
             }),
@@ -20,7 +20,7 @@ export const UserCrud = createApi({
         }),
         updateUser: build.mutation({
             query: (body) => ({
-                url: `custom-admin/${body.get("id")}/`,
+                url: `admins/${body.get("id")}/`,
                 method: "PUT",
                 body,
             }),
@@ -28,7 +28,7 @@ export const UserCrud = createApi({
         }),
         deleteUser: build.mutation({
             query: (body) => ({
-                url: `custom-admin/${body.id}`,
+                url: `admins/${body.id}`,
                 method: 'DELETE',
                 body,
             }),

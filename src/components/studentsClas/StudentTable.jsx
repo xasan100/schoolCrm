@@ -10,6 +10,8 @@ import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
 import View from "./View.jsx";
 import DeleteStudentClas from "./DeleteStudents.jsx";
 import UpdateStudentClas from "./UpdateStudent.jsx";
+import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
+import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice.js";
 
 const TeacherItem = ({ teacher, index }) => {
 
@@ -17,9 +19,9 @@ const TeacherItem = ({ teacher, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {teacher?.image && teacher.image !== "" ? (
+        {teacher?.image && teacher?.image !== "" ? (
           <img
-            src={teacher.image}
+            src={teacher?.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -40,7 +42,7 @@ const TeacherItem = ({ teacher, index }) => {
       <div className="flex gap-2 items-center">
         <View object={teacher} />
         <UpdateStudentClas object={teacher} />
-        <DeleteStudentClas ID={teacher.id} />
+        <DeleteStudentClas ID={teacher?.id} />
       </div>
     </li>
   );
@@ -48,16 +50,18 @@ const TeacherItem = ({ teacher, index }) => {
 
 function StudentsClasCom() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading } = useGetStudentsQuery();
+  const { data, isLoading } = useGetStudentsClassQuery();
+
+
 
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
-      return data.filter(
+      return data?.filter(
         (teacher) =>
-          teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
+          teacher?.first_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+          teacher?.last_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+          teacher?.middle_name.toLowerCase().includes(searchTerm?.toLowerCase())
       );
     } else {
       return data;
@@ -113,10 +117,10 @@ function StudentsClasCom() {
             extraClass="col-span-12 flex justify-center"
             Color="#62B238"
           />
-        ) : filteredTeachers.length > 0 ? (
+        ) : filteredTeachers?.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
-            {filteredTeachers.map((teacher, index) => (
-              <TeacherItem teacher={teacher} index={index} key={teacher.id} />
+            {filteredTeachers?.map((teacher, index) => (
+              <TeacherItem teacher={teacher} index={index} key={teacher?.id} />
             ))}
           </ul>
         ) : (

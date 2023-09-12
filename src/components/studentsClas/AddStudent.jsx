@@ -7,10 +7,13 @@ import FileUpload from "../FileUpload/FileUpload";
 import CustomInput from "react-phone-number-input/input";
 import { useCreateStudentMutation } from "../../redux/slice/students/students.js";
 import { toast } from "react-toastify";
+import { useCreateStudentClassMutation } from "../../redux/slice/studentsClas/studentsClas.js";
+import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice.js";
 
 export function AddStudentClas() {
   const [open, setOpen] = useState(false); // Fixed the typo here
-  const [createStudent, { isLoading, isSuccess }] = useCreateStudentMutation();
+  const [createStudent, { isLoading, isSuccess }] = useCreateStudentClassMutation();
+  const { data: teacherData, isLoading: isLoadingTeacher } = useGetTeachersQuery();
 
   const [inputValue, setInputValue] = useState({
     username: "",
@@ -99,16 +102,12 @@ export function AddStudentClas() {
               //   )
               // }
               >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
+                {teacherData?.map((val) => {
+                  return (
+                    <option value={val.user.id}>{val.user.name}</option>
+
+                  )
+                })}
               </select>
             </div>
             {/* table */}
@@ -141,7 +140,7 @@ export function AddStudentClas() {
                   {/* <UpdateStudentClas object={teacher} /> */}
                   {/* <DeleteStudentClas ID={teacher.id} /> */}
                 </div>
-              </li> 
+              </li>
             </div>
           </div>
         </Modal>

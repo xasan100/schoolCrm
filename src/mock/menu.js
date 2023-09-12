@@ -17,6 +17,8 @@ import Staff from "../pages/Staff.jsx";
 import LessonTable from "../pages/LessonTable.jsx";
 import Rooms from "../pages/Rooms.jsx";
 import StudentsClass from "../pages/StudentsClas.jsx";
+import { AiFillMessage } from "react-icons/ai";
+import ChatParentPage from "../pages/ChatParent.jsx";
 
 const menuItems = [
   {
@@ -138,6 +140,15 @@ const menuItems = [
     hidden: true,
     element: <Users />,
     icon: <LiaUsersCogSolid />,
+  },
+  {
+    id: 11,
+    title: "Xabarnomalar",
+    path: "/ChatParent",
+    private: true,
+    hidden: true,
+    element: <ChatParentPage/>,
+    icon: <AiFillMessage />,
   },
 ];
 

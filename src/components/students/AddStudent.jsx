@@ -35,7 +35,7 @@ export function AddStudent() {
     formData.append('user.first_name', inputValue.firstName);
     formData.append('user.last_name', inputValue.lastName);
     formData.append('user.middle_name', inputValue.middleName);
-    formData.append('user.id_card', inputValue.idCard);
+    formData.append('id_card', inputValue.idCard);
     formData.append('user.date_of_admission', inputValue.date);
     formData.append('user.class_of_school', inputValue.class_of_school);
     formData.append('user.image', inputValue.img);
