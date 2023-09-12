@@ -1,29 +1,33 @@
 import React, { useState, useMemo } from "react";
-import AddTeacher from "./AddTeacher";
+
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-import { LuEdit2 } from "react-icons/lu";
-import { BsTrash } from "react-icons/bs";
-import { AiOutlineEye } from "react-icons/ai";
-import {
-  useDeleteStudentsMutation,
-  useGetStudentsQuery,
-} from "../../redux/slice/teachers/TeachersSlice";
-import { toast } from "react-toastify";
-import { useGetAttendanceQuery } from "../../redux/slice/attandance/Attendance.js";
+// import UpdateTeacher from "./UpdateTeacher";
+import { FaUserTie } from "react-icons/fa";
+import DeleteStudent from "./DeleteStudents.jsx";
+import AddStudent, { AddStudentClas } from "./AddStudent.jsx"
+import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
+import View from "./View.jsx";
+import DeleteStudentClas from "./DeleteStudents.jsx";
+import UpdateStudentClas from "./UpdateStudent.jsx";
 
-const TeacherItem = ({ teacher, index, deleteTeacher }) => {
-  // JSX for each teacher
+const TeacherItem = ({ teacher, index }) => {
+
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-
-        <img
-          className="h-12 w-12 flex-none rounded-full border"
-          src={teacher?.image}
-          alt="teacher_image"
-        />
+        {teacher?.image && teacher.image !== "" ? (
+          <img
+            src={teacher.image}
+            alt="Teacher"
+            className="h-12 w-12 flex-none rounded-full border object-cover"
+          />
+        ) : (
+          <div className="w-12 h-12 rounded-full border bg-gray-200 flex justify-center items-center">
+            <FaUserTie className="text-3xl text-primary" />
+          </div>
+        )}
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
             {teacher?.first_name}
@@ -34,41 +38,18 @@ const TeacherItem = ({ teacher, index, deleteTeacher }) => {
         </div>
       </div>
       <div className="flex gap-2 items-center">
-        <button
-          type="button"
-          className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-        >
-          <AiOutlineEye className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-          Ko'rish
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-400"
-        >
-          <LuEdit2 className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-          Taxrirlash
-        </button>
-        <button
-          onClick={() => deleteTeacher(teacher.id)}
-          type="button"
-          className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          <BsTrash className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-          O'chirish
-        </button>
+        <View object={teacher} />
+        <UpdateStudentClas object={teacher} />
+        <DeleteStudentClas ID={teacher.id} />
       </div>
     </li>
   );
 };
 
-function TeachersTableComponent() {
-  // const TeachersData = useSelector((state) => state.teacherSlice);
-  // const status = useSelector((state) => state.teacherSlice.status);
-
-
+function StudentsClasCom() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsQuery();
-  const [deleteTeacher, { isSuccess }] = useDeleteStudentsMutation();
+
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
@@ -83,22 +64,15 @@ function TeachersTableComponent() {
     }
   }, [data, searchTerm]);
 
-  const handleDelete = async (teacherId) => {
-    try {
-      await deleteTeacher({ id: teacherId });
-      toast.success("Teacher deleted successfully!");
-    } catch (err) {
-      toast.error("Failed to delete teacher:", err);
-    }
-  };
-
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
+
+
   return (
     <div className="h-ful gap-3 col-span-12">
-      <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start">
+      <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start overflow-hidden">
         <div className="col-span-12 flex items-center justify-between p-3">
           <div>
             <label htmlFor="table-search" className="sr-only">
@@ -132,7 +106,7 @@ function TeachersTableComponent() {
               />
             </div>
           </div>
-          <AddTeacher />
+          <AddStudentClas />
         </div>
         {isLoading ? (
           <Loader
@@ -140,14 +114,9 @@ function TeachersTableComponent() {
             Color="#62B238"
           />
         ) : filteredTeachers.length > 0 ? (
-          <ul className="divide-y-reverse overflow-y-auto h-[68vh] divide-gray-100 border rounded-lg overflow-hidden col-span-12">
+          <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
             {filteredTeachers.map((teacher, index) => (
-              <TeacherItem
-                teacher={teacher}
-                index={index}
-                key={teacher.id}
-                deleteTeacher={handleDelete}
-              />
+              <TeacherItem teacher={teacher} index={index} key={teacher.id} />
             ))}
           </ul>
         ) : (
@@ -158,4 +127,4 @@ function TeachersTableComponent() {
   );
 }
 
-export default React.memo(TeachersTableComponent);
+export default React.memo(StudentsClasCom);

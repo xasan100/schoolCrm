@@ -7,12 +7,12 @@ export const SciencesCrud = createApi({
   tagTypes: ["Sciences"],
   endpoints: (build) => ({
     getSciences: build.query({
-      query: () => "science",
+      query: () => "sciences",
       providesTags: ["Sciences"],
     }),
     createScience: build.mutation({
       query: (body) => ({
-        url: `science/`,
+        url: `sciences/`,
         method: "POST",
         body,
       }),
@@ -20,7 +20,7 @@ export const SciencesCrud = createApi({
     }),
     updateScience: build.mutation({
       query: (body) => ({
-        url: `science/${body.id}/`,
+        url: `sciences/${body.id}/`,
         method: "PATCH",
         body,
       }),
@@ -28,7 +28,7 @@ export const SciencesCrud = createApi({
     }),
     deleteScience: build.mutation({
       query: (body) => ({
-        url: `science/${body.id}/`,
+        url: `sciences/${body.id}/`,
         method: "DELETE",
         body,
       }),

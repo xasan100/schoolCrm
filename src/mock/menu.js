@@ -131,7 +131,7 @@ const menuItems = [
   },
   {
     id: 7,
-    title: "Foydalanuvchilar",
+    title: "Adminlar",
     path: "/users",
     private: true,
     hidden: true,

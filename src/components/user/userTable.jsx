@@ -1,17 +1,14 @@
 import React, { useState, useMemo } from "react";
-
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-// import UpdateTeacher from "./UpdateTeacher";
+import DeleteTeacher from "./DeleteUser.jsx";
 import { FaUserTie } from "react-icons/fa";
-import DeleteStudent from "./DeleteStudents.jsx";
-import AddStudent from "./AddStudent.jsx"
-import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
-import View from "./View.jsx";
-import UpdateStudent from "./UpdateStudent.jsx";
-import ExselStudent from "./StudentsExsel.jsx";
-import StudentPay from "./StudentPay.jsx";
+import { useCreateUserMutation, useGetUserQuery } from "../../redux/slice/user/user.js";
 
+import AddUser from "./AddUser.jsx"
+import UpdateUserCom from "./UpdateUsers.jsx";
+import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
+import View from "./View.jsx";
 const TeacherItem = ({ teacher, index }) => {
 
   return (
@@ -40,21 +37,25 @@ const TeacherItem = ({ teacher, index }) => {
       </div>
       <div className="flex gap-2 items-center">
         <View object={teacher} />
-        <UpdateStudent object={teacher} />
-        <DeleteStudent ID={teacher.id} />
+        <UpdateUserCom object={teacher} />
+        <DeleteTeacher ID={teacher.id} />
       </div>
     </li>
   );
 };
 
-function TeachersTableComponent() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading } = useGetStudentsQuery();
+function UserTableCom() {
+  const { data, isLoading } = useGetUserQuery();
 
+  const [createUser, { isLoading: Lo, isSuccess }] = useCreateUserMutation();
+  const { data: permitiondata } = useGetPermitionQuery()
+
+
+  const [searchTerm, setSearchTerm] = useState("");
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
-      return data.filter(
+      return data?.filter(
         (teacher) =>
           teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -107,9 +108,7 @@ function TeachersTableComponent() {
               />
             </div>
           </div>
-          <StudentPay/>
-          <ExselStudent/>
-          <AddStudent />
+          <AddUser />
         </div>
         {isLoading ? (
           <Loader
@@ -130,4 +129,4 @@ function TeachersTableComponent() {
   );
 }
 
-export default React.memo(TeachersTableComponent);
+export default React.memo(UserTableCom);

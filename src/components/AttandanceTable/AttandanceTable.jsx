@@ -96,6 +96,15 @@ function AttandanceTableComponent() {
             >
               <p className="text-white">Sababsiz</p>
             </div>
+
+            <div
+              onClick={() => filter("all")}
+              // className="py-1.5 rounded-md shadow-sm border px-2 cursor-pointer text-gray-900"
+              className="inline-flex items-center  cursor-pointer rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+
+            >
+              <p className="text-white">Hammasi</p>
+            </div>
           </div>
           <select
             onChange={(e) => setType(e.target.value)}
@@ -103,7 +112,6 @@ function AttandanceTableComponent() {
             name="gender"
             className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500"
           >
-            <option value="all">Hammasi</option>
             <option value="teacher">O'qtuvchilar</option>
             <option value="student">O'quvchilar</option>
             <option value="employer">Xodimlar</option>
