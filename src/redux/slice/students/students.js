@@ -7,12 +7,12 @@ export const StudentsCrud = createApi({
     tagTypes: ['Students'],
     endpoints: (build) => ({
         getStudents: build.query({
-            query: () => "student/",
+            query: () => "students/",
             providesTags: ['Students'],
         }),
         createStudent: build.mutation({
             query: (body) => ({
-                url: 'student/',
+                url: 'students/',
                 method: 'POST',
                 body,
             }),
@@ -28,7 +28,7 @@ export const StudentsCrud = createApi({
 
         updateStudents: build.mutation({
             query: (body) => ({
-                url: `student/${body.get("id")}/`,
+                url: `students/${body.get("id")}/`,
                 method: "PATCH",
                 body,
             }),
@@ -36,7 +36,7 @@ export const StudentsCrud = createApi({
         }),
         deleteStudents: build.mutation({
             query: (body) => ({
-                url: `student/${body.id}`,
+                url: `students/${body.id}`,
                 method: 'DELETE',
                 body,
             }),

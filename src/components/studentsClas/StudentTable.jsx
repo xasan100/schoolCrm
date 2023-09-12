@@ -5,12 +5,11 @@ import Loader from "../Loader/Loader";
 // import UpdateTeacher from "./UpdateTeacher";
 import { FaUserTie } from "react-icons/fa";
 import DeleteStudent from "./DeleteStudents.jsx";
-import AddStudent from "./AddStudent.jsx"
+import AddStudent, { AddStudentClas } from "./AddStudent.jsx"
 import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
 import View from "./View.jsx";
-import UpdateStudent from "./UpdateStudent.jsx";
-import ExselStudent from "./StudentsExsel.jsx";
-import StudentPay from "./StudentPay.jsx";
+import DeleteStudentClas from "./DeleteStudents.jsx";
+import UpdateStudentClas from "./UpdateStudent.jsx";
 
 const TeacherItem = ({ teacher, index }) => {
 
@@ -40,14 +39,14 @@ const TeacherItem = ({ teacher, index }) => {
       </div>
       <div className="flex gap-2 items-center">
         <View object={teacher} />
-        <UpdateStudent object={teacher} />
-        <DeleteStudent ID={teacher.id} />
+        <UpdateStudentClas object={teacher} />
+        <DeleteStudentClas ID={teacher.id} />
       </div>
     </li>
   );
 };
 
-function TeachersTableComponent() {
+function StudentsClasCom() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsQuery();
 
@@ -107,9 +106,7 @@ function TeachersTableComponent() {
               />
             </div>
           </div>
-          <StudentPay/>
-          <ExselStudent/>
-          <AddStudent />
+          <AddStudentClas />
         </div>
         {isLoading ? (
           <Loader
@@ -130,4 +127,4 @@ function TeachersTableComponent() {
   );
 }
 
-export default React.memo(TeachersTableComponent);
+export default React.memo(StudentsClasCom);

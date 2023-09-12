@@ -32,16 +32,16 @@ export function AddStudent() {
     const formData = new FormData();
     formData.append('user.username', inputValue.username);
     formData.append('user.password', inputValue.password);
-    formData.append('first_name', inputValue.firstName);
-    formData.append('last_name', inputValue.lastName);
-    formData.append('middle_name', inputValue.middleName);
-    formData.append('id_card', inputValue.idCard);
-    formData.append('date_of_admission', inputValue.date);
-    formData.append('class', inputValue.class_of_school);
-    formData.append('image', inputValue.img);
-    formData.append('id_card_parents', inputValue.id_card_parents);
-    formData.append('school_tab', inputValue.school_tab);
-    formData.append('picture_3x4', inputValue.picture_3x4);
+    formData.append('user.first_name', inputValue.firstName);
+    formData.append('user.last_name', inputValue.lastName);
+    formData.append('user.middle_name', inputValue.middleName);
+    formData.append('user.id_card', inputValue.idCard);
+    formData.append('user.date_of_admission', inputValue.date);
+    formData.append('user.class_of_school', inputValue.class_of_school);
+    formData.append('user.image', inputValue.img);
+    formData.append('user.id_card_parents', inputValue.id_card_parents);
+    formData.append('user.school_tab', inputValue.school_tab);
+    formData.append('user.picture_3x4', inputValue.picture_3x4);
 
     try {
       await createStudent(formData).unwrap();  
@@ -265,11 +265,15 @@ export function AddStudent() {
                 }
               >
                 <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="1">5</option>
-                <option value="1">6</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
               </select>
             </div>
           </div>

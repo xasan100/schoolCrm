@@ -41,7 +41,6 @@ export function AddStudent() {
       setCheckedIds(prevIds => prevIds.filter(prevId => prevId !== id));
     }
   };
-  console.log(types, 'typeId');
 
   const addData = async (e) => {
     e.preventDefault();
@@ -51,10 +50,10 @@ export function AddStudent() {
     formData.append('user.password', inputValue?.password);
     formData.append('user.image', inputValue.img);
 
-    formData.append('first_name', inputValue?.first_name);
-    formData.append('last_name', inputValue?.last_name);
-    formData.append('salary', inputValue?.salary);
-    formData.append('id', inputValue?.id);
+    formData.append('user.first_name', inputValue?.first_name);
+    formData.append('user.last_name', inputValue?.last_name);
+    formData.append('user.salary', inputValue?.salary);
+    formData.append('.userid', inputValue?.id);
     if (checkedIds && Array.isArray(checkedIds)) {
       checkedIds.forEach((id) => {
         formData.append('permissions', id);

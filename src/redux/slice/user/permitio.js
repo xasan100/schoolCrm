@@ -6,7 +6,7 @@ export const permitionAdmin = createApi({
     baseQuery: api,
     endpoints: (build) => ({
         getPermition: build.query({
-            query: () => "permission-admin/",
+            query: () => "permissions-admin/",
         }),
     }),
 

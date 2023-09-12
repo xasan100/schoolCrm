@@ -9,7 +9,7 @@ import { LuEdit2 } from "react-icons/lu";
 import CustomInput from "react-phone-number-input/input";
 import { useGetStudentsQuery, useUpdateStudentsMutation } from "../../redux/slice/students/students.js";
 
-export default function UpdateStudent({ object }) {
+export default function UpdateStudentClas({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
   const [updateTeacher, { isLoading, isSuccess }] = useUpdateStudentsMutation();

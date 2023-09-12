@@ -10,6 +10,8 @@ import Attendence from "../pages/Attendence.jsx";
 import Students from "../pages/Students.jsx";
 import Sciences from "../pages/Sciences.jsx";
 import Staff from "../pages/Staff.jsx";
+import { FaUsers } from "react-icons/fa";
+import StudentsClas from "../pages/StudentsClas.jsx";
 
 const menuItems = [
   {
@@ -74,6 +76,16 @@ const menuItems = [
     element: <Students />,
     icon: <PiStudent />,
   },
+
+  {
+    id: 8,
+    title: "Sinflar",
+    path: "/StudentsClas",
+    private: true,
+    hidden: true,
+    element: <StudentsClas />,
+    icon: <FaUsers />,
+  },
   {
     id: 5,
     title: "Davomat",
@@ -94,7 +106,7 @@ const menuItems = [
   },
   {
     id: 7,
-    title: "Foydalanuvchilar",
+    title: "Adminlar",
     path: "/users",
     private: true,
     hidden: true,

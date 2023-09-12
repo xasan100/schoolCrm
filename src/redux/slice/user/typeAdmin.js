@@ -6,7 +6,7 @@ export const TypeAdmin = createApi({
     baseQuery: api,
     endpoints: (build) => ({
         getType: build.query({
-            query: () => "type-admin/",
+            query: () => "types-admin/",
         }),
 
     }),
