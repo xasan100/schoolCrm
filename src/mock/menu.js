@@ -153,9 +153,9 @@ const menuItems = [
     icon: <LiaUsersCogSolid />,
   },
   {
-    id: 11,
+    id: 16,
     title: "Xabarnomalar",
-    path: "/ChatParent",
+    path: "/chat-parent",
     private: true,
     hidden: true,
     element: <ChatParentPage/>,
