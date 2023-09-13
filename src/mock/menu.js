@@ -1,6 +1,6 @@
 import { LuLayoutDashboard, LuLineChart } from "react-icons/lu";
 import { LiaChalkboardTeacherSolid, LiaUsersCogSolid } from "react-icons/lia";
-import { PiStudent, PiUsersThree, PiBooks } from "react-icons/pi";
+import { PiStudent, PiUsersThree} from "react-icons/pi";
 import {
   MdOutlineAttachMoney,
   MdOutlineMoneyOffCsred,
@@ -19,6 +19,8 @@ import LessonTable from "../pages/LessonTable.jsx";
 import Rooms from "../pages/Rooms.jsx";
 import StudentsClass from "../pages/StudentsClas.jsx";
 import Task from "../pages/Task.jsx";
+import { AiFillMessage } from "react-icons/ai";
+import ChatParentPage from "../pages/ChatParent.jsx";
 
 const menuItems = [
   {
@@ -149,6 +151,15 @@ const menuItems = [
     hidden: true,
     element: <Users />,
     icon: <LiaUsersCogSolid />,
+  },
+  {
+    id: 11,
+    title: "Xabarnomalar",
+    path: "/ChatParent",
+    private: true,
+    hidden: true,
+    element: <ChatParentPage/>,
+    icon: <AiFillMessage />,
   },
 ];
 

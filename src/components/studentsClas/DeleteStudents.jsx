@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import Modal from "../../generic/Modal";
 import { toast } from "react-toastify";
-import { useDeleteStudentsMutation } from "../../redux/slice/students/students.js";
+import {  useDeleteStudentsClasMutation } from "../../redux/slice/studentsClas/studentsClas.js";
 
 export default function DeleteStudentClas({ ID }) {
     const [isOpen, setIsOpen] = useState(false);
     const closeModal = () => setIsOpen(!isOpen);
-    const [deleteTeacher, { isLoading }] = useDeleteStudentsMutation();
+    const [deleteTeacher, { isLoading }] = useDeleteStudentsClasMutation();
     const handleDelete = async (id) => {
         try {
             await deleteTeacher({ id });

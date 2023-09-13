@@ -6,18 +6,11 @@ export default function FileUpload({
   LabelFor,
   setInputValue,
   inputValue,
+  acceptedFormats,
 }) {
   const [file, setFile] = useState(null);
 
-  const acceptedFormats = [
-    ".doc",
-    ".docx",
-    ".pdf",
-    ".png",
-    ".jpg",
-    ".jpeg",
-    ".gif",
-  ];
+
 
   const updateNestedValue = (obj, keys, value) => {
     const newObj = { ...obj };

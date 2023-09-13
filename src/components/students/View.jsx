@@ -23,9 +23,9 @@ export default function View({ object }) {
               <div className="w-1/3 p-2 h-full">
                 {/* Left column for avatar, etc. */}
                 <div className="bg-white rounded-lg shadow-lg border p-4 flex items-center flex-col justify-center">
-                  {object?.image && object.image !== "" ? (
+                  {object?.user?.image && object?.user.image !== "" ? (
                     <img
-                      src={object.image}
+                      src={object?.user.image}
                       alt="avatar"
                       className="mx-auto rounded-full w-40 h-40 object-cover"
                     />
@@ -36,10 +36,10 @@ export default function View({ object }) {
                   )}
 
                   <h2 className="mt-4 text-center font-bold truncate">
-                    {object.first_name}
+                    {object?.user.first_name}
                   </h2>
                   <h2 className="mt-1.5 text-center font-bold truncate">
-                    {object.last_name}
+                    {object.user.last_name}
                   </h2>
                 </div>
               </div>
@@ -50,10 +50,10 @@ export default function View({ object }) {
                     <strong>Foydalanuvchi nomi:</strong> {object.user.username}
                   </p>
                   <p>
-                    <strong>Ismi:</strong> {object.first_name}
+                    <strong>Ismi:</strong> {object?.user?.first_name}
                   </p>
                   <p>
-                    <strong>Familiyasi:</strong> {object.last_name}
+                    <strong>Familiyasi:</strong> {object?.user.last_name}
                   </p>
                   <p>
                     <strong>Otasini Ismi:</strong> {object.middle_name}

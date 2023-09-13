@@ -18,6 +18,23 @@ export const StudentsCrud = createApi({
             }),
             invalidatesTags: ["Students"]
         }),
+
+        exselStudent: build.mutation({
+            query: (body) => ({
+                url: 'students/add_student_with_excel/',
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ["Students"]
+        }),
+        paymentStudent: build.mutation({
+            query: (body) => ({
+                url: 'student_pay/',
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ["Students"]
+        }),
         transformResponse: (response, meta) => {
             return {
                 data: response, // Buni qo'llash uchun, natijadagi ma'lumotni qaytaradi.
@@ -51,4 +68,6 @@ export const {
     useGetStudentsQuery,
     useUpdateStudentsMutation,
     useDeleteStudentsMutation,
+    useExselStudentMutation,
+    usePaymentStudentMutation,
 } = StudentsCrud

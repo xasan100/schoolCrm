@@ -11,6 +11,7 @@ import View from "./View.jsx";
 import UpdateStudent from "./UpdateStudent.jsx";
 import ExselStudent from "./StudentsExsel.jsx";
 import StudentPay from "./StudentPay.jsx";
+import FileUpload from "../FileUpload/FileUpload.jsx";
 
 const TeacherItem = ({ teacher, index }) => {
 
@@ -18,9 +19,9 @@ const TeacherItem = ({ teacher, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {teacher?.image && teacher.image !== "" ? (
+        {teacher?.user?.image && teacher?.user.image !== "" ? (
           <img
-            src={teacher.image}
+            src={teacher?.user.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -31,15 +32,16 @@ const TeacherItem = ({ teacher, index }) => {
         )}
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {teacher?.first_name}
+            {teacher?.user?.first_name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {teacher?.last_name}
+            {teacher?.user?.last_name}
           </p>
         </div>
       </div>
       <div className="flex gap-2 items-center">
         <View object={teacher} />
+        <StudentPay ID={teacher?.id} />
         <UpdateStudent object={teacher} />
         <DeleteStudent ID={teacher.id} />
       </div>
@@ -50,15 +52,16 @@ const TeacherItem = ({ teacher, index }) => {
 function TeachersTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsQuery();
+  const [exsel, setExsel] = useState()
 
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
-      return data.filter(
+      return data?.filter(
         (teacher) =>
-          teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          teacher.middle_name.toLowerCase().includes(searchTerm.toLowerCase())
+          teacher?.user.first_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+          teacher?.user.last_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+          teacher?.user.middle_name.toLowerCase().includes(searchTerm?.toLowerCase())
       );
     } else {
       return data;
@@ -107,8 +110,7 @@ function TeachersTableComponent() {
               />
             </div>
           </div>
-          <StudentPay/>
-          <ExselStudent/>
+          <ExselStudent />
           <AddStudent />
         </div>
         {isLoading ? (
@@ -116,9 +118,9 @@ function TeachersTableComponent() {
             extraClass="col-span-12 flex justify-center"
             Color="#62B238"
           />
-        ) : filteredTeachers.length > 0 ? (
+        ) : filteredTeachers?.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
-            {filteredTeachers.map((teacher, index) => (
+            {filteredTeachers?.map((teacher, index) => (
               <TeacherItem teacher={teacher} index={index} key={teacher.id} />
             ))}
           </ul>

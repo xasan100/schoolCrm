@@ -10,6 +10,7 @@ import { TypeAdmin } from "../slice/user/typeAdmin.js";
 import { permitionAdmin } from "../slice/user/permitio.js";
 import { RoomsCrud } from "../slice/rooms/RoomsCrud.js";
 import { TaskCrud } from "../slice/task/TaskCrud.js";
+import { StudentsClasCrud } from "../slice/studentsClas/studentsClas.js"
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
     [permitionAdmin.reducerPath]: permitionAdmin.reducer,
     [RoomsCrud.reducerPath]: RoomsCrud.reducer,
     [TaskCrud.reducerPath]: TaskCrud.reducer,
+    [StudentsClasCrud.reducerPath]: StudentsClasCrud.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -35,7 +37,8 @@ export const store = configureStore({
       TypeAdmin.middleware,
       permitionAdmin.middleware,
       RoomsCrud.middleware,
-      TaskCrud.middleware
+      TaskCrud.middleware,
+      StudentsClasCrud.middleware,
     ),
 });
 
