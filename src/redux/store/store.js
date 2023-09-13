@@ -5,9 +5,11 @@ import { TeachersCrud } from "../slice/teachers/TeachersSlice.js";
 import { StaffCrud } from "../slice/staff/StaffSlice.js";
 import { SciencesCrud } from "../slice/sciences/SciencesSlice.js";
 import { AttendanceCrud } from "../slice/attandance/Attendance.js";
-import { UserCrud } from "../slice/user/user.js"
+import { UserCrud } from "../slice/user/user.js";
 import { TypeAdmin } from "../slice/user/typeAdmin.js";
 import { permitionAdmin } from "../slice/user/permitio.js";
+import { RoomsCrud } from "../slice/rooms/RoomsCrud.js";
+import { TaskCrud } from "../slice/task/TaskCrud.js";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +21,8 @@ export const store = configureStore({
     [UserCrud.reducerPath]: UserCrud.reducer,
     [TypeAdmin.reducerPath]: TypeAdmin.reducer,
     [permitionAdmin.reducerPath]: permitionAdmin.reducer,
+    [RoomsCrud.reducerPath]: RoomsCrud.reducer,
+    [TaskCrud.reducerPath]: TaskCrud.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -30,6 +34,8 @@ export const store = configureStore({
       StaffCrud.middleware,
       TypeAdmin.middleware,
       permitionAdmin.middleware,
+      RoomsCrud.middleware,
+      TaskCrud.middleware
     ),
 });
 

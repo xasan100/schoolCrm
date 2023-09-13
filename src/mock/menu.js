@@ -10,6 +10,7 @@ import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
 import { BsTable } from "react-icons/bs";
+import { BiTask } from "react-icons/bi";
 import Attendence from "../pages/Attendence.jsx";
 import Students from "../pages/Students.jsx";
 import Sciences from "../pages/Sciences.jsx";
@@ -17,6 +18,7 @@ import Staff from "../pages/Staff.jsx";
 import LessonTable from "../pages/LessonTable.jsx";
 import Rooms from "../pages/Rooms.jsx";
 import StudentsClass from "../pages/StudentsClas.jsx";
+import Task from "../pages/Task.jsx";
 
 const menuItems = [
   {
@@ -111,6 +113,15 @@ const menuItems = [
     hidden: true,
     element: <Students />,
     icon: <PiStudent />,
+  },
+  {
+    id: 15,
+    title: "Vazifalar",
+    path: "/tasks",
+    private: true,
+    hidden: true,
+    element: <Task />,
+    icon: <BiTask />,
   },
   {
     id: 5,

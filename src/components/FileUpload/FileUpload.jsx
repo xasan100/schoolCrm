@@ -19,9 +19,30 @@ export default function FileUpload({
     ".gif",
   ];
 
+  const updateNestedValue = (obj, keys, value) => {
+    const newObj = { ...obj };
+    let current = newObj;
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      current = current[keys[i]];
+    }
+
+    current[keys[keys.length - 1]] = value;
+    return newObj;
+  };
+
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    setInputValue({ ...inputValue, [LabelFor]: selectedFile });
+
+    if (LabelFor === "user.image") {
+      const keys = LabelFor.split(".");
+      setInputValue((prevValue) =>
+        updateNestedValue(prevValue, keys, selectedFile)
+      );
+    } else {
+      setInputValue({ ...inputValue, [LabelFor]: selectedFile });
+    }
+
     if (selectedFile) {
       const fileExtension =
         "." + selectedFile.name.split(".").pop().toLowerCase();
@@ -34,6 +55,7 @@ export default function FileUpload({
       }
     }
   };
+
   return (
     <div className="col-span-1">
       <label

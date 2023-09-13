@@ -7,7 +7,7 @@ export const TeachersCrud = createApi({
   tagTypes: ["Teachers"],
   endpoints: (build) => ({
     getTeachers: build.query({
-      query: () => "teachers",
+      query: () => "teachers/",
       providesTags: ["Teachers"],
     }),
     createTeacher: build.mutation({

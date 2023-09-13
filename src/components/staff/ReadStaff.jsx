@@ -14,9 +14,9 @@ const StaffItem = ({ staff, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {staff?.image && staff.image !== "" ? (
+        {staff?.user.image && staff?.user.image !== "" ? (
           <img
-            src={staff.image}
+            src={staff?.user.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -27,10 +27,10 @@ const StaffItem = ({ staff, index }) => {
         )}
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {staff?.first_name}
+            {staff?.user.first_name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {staff?.last_name}
+            {staff?.user.last_name}
           </p>
         </div>
       </div>
@@ -52,8 +52,10 @@ function StaffTableComponent() {
     if (searchTerm) {
       return data.filter(
         (staff) =>
-          staff.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          staff.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+          staff.user.first_name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          staff.user.last_name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     } else {
       return data;

@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import Modal from "../../generic/Modal";
 import { toast } from "react-toastify";
-import { useDeleteRoomMutation } from "../../redux/slice/rooms/RoomsCrud";
+import { useDeleteTaskMutation } from "../../redux/slice/task/TaskCrud";
 
-export default function DeleteRoom({ ID }) {
+export default function DeleteTask({ ID }) {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(!isOpen);
-  const [deleteRoom, { isLoading }] = useDeleteRoomMutation();
+  const [deleteTask, { isLoading }] = useDeleteTaskMutation();
   const handleDelete = async (id) => {
     try {
-      await deleteRoom({ id });
-      toast.success("Xona o'chirildi!");
+      await deleteTask({ id });
+      toast.success("Topshiriq o'chirildi!");
       setIsOpen(false);
     } catch (err) {
-      toast.error("Xona o'chirishda xatolik:", err);
+      toast.error("Topshiriqni o'chirishda xatolik:", err);
     }
   };
   return (
@@ -22,9 +22,9 @@ export default function DeleteRoom({ ID }) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         type="button"
-        className="inline-flex justify-center items-center rounded-full bg-red-600 p-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="inline-flex items-center justify-center rounded-full bg-red-700 p-2 text-sm font-semibold text-white hover:text-black shadow-sm hover:bg-gray-300"
       >
-        <BsTrash className="text-md" aria-hidden="true" />
+        <BsTrash className="text-lg" aria-hidden="true" />
       </button>
       {isOpen && (
         <Modal

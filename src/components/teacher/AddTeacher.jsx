@@ -13,26 +13,29 @@ import { toast } from "react-toastify";
 import CustomInput from "react-phone-number-input/input";
 import { useEffect } from "react";
 import InputField from "../../generic/InputField";
-
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 const INITIAL_STATE = {
   user: {
     username: "",
     password: "",
+    first_name: "",
+    last_name: "",
+    middle_name: "",
+    image: "",
   },
-  first_name: "",
-  last_name: "",
-  middle_name: "",
   id_card: "",
   salary_type: "FIXED",
-  sallery: 0,
+  salary: 0,
   date_of_employment: "",
   gender: "MALE",
   address: "",
   description: "",
-  experience: "",
-  language_certificate: "",
-  science: 0,
-  image: "",
+  experience: "HIGH_CATEGORY",
+  language_certificate: "TESOL",
+  experience_desc: "",
+  language_certificate_file: "",
+  sciences: [0],
   lens: "",
   id_card_photo: "",
   survey: "",
@@ -47,7 +50,7 @@ export default function AddTeacher() {
   const [createTeacher, { isLoading, isSuccess }] = useCreateTeacherMutation();
   const { data } = useGetTeachersQuery();
   const { data: science } = useGetSciencesQuery();
-  const [error, setError] = useState({ sallery: "", username: "" });
+  const [error, setError] = useState({ salary: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
@@ -62,35 +65,38 @@ export default function AddTeacher() {
   }, [isSuccess, isLoading, hasSubmitted]);
 
   // Inputdagi qiymatni olganda raqam yoki raqam emasligini tekshirish uchun qo'shimcha funksiya
-  const updateNestedValue = (prev, keys, validatedValue) => ({
-    ...prev,
-    [keys[0]]: {
-      ...prev[keys[0]],
-      [keys[1]]: validatedValue,
-    },
-  });
+  const updateNestedValue = (obj, keys, value) => {
+    const newObj = { ...obj };
+    let current = newObj;
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      current = current[keys[i]];
+    }
+
+    current[keys[keys.length - 1]] = value;
+    return newObj;
+  };
 
   //Har bir inputga qiymat berilgan yoki berilmaganini tekshirish
   const isAnyFieldEmpty = (input) => {
     for (let key in input) {
       const value = input[key];
 
-      if (typeof value === "object") {
+      if (typeof value === "object" && value !== null) {
+        // null qiymatini "ob'ekt" sifatida hisoblamaslik uchun shart qo'shdim
         if (Array.isArray(value) && value.length === 0) {
           return true;
         }
         if (value instanceof File) {
-          continue; // Fayl tekshiruvini oʻtkazib yuborish
+          continue; // Faylni tekshirishni tashlab yuborish
         }
-        for (let innerKey in value) {
-          if (!value[innerKey] && value[innerKey] !== 0) {
-            return true;
-          }
-        }
-      } else {
-        if (!value && value !== 0) {
+        if (isAnyFieldEmpty(value)) {
+          // Ichidagi ob'ektlarni rekursiv tekshirish
           return true;
         }
+      } else if (value === "" || value === null || value === undefined) {
+        // Bo'sh qiymatlarni aniq tekshirish
+        return true;
       }
     }
     return false;
@@ -123,16 +129,16 @@ export default function AddTeacher() {
     const keys = name.split(".");
 
     const newValue =
-      keys.length === 2
+      keys.length > 1
         ? updateNestedValue(inputValue, keys, value)
         : { ...inputValue, [name]: value };
 
     setInputValue(newValue);
 
-    if (name === "sallery") {
+    if (name === "salary") {
       setError((prevError) => ({
         ...prevError,
-        sallery:
+        salary:
           numberPattern.test(value) || value === ""
             ? ""
             : "Iltimos faqat raqamlar ishlating",
@@ -150,6 +156,14 @@ export default function AddTeacher() {
         for (let userKey in inputValue[key]) {
           formData.append(`user.${userKey}`, inputValue[key][userKey]);
         }
+      } else if (
+        key === "sciences" &&
+        inputValue[key] &&
+        Array.isArray(inputValue[key])
+      ) {
+        inputValue[key].forEach((value) => {
+          formData.append(key, value);
+        });
       } else {
         formData.append(key, inputValue[key]);
       }
@@ -189,11 +203,11 @@ export default function AddTeacher() {
           loader={isLoading}
           isDisabled={isDisabled}
         >
-          <div className="grid grid-rows-6 md:grid-cols-4 sm:grid-cols-2 sx:grid-cols-1 gap-2">
+          <div className="grid grid-rows-8 md:grid-cols-4 sm:grid-cols-2 sx:grid-cols-1 gap-2">
             <InputField
               label="Ism"
               id="first-name"
-              name="first_name"
+              name="user.first_name"
               type="text"
               autoComplete="first_name"
               handleChange={handleChange}
@@ -201,7 +215,7 @@ export default function AddTeacher() {
             <InputField
               label="Familiya"
               id="last-name"
-              name="last_name"
+              name="user.last_name"
               type="text"
               autoComplete="last-name"
               handleChange={handleChange}
@@ -209,7 +223,7 @@ export default function AddTeacher() {
             <InputField
               label="Otasining Ismi"
               id="middle-name"
-              name="middle_name"
+              name="user.middle_name"
               type="text"
               autoComplete="middle-name"
               handleChange={handleChange}
@@ -254,7 +268,7 @@ export default function AddTeacher() {
               <div className="mt-2">
                 <input
                   id="salary"
-                  name="sallery"
+                  name="salary"
                   type="text"
                   autoComplete="salary"
                   required
@@ -262,9 +276,9 @@ export default function AddTeacher() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              {error.sallery && (
+              {error.salary && (
                 <p className="text-red-600 absolute text-[12px] -bottom-3">
-                  {error.sallery}
+                  {error.salary}
                 </p>
               )}
             </div>
@@ -289,7 +303,7 @@ export default function AddTeacher() {
             <FileUpload
               title={"Til Sertifikati"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"language_certificate"}
+              LabelFor={"language_certificate_file"}
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
@@ -324,7 +338,7 @@ export default function AddTeacher() {
             <FileUpload
               title={"Shaxsiy Rasmingiz"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"image"}
+              LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
@@ -346,10 +360,10 @@ export default function AddTeacher() {
             />
             <InputField
               label="Tajriba"
-              id="experience"
-              name="experience"
+              id="experience_desc"
+              name="experience_desc"
               type="text"
-              autoComplete="experience"
+              autoComplete="experience_desc"
               handleChange={handleChange}
             />
             <InputField
@@ -360,6 +374,101 @@ export default function AddTeacher() {
               autoComplete="id_card"
               handleChange={handleChange}
             />
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="sciences"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Fan
+              </label>
+              <div className="mt-2">
+                <Select
+                  closeMenuOnSelect={false}
+                  components={makeAnimated}
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      outlineColor: state.isFocused ? "red" : "black",
+                      outline: state.isFocused && "0",
+                    }),
+                  }}
+                  isMulti
+                  onChange={(e) =>
+                    setInputValue({
+                      ...inputValue,
+                      sciences: e.map((item) => item.value),
+                    })
+                  }
+                  options={
+                    isLoading
+                      ? []
+                      : science.map((item) => {
+                          return { value: item.id, label: item.title };
+                        })
+                  }
+                />
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="work-date"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Ishga qabul qilingan kun
+              </label>
+              <div className="mt-2">
+                <input
+                  id="work-date"
+                  name="date_of_employment"
+                  type="date"
+                  autoComplete="work-date"
+                  required
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="col-span-2 row-span-1">
+              <label
+                htmlFor="language_certificate"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Sertifikat turi
+              </label>
+              <div className="mt-2">
+                <select
+                  id="language_certificate"
+                  name="language_certificate"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="TESOL">Tesol</option>
+                  <option value="CELTA">Celta</option>
+                  <option value="IELTS6">IELTS 6+</option>
+                  <option value="CEFRB2">CEFR B2+</option>
+                </select>
+              </div>
+            </div>
+            <div className="col-span-2 row-span-1">
+              <label
+                htmlFor="experience"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Tajriba maqomi
+              </label>
+              <div className="mt-2">
+                <select
+                  id="experience"
+                  name="experience"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="HIGH_CATEGORY">Oliy toifa</option>
+                  <option value="FIRST_CATEGORY">1-toifa</option>
+                  <option value="SECOND_CATEGORY">2-toifa</option>
+                </select>
+              </div>
+            </div>
             <div className="col-span-1 row-span-1">
               <label
                 htmlFor="gender"
@@ -395,48 +504,6 @@ export default function AddTeacher() {
                 >
                   <option value="FIXED">Doimiy</option>
                   <option value="PER_HOURS">Soatbay</option>
-                </select>
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="work-date"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Ishga qabul qilingan kun
-              </label>
-              <div className="mt-2">
-                <input
-                  id="work-date"
-                  name="date_of_employment"
-                  type="date"
-                  autoComplete="work-date"
-                  required
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="science"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Fan
-              </label>
-              <div className="mt-2">
-                <select
-                  id="science"
-                  name="science"
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="0">Hech qanday</option>
-                  {science.map((e) => (
-                    <option key={e.id} value={e.id}>
-                      {e.title}
-                    </option>
-                  ))}
                 </select>
               </div>
             </div>

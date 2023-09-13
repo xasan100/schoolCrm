@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineFileAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
-import ImageUpload from "../ImageUpload/ImageUpload";
-import { MdOutlineInsertPhoto } from "react-icons/md";
 import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
 import CustomInput from "react-phone-number-input/input";
@@ -10,8 +8,10 @@ import { useEffect } from "react";
 import InputField from "../../generic/InputField";
 import { useUpdateStaffMutation } from "../../redux/slice/staff/StaffSlice";
 import { LuEdit2 } from "react-icons/lu";
+import FileUpload from "../FileUpload/FileUpload";
+import { memo } from "react";
 
-export default function UpdateStaff({ object }) {
+function UpdateStaff({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
   const [updateStaff, { isLoading, isSuccess }] = useUpdateStaffMutation();
@@ -31,41 +31,17 @@ export default function UpdateStaff({ object }) {
   }, [isSuccess, isLoading, hasSubmitted]);
 
   // Inputdagi qiymatni olganda raqam yoki raqam emasligini tekshirish uchun qo'shimcha funksiya
-  const updateNestedValue = (prev, keys, validatedValue) => ({
-    ...prev,
-    [keys[0]]: {
-      ...prev[keys[0]],
-      [keys[1]]: validatedValue,
-    },
-  });
+  const updateNestedValue = (obj, keys, value) => {
+    const newObj = { ...obj };
+    let current = newObj;
 
-  //Har bir inputga qiymat berilgan yoki berilmaganini tekshirish
-  const isAnyFieldEmpty = (input) => {
-    for (let key in input) {
-      const value = input[key];
-
-      if (typeof value === "object") {
-        if (Array.isArray(value) && value.length === 0) {
-          return true;
-        }
-        if (value instanceof File) {
-          continue; // Fayl tekshiruvini oʻtkazib yuborish
-        }
-        for (let innerKey in value) {
-          if (!value[innerKey] && value[innerKey] !== 0) {
-            return true;
-          }
-        }
-      } else {
-        if (!value && value !== 0) {
-          return true;
-        }
-      }
+    for (let i = 0; i < keys.length - 1; i++) {
+      current = current[keys[i]];
     }
-    return false;
-  };
 
-  const isDisabled = isAnyFieldEmpty(inputValue);
+    current[keys[keys.length - 1]] = value;
+    return newObj;
+  };
 
   //Faqatgina username inputidan qiymat olish chunki u boshqacha component
   const handleUsernameChange = (e) => {
@@ -92,16 +68,16 @@ export default function UpdateStaff({ object }) {
     const keys = name.split(".");
 
     const newValue =
-      keys.length === 2
+      keys.length > 1
         ? updateNestedValue(inputValue, keys, value)
         : { ...inputValue, [name]: value };
 
     setInputValue(newValue);
 
-    if (name === "sallery") {
+    if (name === "salary") {
       setError((prevError) => ({
         ...prevError,
-        sallery:
+        salary:
           numberPattern.test(value) || value === ""
             ? ""
             : "Iltimos faqat raqamlar ishlating",
@@ -138,6 +114,7 @@ export default function UpdateStaff({ object }) {
     setOpen(false);
   };
 
+  console.log(object);
   return (
     <div>
       <button
@@ -149,27 +126,22 @@ export default function UpdateStaff({ object }) {
         Taxrirlash
       </button>
       {opne && (
-        <Modal
-          closeModal={onClose}
-          addFunc={handleSubmit}
-          loader={isLoading}
-          isDisabled={isDisabled}
-        >
+        <Modal closeModal={onClose} addFunc={handleSubmit} loader={isLoading}>
           <div className="grid sm:grid-rows-6 grid-cols-2 sx:grid-cols-1 gap-2">
             <InputField
-              value={inputValue.first_name}
+              value={inputValue?.user.first_name}
               label="Ism"
               id="first-name"
-              name="first_name"
+              name="user.first_name"
               type="text"
               autoComplete="first_name"
               handleChange={handleChange}
             />
             <InputField
-              value={inputValue.last_name}
+              value={inputValue?.user.last_name}
               label="Familiya"
               id="last-name"
-              name="last_name"
+              name="user.last_name"
               type="text"
               autoComplete="last-name"
               handleChange={handleChange}
@@ -230,17 +202,15 @@ export default function UpdateStaff({ object }) {
                 </p>
               )}
             </div>
-            <ImageUpload
+            <FileUpload
               title={"Rasmingiz"}
-              iconName={<MdOutlineInsertPhoto className="text-5xl" />}
-              iconTitle={"Rasmni Yuklash"}
-              fileType={"PNG, JPG, JPEG 5mb gacha"}
-              LabelFor={"image"}
+              iconName={<AiOutlineFileAdd className="text-2xl" />}
+              LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
             <InputField
-              value={inputValue.lavozim}
+              value={inputValue.position}
               label="Lavozimi"
               id="lavozim"
               name="lavozim"
@@ -254,3 +224,7 @@ export default function UpdateStaff({ object }) {
     </div>
   );
 }
+
+const MemoizeUpdateStaff = memo(UpdateStaff);
+
+export default MemoizeUpdateStaff;

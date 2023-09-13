@@ -7,7 +7,7 @@ export const RoomsCrud = createApi({
   tagTypes: ["Rooms"],
   endpoints: (build) => ({
     getRooms: build.query({
-      query: () => "rooms",
+      query: () => "rooms/",
       providesTags: ["Rooms"],
     }),
     createRoom: build.mutation({
@@ -20,7 +20,7 @@ export const RoomsCrud = createApi({
     }),
     updateRoom: build.mutation({
       query: (body) => ({
-        url: `rooms/${body.get("id")}/`,
+        url: `rooms/${body.id}/`,
         method: "PATCH",
         body,
       }),
@@ -37,4 +37,9 @@ export const RoomsCrud = createApi({
   }),
 });
 
-export const {} = RoomsCrud;
+export const {
+  useGetRoomsQuery,
+  useCreateRoomMutation,
+  useUpdateRoomMutation,
+  useDeleteRoomMutation,
+} = RoomsCrud;

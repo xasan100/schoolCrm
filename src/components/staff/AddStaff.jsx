@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import { AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
-import ImageUpload from "../ImageUpload/ImageUpload";
-import { MdOutlineInsertPhoto } from "react-icons/md";
 import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
 import CustomInput from "react-phone-number-input/input";
 import { useEffect } from "react";
 import InputField from "../../generic/InputField";
 import { useCreateStaffMutation } from "../../redux/slice/staff/StaffSlice";
+import FileUpload from "../FileUpload/FileUpload";
+import { memo } from "react";
 
 const INITIAL_STATE = {
   user: {
     username: "",
     password: "",
+    last_name: "",
+    first_name: "",
+    middle_name: "",
+    image: "",
   },
-  image: "",
   salary: null,
-  first_name: "",
-  last_name: "",
-  lavozim: "",
+  position: "",
 };
 
-export default function AddStaff() {
+function AddStaff() {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
   const [createStaff, { isLoading, isSuccess }] = useCreateStaffMutation();
@@ -42,35 +43,38 @@ export default function AddStaff() {
   }, [isSuccess, isLoading, hasSubmitted]);
 
   // Inputdagi qiymatni olganda raqam yoki raqam emasligini tekshirish uchun qo'shimcha funksiya
-  const updateNestedValue = (prev, keys, validatedValue) => ({
-    ...prev,
-    [keys[0]]: {
-      ...prev[keys[0]],
-      [keys[1]]: validatedValue,
-    },
-  });
+  const updateNestedValue = (obj, keys, value) => {
+    const newObj = { ...obj };
+    let current = newObj;
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      current = current[keys[i]];
+    }
+
+    current[keys[keys.length - 1]] = value;
+    return newObj;
+  };
 
   //Har bir inputga qiymat berilgan yoki berilmaganini tekshirish
   const isAnyFieldEmpty = (input) => {
     for (let key in input) {
       const value = input[key];
 
-      if (typeof value === "object") {
+      if (typeof value === "object" && value !== null) {
+        // null qiymatini "ob'ekt" sifatida hisoblamaslik uchun shart qo'shdim
         if (Array.isArray(value) && value.length === 0) {
           return true;
         }
         if (value instanceof File) {
-          continue; // Fayl tekshiruvini oʻtkazib yuborish
+          continue; // Faylni tekshirishni tashlab yuborish
         }
-        for (let innerKey in value) {
-          if (!value[innerKey] && value[innerKey] !== 0) {
-            return true;
-          }
-        }
-      } else {
-        if (!value && value !== 0) {
+        if (isAnyFieldEmpty(value)) {
+          // Ichidagi ob'ektlarni rekursiv tekshirish
           return true;
         }
+      } else if (value === "" || value === null || value === undefined) {
+        // Bo'sh qiymatlarni aniq tekshirish
+        return true;
       }
     }
     return false;
@@ -103,7 +107,7 @@ export default function AddStaff() {
     const keys = name.split(".");
 
     const newValue =
-      keys.length === 2
+      keys.length > 1
         ? updateNestedValue(inputValue, keys, value)
         : { ...inputValue, [name]: value };
 
@@ -112,7 +116,7 @@ export default function AddStaff() {
     if (name === "salary") {
       setError((prevError) => ({
         ...prevError,
-        sallery:
+        salary:
           numberPattern.test(value) || value === ""
             ? ""
             : "Iltimos faqat raqamlar ishlating",
@@ -173,7 +177,7 @@ export default function AddStaff() {
             <InputField
               label="Ism"
               id="first-name"
-              name="first_name"
+              name="user.first_name"
               type="text"
               autoComplete="first_name"
               handleChange={handleChange}
@@ -181,9 +185,17 @@ export default function AddStaff() {
             <InputField
               label="Familiya"
               id="last-name"
-              name="last_name"
+              name="user.last_name"
               type="text"
               autoComplete="last-name"
+              handleChange={handleChange}
+            />
+            <InputField
+              label="Otasinig ismi"
+              id="middle-name"
+              name="user.middle_name"
+              type="text"
+              autoComplete="middle-name"
               handleChange={handleChange}
             />
             <div className="col-span-1 row-span-1 relative">
@@ -216,6 +228,7 @@ export default function AddStaff() {
               autoComplete="password"
               handleChange={handleChange}
             />
+
             <div className="col-span-1 row-span-1 relative">
               <label
                 htmlFor="salary"
@@ -240,21 +253,19 @@ export default function AddStaff() {
                 </p>
               )}
             </div>
-            <ImageUpload
+            <FileUpload
               title={"Rasmingiz"}
-              iconName={<MdOutlineInsertPhoto className="text-5xl" />}
-              iconTitle={"Rasmni Yuklash"}
-              fileType={"PNG, JPG, JPEG 5mb gacha"}
-              LabelFor={"image"}
+              iconName={<AiOutlineFileAdd className="text-2xl" />}
+              LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
             <InputField
               label="Lavozimi"
-              id="lavozim"
-              name="lavozim"
+              id="position"
+              name="position"
               type="text"
-              autoComplete="lavozim"
+              autoComplete="position"
               handleChange={handleChange}
             />
           </div>
@@ -263,3 +274,7 @@ export default function AddStaff() {
     </div>
   );
 }
+
+const MemoizeAddStaff = memo(AddStaff);
+
+export default MemoizeAddStaff;
