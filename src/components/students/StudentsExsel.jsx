@@ -16,7 +16,6 @@ export function ExselStudent() {
     const [inputValue, setInputValue] = useState()
 
 
-    console.log(inputValue, 'inputValue');
 
     // get
     const { data } = useGetTypeQuery()
@@ -27,7 +26,7 @@ export function ExselStudent() {
     const addData = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('student_table', inputValue.student_table);
+        formData.append('students_table', inputValue.student_table);
         try {
             await createUser(formData);
             toast.success(`O'quvchi Exselda Qo'shildi`);
