@@ -23,9 +23,9 @@ export default function View({ object }) {
               <div className="md:w-1/3 sm:w-full sx:w-full p-2 h-full">
                 {/* Left column for avatar, etc. */}
                 <div className="bg-white rounded-lg shadow-lg border p-4 flex items-center flex-col justify-center">
-                  {object?.image && object.image !== "" ? (
+                  {object?.user.image && object?.user.image !== "" ? (
                     <img
-                      src={object.image}
+                      src={object.user.image}
                       alt="avatar"
                       className="mx-auto rounded-full w-40 h-40 object-cover"
                     />
@@ -36,10 +36,10 @@ export default function View({ object }) {
                   )}
 
                   <h2 className="mt-4 text-center font-bold truncate">
-                    {object.first_name}
+                    {object?.user.first_name}
                   </h2>
                   <h2 className="mt-1.5 text-center font-bold truncate">
-                    {object.last_name}
+                    {object?.user.last_name}
                   </h2>
                 </div>
               </div>
@@ -50,25 +50,31 @@ export default function View({ object }) {
                     <strong>Foydalanuvchi nomi:</strong> {object.user.username}
                   </p>
                   <p>
-                    <strong>Ismi:</strong> {object.first_name}
+                    <strong>Til Bilish Darajasi:</strong>{" "}
+                    {object?.language_certificate}
                   </p>
                   <p>
-                    <strong>Familiyasi:</strong> {object.last_name}
+                    <strong>Tajriba maqomi:</strong>{" "}
+                    {object.experience === "HIGH_CATEGORY"
+                      ? "Oliy toifa"
+                      : object.experience === "FIRST_CATEGORY"
+                      ? "1-Toifa"
+                      : object.experience === "SECOND_CATEGORY"
+                      ? "2-Toifa"
+                      : "Mavjud Emas"}
                   </p>
                   <p>
-                    <strong>Jinsi:</strong> {object.gender}
+                    <strong>Jinsi:</strong>{" "}
+                    {object.gender === "MALE" ? "Erkak" : "Ayol"}
                   </p>
                   <p>
                     <strong>Manzili:</strong> {object.address}
                   </p>
                   <p>
-                    <strong>Tajribasi:</strong> {object.experience}
+                    <strong>Maosh:</strong> {object.salary}
                   </p>
                   <p>
-                    <strong>Maosh:</strong> {object.sallery}
-                  </p>
-                  <p>
-                    <strong>Maosh turi:</strong> {object.sallery_type}
+                    <strong>Maosh turi:</strong> {object.salary_type}
                   </p>
                 </div>
               </div>

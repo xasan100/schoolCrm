@@ -1,11 +1,14 @@
 import React from "react";
-import Chart from "../components/chart/Chart";
+import GeneralStatistics from "../components/chart/GeneralCom.jsx";
+import Chart from "../components/chart/Chart.jsx"
 
 export default function Dashboard() {
   return (
-    <div className="grid grid-cols-12 gap-4 p-4">
-      <h1 className="text-2xl font-bold col-span-12">Bosh Sahifa</h1>
-      <Chart />
+    <div>
+      <GeneralStatistics />
+      <div className="grid gap-4 grid-cols-12">
+        <Chart />
+      </div>
     </div>
   );
 }

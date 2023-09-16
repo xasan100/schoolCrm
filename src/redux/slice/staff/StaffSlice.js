@@ -7,12 +7,12 @@ export const StaffCrud = createApi({
   tagTypes: ["Staff"],
   endpoints: (build) => ({
     getStaff: build.query({
-      query: () => "employer",
+      query: () => "employers/",
       providesTags: ["Staff"],
     }),
     createStaff: build.mutation({
       query: (body) => ({
-        url: `employer/`,
+        url: `employers/`,
         method: "POST",
         body,
       }),
@@ -20,7 +20,7 @@ export const StaffCrud = createApi({
     }),
     updateStaff: build.mutation({
       query: (body) => ({
-        url: `employer/${body.get("id")}/`,
+        url: `employers/${body.get("id")}/`,
         method: "PUT",
         body,
       }),
@@ -28,7 +28,7 @@ export const StaffCrud = createApi({
     }),
     deleteStaff: build.mutation({
       query: (body) => ({
-        url: `employer/${body.id}/`,
+        url: `employers/${body.id}/`,
         method: "DELETE",
         body,
       }),

@@ -63,7 +63,7 @@ export function SidebarItem({
         )}
       </div>
       {openDropdown === link.id && (
-        <ul className="p-2 flex flex-col list-none bg-white transition-all duration-500  ease-in-out overflow-hidden rounded-md">
+        <ul className="p-2 flex flex-col list-none bg-white overflow-hidden rounded-md">
           {link.submenu.map((sub) => (
             <li
               key={sub.id}
@@ -129,11 +129,7 @@ export default function SecondSidebar() {
               {expanded ? <LuChevronFirst /> : <LuChevronLast />}
             </button>
           </div>
-          <ul
-            className={`px-3 mt-16 ${
-              open ? "overflow-y-scroll scrollbar-hide" : ""
-            } select-none `}
-          >
+          <ul className={`px-3 mt-16 overflow-y-scroll select-none `}>
             {menuItems.map((link) => (
               <SidebarItem
                 key={link.id}

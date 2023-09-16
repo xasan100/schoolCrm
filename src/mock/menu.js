@@ -1,6 +1,6 @@
 import { LuLayoutDashboard, LuLineChart } from "react-icons/lu";
 import { LiaChalkboardTeacherSolid, LiaUsersCogSolid } from "react-icons/lia";
-import { PiStudent, PiUsersThree, PiBooks } from "react-icons/pi";
+import { PiStudent, PiUsersThree} from "react-icons/pi";
 import {
   MdOutlineAttachMoney,
   MdOutlineMoneyOffCsred,
@@ -10,6 +10,7 @@ import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
 import { BsTable } from "react-icons/bs";
+import { BiTask } from "react-icons/bi";
 import Attendence from "../pages/Attendence.jsx";
 import Students from "../pages/Students.jsx";
 import Sciences from "../pages/Sciences.jsx";
@@ -17,10 +18,12 @@ import Staff from "../pages/Staff.jsx";
 import LessonTable from "../pages/LessonTable.jsx";
 import Rooms from "../pages/Rooms.jsx";
 import StudentsClass from "../pages/StudentsClas.jsx";
+import Task from "../pages/Task.jsx";
 import { AiFillMessage } from "react-icons/ai";
 import ChatParentPage from "../pages/ChatParent.jsx";
 
 const menuItems = [
+
   {
     id: 0,
     element: <Dashboard />,
@@ -115,6 +118,15 @@ const menuItems = [
     icon: <PiStudent />,
   },
   {
+    id: 15,
+    title: "Vazifalar",
+    path: "/tasks",
+    private: true,
+    hidden: true,
+    element: <Task />,
+    icon: <BiTask />,
+  },
+  {
     id: 5,
     title: "Davomat",
     path: "/attandance",
@@ -142,9 +154,9 @@ const menuItems = [
     icon: <LiaUsersCogSolid />,
   },
   {
-    id: 11,
+    id: 16,
     title: "Xabarnomalar",
-    path: "/ChatParent",
+    path: "/chat-parent",
     private: true,
     hidden: true,
     element: <ChatParentPage/>,

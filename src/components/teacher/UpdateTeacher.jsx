@@ -13,13 +13,18 @@ import { LuEdit2 } from "react-icons/lu";
 import { useEffect } from "react";
 import CustomInput from "react-phone-number-input/input";
 import InputField from "../../generic/InputField";
+import { useGetSciencesQuery } from "../../redux/slice/sciences/SciencesSlice";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
 export default function UpdateTeacher({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
   const [updateTeacher, { isLoading, isSuccess }] = useUpdateTeacherMutation();
   const { data } = useGetTeachersQuery();
-  const [error, setError] = useState({ sallery: "", username: "" });
+  const { data: science } = useGetSciencesQuery();
+
+  const [error, setError] = useState({ salary: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
@@ -71,10 +76,10 @@ export default function UpdateTeacher({ object }) {
 
     setInputValue(newValue);
 
-    if (name === "sallery") {
+    if (name === "salary") {
       setError((prevError) => ({
         ...prevError,
-        sallery:
+        salary:
           numberPattern.test(value) || value === ""
             ? ""
             : "Iltimos faqat raqamlar ishlating",
@@ -91,6 +96,14 @@ export default function UpdateTeacher({ object }) {
         for (let userKey in inputValue[key]) {
           formData.append(`user.${userKey}`, inputValue[key][userKey]);
         }
+      } else if (
+        key === "sciences" &&
+        inputValue[key] &&
+        Array.isArray(inputValue[key])
+      ) {
+        inputValue[key].forEach((value) => {
+          formData.append(key, value);
+        });
       } else {
         formData.append(key, inputValue[key]);
       }
@@ -125,27 +138,27 @@ export default function UpdateTeacher({ object }) {
             <InputField
               label="Ism"
               id="first-name"
-              name="first_name"
+              name="user.first_name"
               type="text"
-              value={inputValue.first_name}
+              value={inputValue.user.first_name}
               autoComplete="first_name"
               handleChange={handleChange}
             />
             <InputField
               label="Familiya"
               id="last-name"
-              name="last_name"
+              name="user.last_name"
               type="text"
-              value={inputValue.last_name}
+              value={inputValue.user.last_name}
               autoComplete="last-name"
               handleChange={handleChange}
             />
             <InputField
               label="Otasining Ismi"
               id="middle-name"
-              name="middle_name"
+              name="user.middle_name"
               type="text"
-              value={inputValue.middle_name}
+              value={inputValue.user.middle_name}
               autoComplete="middle-name"
               handleChange={handleChange}
             />
@@ -190,18 +203,18 @@ export default function UpdateTeacher({ object }) {
               <div className="mt-2">
                 <input
                   id="salary"
-                  name="sallery"
+                  name="salary"
                   type="text"
-                  value={inputValue.sallery}
+                  value={inputValue.salary}
                   autoComplete="sallery"
                   required
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              {error.sallery && (
+              {error.salary && (
                 <p className="text-red-600 absolute text-[12px] -bottom-3">
-                  {error.sallery}
+                  {error.salary}
                 </p>
               )}
             </div>
@@ -226,7 +239,7 @@ export default function UpdateTeacher({ object }) {
             <FileUpload
               title={"Til Sertifikati"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"language_certificate"}
+              LabelFor={"language_certificate_file"}
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
@@ -261,7 +274,7 @@ export default function UpdateTeacher({ object }) {
             <FileUpload
               title={"Shaxsiy Rasmingiz"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"image"}
+              LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
             />
@@ -285,11 +298,11 @@ export default function UpdateTeacher({ object }) {
             />
             <InputField
               label="Tajriba"
-              id="experience"
-              name="experience"
+              id="experience_desc"
+              name="experience_desc"
               type="text"
-              value={inputValue.experience}
-              autoComplete="experience"
+              value={inputValue.experience_desc}
+              autoComplete="experience_desc"
               handleChange={handleChange}
             />
             <InputField
@@ -301,6 +314,49 @@ export default function UpdateTeacher({ object }) {
               autoComplete="id_card"
               handleChange={handleChange}
             />
+            <div className="col-span-2 row-span-1">
+              <label
+                htmlFor="language_certificate"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Sertifikat turi
+              </label>
+              <div className="mt-2">
+                <select
+                  defaultValue={inputValue.language_certificate}
+                  id="language_certificate"
+                  name="language_certificate"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="TESOL">Tesol</option>
+                  <option value="CELTA">Celta</option>
+                  <option value="IELTS6">IELTS 6+</option>
+                  <option value="CEFRB2">CEFR B2+</option>
+                </select>
+              </div>
+            </div>
+            <div className="col-span-2 row-span-1">
+              <label
+                htmlFor="experience"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Tajriba maqomi
+              </label>
+              <div className="mt-2">
+                <select
+                  defaultValue={inputValue.experience}
+                  id="experience"
+                  name="experience"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="HIGH_CATEGORY">Oliy toifa</option>
+                  <option value="FIRST_CATEGORY">1-toifa</option>
+                  <option value="SECOND_CATEGORY">2-toifa</option>
+                </select>
+              </div>
+            </div>
             <div className="col-span-1 row-span-1">
               <label
                 htmlFor="gender"
@@ -331,8 +387,8 @@ export default function UpdateTeacher({ object }) {
               <div className="mt-2">
                 <select
                   defaultValue={inputValue.sallery_type}
-                  id="sallery_type"
-                  name="sallery_type"
+                  id="salary_type"
+                  name="salary_type"
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
@@ -369,18 +425,40 @@ export default function UpdateTeacher({ object }) {
                 Fan
               </label>
               <div className="mt-2">
-                <select
-                  defaultValue={inputValue.scince}
-                  id="science"
-                  name="science"
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="0">Hech qanday</option>
-                  <option value="1">Ona tili</option>
-                  <option value="2">Ingiliz tili</option>
-                  <option value="3">Rus tili</option>
-                </select>
+                <Select
+                  closeMenuOnSelect={false}
+                  components={makeAnimated}
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      outlineColor: state.isFocused ? "red" : "black",
+                      outline: state.isFocused && "0",
+                    }),
+                  }}
+                  isMulti
+                  onChange={(e) =>
+                    setInputValue({
+                      ...inputValue,
+                      sciences: e.map((item) => item.value),
+                    })
+                  }
+                  defaultValue={
+                    isLoading
+                      ? []
+                      : science
+                          .filter((item) => object.sciences.includes(item.id))
+                          .map((fan) => {
+                            return { value: fan.id, label: fan.title };
+                          })
+                  }
+                  options={
+                    isLoading
+                      ? []
+                      : science.map((item) => {
+                          return { value: item.id, label: item.title };
+                        })
+                  }
+                />
               </div>
             </div>
           </div>
