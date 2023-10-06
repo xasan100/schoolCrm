@@ -7,39 +7,39 @@ import Loader from "../Loader/Loader.jsx";
 
 function AttandanceTableComponent() {
   const { data, isLoading } = useGetAttendanceQuery();
-
   const [type, setType] = useState("all");
   const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  let find = data?.map((val) => val?.user_object?.type_user)
+  console.log(data,'data'); 
+  console.log(type, 'type');
+
   useEffect(() => {
     let typesToFilter = [type];
     if (type === "employer") {
       typesToFilter = ["employer", "tasischi", "admin"];
     }
-    const result =
-      type === "all"
-        ? data
-        : data?.filter((user) => typesToFilter.includes(user.types));
+    const result = type === "all" ? data : data?.filter((user) => typesToFilter?.includes(user.user_object.type_user));
     setFilteredData(result);
   }, [type, data]);
 
   const filter = (name) => {
-    let res = data.filter((val) => val.davomat === name);
+    let res = data?.filter((val) => val?.attendance_type === name);
     setFilteredData(res);
   };
 
-  const filteredUsers = filteredData?.filter((users) => {
-    const username = users?.user_dict?.user.username.toLowerCase();
-    const firstName = users?.user_dict.first_name.toLowerCase();
-    const davomat = users?.davomat.toLowerCase();
-    const lowerCaseSearchQuery = searchQuery.toLowerCase();
+  // const filteredUsers = filteredData?.filter((users) => {
+  //   const username = users?.user_dict?.user?.username?.toLowerCase();
+  //   const firstName = users?.user_dict?.first_name?.toLowerCase();
+  //   const davomat = users?.davomat?.toLowerCase();
+  //   const lowerCaseSearchQuery = searchQuery?.toLowerCase();
 
-    return (
-      username.includes(lowerCaseSearchQuery) ||
-      firstName.includes(lowerCaseSearchQuery) ||
-      davomat.includes(lowerCaseSearchQuery)
-    );
-  });
+  //   return (
+  //     username?.includes(lowerCaseSearchQuery) ||
+  //     firstName?.includes(lowerCaseSearchQuery) ||
+  //     davomat?.includes(lowerCaseSearchQuery)
+  //   );
+  // });
 
   return (
     <div className="h-ful gap-3 col-span-12">
@@ -140,21 +140,19 @@ function AttandanceTableComponent() {
                   />
                   <div className="min-w-0 flex-auto">
                     <p className="text-sm font-semibold leading-6 text-gray-900">
-                      {users?.user_dict?.user.username}
+                      {users?.reason}
                     </p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      {users?.user_dict.first_name}
+                      {users?.user_dict?.first_name}
                     </p>
                   </div>
                   <div>
                     <p
-                      className={` text-white py-1.5 rounded-md shadow-sm border px-2 cursor-pointer   ${
-                        users?.davomat === "KELGAN" && "bg-custom-green"
-                      }  ${users?.davomat === "SABABLI" && "bg-yellow-300"}  ${
-                        users?.davomat === "SABABSIZ" && "bg-red-400"
-                      } `}
+                      className={` text-white py-1.5 rounded-md shadow-sm border px-2 cursor-pointer   ${users?.attendance_type === "KELGAN" && "bg-custom-green"
+                        }  ${users?.attendance_type === "SABABLI" && "bg-yellow-300"}  ${users?.attendance_type === "SABABSIZ" && "bg-red-400"
+                        } `}
                     >
-                      {users?.davomat}
+                      {users?.attendance_type}
                     </p>
                   </div>
                 </div>

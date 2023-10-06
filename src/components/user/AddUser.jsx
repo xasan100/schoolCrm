@@ -14,6 +14,7 @@ export function AddStudent() {
   const [open, setOpen] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
   const [types, setTypes] = useState()
+  
   const [inputValue, setInputValue] = useState({
     types: '',
     username: '',
@@ -24,6 +25,7 @@ export function AddStudent() {
 
   },
   );
+  console.log(types,'types');
 
   useEffect(() => {
     if (types == 4) setTypes('Admin')
@@ -45,15 +47,14 @@ export function AddStudent() {
   const addData = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('types', types === 'Admin' ? 4 : types);
     formData.append('user.username', inputValue?.username);
     formData.append('user.password', inputValue?.password);
-    formData.append('user.image', inputValue.img);
-
     formData.append('user.first_name', inputValue?.first_name);
     formData.append('user.last_name', inputValue?.last_name);
-    formData.append('user.salary', inputValue?.salary);
-    formData.append('.userid', inputValue?.id);
+    // formData.append('user.image', inputValue.img);
+    formData.append('salary', inputValue?.salary);
+    formData.append('types', types === 'Admin' ? 4 : types);
+    // formData.append('.userid', inputValue?.id);
     if (checkedIds && Array.isArray(checkedIds)) {
       checkedIds.forEach((id) => {
         formData.append('permissions', id);

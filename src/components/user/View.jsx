@@ -19,8 +19,8 @@ export default function View({ object }) {
       {open && (
         <Modal closeModal={onClose} actionType="view">
           <div className="w-[50vw] p-4">
-            <div className="flex w-full h-full items-stretch">
-              <div className="w-1/3 p-2 h-full">
+            <div className="flex w-full h-full md:items-stretch md:flex-row sm:flex-col sm:items-center sx:flex-col">
+              <div className="md:w-1/3 sm:w-full sx:w-full p-2 h-full">
                 {/* Left column for avatar, etc. */}
                 <div className="bg-white rounded-lg shadow-lg border p-4 flex items-center flex-col justify-center">
                   {object?.image && object.image !== "" ? (
@@ -30,30 +30,30 @@ export default function View({ object }) {
                       className="mx-auto rounded-full w-40 h-40 object-cover"
                     />
                   ) : (
-                    <div className="w-40 h-40 rounded-full border bg-gray-200 flex justify-center items-center">
+                      <div className="w-40 h-40 rounded-full border bg-gray-200 flex justify-center items-center">
                       <FaUserTie className="text-7xl text-primary" />
                     </div>
                   )}
 
                   <h2 className="mt-4 text-center font-bold truncate">
-                    {object.first_name}
+                    {object.user.first_name}
                   </h2>
                   <h2 className="mt-1.5 text-center font-bold truncate">
-                    {object.last_name}
+                    {object.user.last_name}
                   </h2>
                 </div>
               </div>
-              <div className="w-2/3 p-2 h-full">
-                <div className="bg-white rounded-lg shadow-lg border p-4">
+              <div className="md:w-2/3 sm:w-full sx:w-full p-2 h-full">
+                <div className="g-white rounded-lg shadow-lg border p-4">
                   <h2 className="text-xl mb-2">Barcha malumotlar</h2>
                   <p>
                     <strong>Foydalanuvchi nomi:</strong> {object.user.username}
                   </p>
                   <p>
-                    <strong>Ismi:</strong> {object.first_name}
+                    <strong>Ismi:</strong> {object.user.first_name}
                   </p>
                   <p>
-                    <strong>Familiyasi:</strong> {object.last_name}
+                    <strong>Familiyasi:</strong> {object.user.last_name}
                   </p>
 
                   <p>

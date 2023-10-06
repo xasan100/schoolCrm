@@ -11,7 +11,7 @@ import { permitionAdmin } from "../slice/user/permitio.js";
 import { RoomsCrud } from "../slice/rooms/RoomsCrud.js";
 import { TaskCrud } from "../slice/task/TaskCrud.js";
 import { StudentsClasCrud } from "../slice/studentsClas/studentsClas.js"
-import { generalStatisticsGet } from "../slice/general/generalStatisca.js";
+import { generalStatisticsGet, TotalCrud } from "../slice/general/generalStatisca.js";
 
 export const store = configureStore({
   reducer: {
@@ -26,7 +26,7 @@ export const store = configureStore({
     [RoomsCrud.reducerPath]: RoomsCrud.reducer,
     [TaskCrud.reducerPath]: TaskCrud.reducer,
     [StudentsClasCrud.reducerPath]: StudentsClasCrud.reducer,
-    [generalStatisticsGet.reducerPath]:generalStatisticsGet,
+    [TotalCrud.reducerPath]: TotalCrud.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -41,7 +41,7 @@ export const store = configureStore({
       RoomsCrud.middleware,
       TaskCrud.middleware,
       StudentsClasCrud.middleware,
-      generalStatisticsGet.middleware,
+      TotalCrud.middleware,
     ),
 });
 
