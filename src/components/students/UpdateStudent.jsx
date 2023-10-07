@@ -222,7 +222,7 @@ export default function UpdateStudent({ object }) {
               setInputValue={setInputValue}
               inputValue={inputValue}
               value={inputValue.id_card_parents}
-
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
             />
             <FileUpload
               title={"school_tab"}
@@ -232,6 +232,7 @@ export default function UpdateStudent({ object }) {
               setInputValue={setInputValue}
               inputValue={inputValue}
               value={inputValue.school_tab}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]} 
             />
             <div className="col-span-1 row-span-1">
               <label

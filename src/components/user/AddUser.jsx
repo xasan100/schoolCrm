@@ -25,7 +25,6 @@ export function AddStudent() {
 
   },
   );
-  console.log(types,'types');
 
   useEffect(() => {
     if (types == 4) setTypes('Admin')

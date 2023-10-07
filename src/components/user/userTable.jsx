@@ -46,7 +46,6 @@ const TeacherItem = ({ teacher, index }) => {
 function UserTableCom() {
   const { data, isLoading } = useGetUserQuery();
 
-  const [createUser, { isLoading: Lo, isSuccess }] = useCreateUserMutation();
   const { data: permitiondata } = useGetPermitionQuery()
 
 

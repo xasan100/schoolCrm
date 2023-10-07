@@ -34,7 +34,6 @@ export default function UpdateStudent({ object }) {
     if (types == 4) setTypes('Admin')
 
   }, [types])
-  console.log(types, 'types');
   const handleCheckboxChange = (id, isChecked) => {
     if (isChecked) {
       setCheckedIds(prevIds => [...prevIds, id]);
@@ -46,10 +45,10 @@ export default function UpdateStudent({ object }) {
     e.preventDefault();
     const formData = new FormData();
     formData.append('types', inputValue?.types);
-    formData.append('user.username', inputValue?.username);
+    formData.append('user.username', inputValue?.user.username);
     formData.append('user.password', inputValue?.password);
-    formData.append('first_name', inputValue?.first_name);
-    formData.append('last_name', inputValue?.last_name);
+    formData.append('user.first_name', inputValue?.user.first_name);
+    formData.append('user.last_name', inputValue?.user.last_name);
     formData.append('salary', inputValue?.salary);
     formData.append('id', inputValue?.id);
     if (checkedIds && Array.isArray(checkedIds)) {
@@ -61,10 +60,10 @@ export default function UpdateStudent({ object }) {
     }
     try {
       await updateTeacher(formData);
-      toast.success(`O'quvchi ${inputValue?.first_name} O'zgartirildi`);
+      toast.success(`Foydalanuvchi ${inputValue?.user.first_name} O'zgartirildi`);
       setOpen(false);
     } catch (error) {
-      toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
+      toast.error("Foydalanuvchi o'zgartirishda xatolik xatolik", error.message);
     }
   };
   const onClose = () => {
@@ -111,10 +110,19 @@ export default function UpdateStudent({ object }) {
                   <CustomInput
                     maxLength={17}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    onChange={(e) =>
-                      setInputValue({ ...inputValue, username: e })
-                    }
+                    // onChange={(e) =>
+                    //   setInputValue({ ...inputValue, username: e })
+                    // }
                     value={inputValue?.user.username}
+                    onChange={(e) =>
+                      setInputValue(prevState => ({
+                        ...prevState,
+                        user: {
+                          ...prevState.user,
+                          username: e
+                        }
+                      }))
+                    }
                   />
                 </div>
                 <div>
@@ -126,7 +134,6 @@ export default function UpdateStudent({ object }) {
                     autoComplete="password"
                     required
                     value={inputValue?.user.password}
-
                     onChange={(e) =>
                       setInputValue({ ...inputValue, password: e.target.value })
                     }
@@ -156,12 +163,18 @@ export default function UpdateStudent({ object }) {
                   <input
                     id="password"
                     name="user.password"
-                    type="text"
+                    type="text"  // changed type to password
                     autoComplete="password"
                     required
-                    value={inputValue?.first_name}
+                    value={inputValue?.user.first_name}
                     onChange={(e) =>
-                      setInputValue({ ...inputValue, first_name: e.target.value })
+                      setInputValue(prevState => ({
+                        ...prevState,
+                        user: {
+                          ...prevState.user,
+                          first_name: e.target.value
+                        }
+                      }))
                     }
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
@@ -173,10 +186,15 @@ export default function UpdateStudent({ object }) {
                     name="user.password"
                     type="text"
                     autoComplete="password"
-                    value={inputValue?.last_name}
-                    required
+                    value={inputValue?.user.last_name}
                     onChange={(e) =>
-                      setInputValue({ ...inputValue, last_name: e.target.value })
+                      setInputValue(prevState => ({
+                        ...prevState,
+                        user: {
+                          ...prevState.user,
+                          last_name: e.target.value
+                        }
+                      }))
                     }
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />

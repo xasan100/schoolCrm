@@ -181,6 +181,7 @@ function AddStaff() {
               type="text"
               autoComplete="first_name"
               handleChange={handleChange}
+
             />
             <InputField
               label="Familiya"
@@ -256,9 +257,11 @@ function AddStaff() {
             <FileUpload
               title={"Rasmingiz"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"user.image"}
               setInputValue={setInputValue}
+              LabelFor="user.image"
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
+
             />
             <InputField
               label="Lavozimi"

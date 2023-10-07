@@ -15,7 +15,6 @@ export function StudentPay({ ID }) {
         date: "",
     });
 
-    console.log(inputValue?.payment);
     const addData = async (e) => {
         const formData = new FormData();
         formData.append("paid", inputValue?.payment);
