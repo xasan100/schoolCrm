@@ -5,7 +5,7 @@ import { FiChevronDown } from "react-icons/fi";
 import menuItems from "../../mock/menu";
 import Logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
-
+import { useTheme } from "../context/index.jsx";
 export function SidebarItem({
   link,
   active,
@@ -20,11 +20,10 @@ export function SidebarItem({
       onClick={() => navigate(link.path)}
       className={`my-1 p-1
       font-medium rounded-md cursor-pointer
-      ${
-        active === link.id
+      ${active === link.id
           ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
           : "hover:bg-indigo-50 text-gray-600"
-      }
+        }
     `}
     >
       <div
@@ -38,9 +37,8 @@ export function SidebarItem({
       >
         {link.icon}
         <span
-          className={`overflow-hidden transition-all ${
-            expanded ? "w-52 ml-3" : "w-0"
-          }`}
+          className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"
+            }`}
         >
           {link.title}
         </span>
@@ -72,13 +70,12 @@ export function SidebarItem({
                 navigate(sub.path);
                 setActive(sub.id);
               }}
-              className={`py-1 px-4
-  font-medium rounded-md cursor-pointer select-none
-  ${
-    active === sub.id
-      ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
-      : "hover:bg-indigo-50 text-gray-600"
-  }
+              className={`py-1 px-4 
+  font-medium rounded-md cursor-pointer select-none 
+  ${active === sub.id
+                  ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
+                  : "hover:bg-indigo-50 text-white"
+                }
 `}
             >
               {sub.title}
@@ -108,18 +105,22 @@ export default function SecondSidebar() {
     handleResize();
     // Oynaning kengligini kuzatib, o'zgartirish yuz berganda funksiyamizni chaqiramiz
     window.addEventListener("resize", handleResize);
-  }, []);
+  }, []); 
+
+  const { day, toggleTheme } = useTheme();
+  useEffect(() => {
+    document.body.className = day ? 'light-mode' : 'dark-mode';
+  }, [day]);
 
   return (
     <aside className="h-screen">
-      <nav className="h-full flex flex-col justify-between bg-white border-r shadow-sm">
+      <nav className={`h-full flex flex-col justify-between ${day ? 'light-mode' : 'dark-mode'}`}>
         <div className="pb-2 flex justify-between items-center flex-col overflow-hidden scrollbar-hide">
           <div className="p-3 flex justify-between items-center w-full">
             <img
               src={Logo}
-              className={`overflow-hidden transition-all ${
-                expanded ? "w-52" : "w-0"
-              }`}
+              className={`overflow-hidden transition-all ${expanded ? "w-52" : "w-0"
+                }`}
               alt=""
             />
             <button
@@ -145,7 +146,7 @@ export default function SecondSidebar() {
           </ul>
         </div>
 
-        <div className="border-t flex p-3 mt-20">
+        {/* <div className="border-t flex p-3 mt-20">
           <img
             src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
             alt=""
@@ -163,7 +164,7 @@ export default function SecondSidebar() {
             </div>
             <IoMdMore size={20} />
           </div>
-        </div>
+        </div> */}
       </nav>
     </aside>
   );
