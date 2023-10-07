@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { FaRegBell } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import Settings from "./Settings";
 import Notification from "./Notification";
+import { useTheme } from "../context/index.jsx";
 
 export default function TopHeader() {
-  const [day, setDay] = useState(true);
+  // const [day, setDay] = useState(true);
   const [open, setOpen] = useState("");
+  const { day, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    document.body.className = day ? 'light-mode' : 'dark-mode';
+  }, [day]);
+
   const handleChange = (title) => {
     setOpen(title);
     if (title === open) {
@@ -15,11 +22,11 @@ export default function TopHeader() {
     }
   };
   return (
-    <div className="shadow-lg flex justify-end p-4 bg-white">
+    <div className={`shadow-lg flex justify-end p-4 ${day ? 'light-mode' : 'dark-mode'}`}>
       <div className="flex itmes-center gap-6">
         <span
           className={`hover:bg-gray-200 p-2 rounded-full text-3xl cursor-pointer select-none delay-150`}
-          onClick={() => setDay(!day)}
+          onClick={toggleTheme}
         >
           {day ? <BsSun /> : <BsMoon />}
         </span>

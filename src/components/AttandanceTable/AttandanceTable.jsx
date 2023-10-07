@@ -21,7 +21,6 @@ function AttandanceTableComponent() {
     setFilteredData(result);
   }, [type, data]);
 
-  console.log(type,'type');
   const filter = (name) => {
     let res;
     if (name === "all") {
@@ -30,26 +29,27 @@ function AttandanceTableComponent() {
       res = data?.filter((val) => val?.attendance_type === name);
     }
     setFilteredData(res);
-    console.log(res, 'res');
   };
-  // const filteredUsers = filteredData?.filter((users) => {
-  //   const username = users?.user_dict?.user?.username?.toLowerCase();
-  //   const firstName = users?.user_dict?.first_name?.toLowerCase();
-  //   const davomat = users?.davomat?.toLowerCase();
-  //   const lowerCaseSearchQuery = searchQuery?.toLowerCase();
+  const filteredUsers = filteredData?.filter((users) => {
+    const username = users?.user_object?.first_name?.toLowerCase();
+    const firstName = users?.user_object?.last_name?.toLowerCase();
+    const davomat = users?.davomat?.toLowerCase();
+    const lowerCaseSearchQuery = searchQuery?.toLowerCase();
 
-  //   return (
-  //     username?.includes(lowerCaseSearchQuery) ||
-  //     firstName?.includes(lowerCaseSearchQuery) ||
-  //     davomat?.includes(lowerCaseSearchQuery)
-  //   );
-  // });
+    return (
+      username?.includes(lowerCaseSearchQuery) ||
+      firstName?.includes(lowerCaseSearchQuery) ||
+      davomat?.includes(lowerCaseSearchQuery)
+    );
+  });
+  console.log("Search Query:", searchQuery);
+  console.log("Filtered Data:", filteredData);
 
   return (
     <div className='h-ful gap-3 col-span-12'>
       <div className='rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start'>
-        <div className='col-span-12 flex items-center justify-between p-3 sx:flex-col sx:gap-2 sx:items-stretch'>
-          <div>
+        <div className='col-span-12 flex flex-col md:flex-row items-start md:items-center justify-between p-3 gap-4'>
+          <div className="w-full md:w-auto">
             <label htmlFor='table-search' className='sr-only'>
               Qidirish
             </label>
@@ -73,7 +73,7 @@ function AttandanceTableComponent() {
               <input
                 type='text'
                 id='table-search-users'
-                className='block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg md:w-80 sm:w-44 sx:w-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500'
+                className='block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg md:w-80 lg:w-96 bg-gray-50 focus:ring-blue-500 focus:border-blue-500'
                 placeholder='Izlash...'
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -155,7 +155,7 @@ function AttandanceTableComponent() {
                   </div>
                 </div>
                 <div className='flex gap-2 items-center'>
-                  <button
+                  {/* <button
                     type='button'
                     className='inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'>
                     <AiOutlineEye
@@ -163,7 +163,7 @@ function AttandanceTableComponent() {
                       aria-hidden='true'
                     />
                     Ko'rish
-                  </button>
+                  </button> */}
                 </div>
               </li>
             ))

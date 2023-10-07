@@ -40,5 +40,6 @@ export const AttendanceCrud = createApi({
 export const {
   useGetAttendanceQuery,
   useCreateAttendanceMutation,
+  useUpdateAttendanceMutation,
   useDeleteAttendanceMutation,
-} = AttendanceCrud
+} = AttendanceCrud;

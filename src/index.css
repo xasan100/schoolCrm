@@ -50,4 +50,14 @@ body {
       transform: matrix(-1, 0, 0, 1, 0, 0);
     }
 
- 
+ /* Default light mode styles */
+.light-mode {
+  background-color: #ffffff;
+  color: #333333;
+}
+
+/* Dark mode styles */
+.dark-mode {
+  background-color: #333333;
+  color: #ffffff;
+}
