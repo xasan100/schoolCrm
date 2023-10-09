@@ -70,11 +70,11 @@ export function SidebarItem({
                 navigate(sub.path);
                 setActive(sub.id);
               }}
-              className={`py-1 px-4 
-  font-medium rounded-md cursor-pointer select-none 
+              className={`py-1 px-4
+  font-medium rounded-md cursor-pointer select-none
   ${active === sub.id
                   ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
-                  : "hover:bg-indigo-50 text-white"
+                  : "hover:bg-indigo-50 text-gray-600"
                 }
 `}
             >

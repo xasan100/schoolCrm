@@ -10,6 +10,10 @@ export const RoomsCrud = createApi({
       query: () => "rooms/",
       providesTags: ["Rooms"],
     }),
+    getRoomsbusy: build.query({
+      query: () => "rooms/rooms_for_class/",
+      providesTags: ["Rooms"],
+    }),
     createRoom: build.mutation({
       query: (body) => ({
         url: `rooms/`,
@@ -39,6 +43,7 @@ export const RoomsCrud = createApi({
 
 export const {
   useGetRoomsQuery,
+  useGetRoomsbusyQuery,
   useCreateRoomMutation,
   useUpdateRoomMutation,
   useDeleteRoomMutation,

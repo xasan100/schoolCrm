@@ -3,9 +3,10 @@ import React, { useState, useMemo } from "react";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import { FaUserTie } from "react-icons/fa";
-import  { AddStudentClas } from "./AddStudent.jsx"
+import { AddStudentClas } from "./AddStudent.jsx"
 import DeleteStudentClas from "./DeleteStudents.jsx";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
+import UpdateStudentClas from "./UpdateClas.jsx";
 
 const TeacherItem = ({ teacher, index }) => {
 
@@ -34,6 +35,7 @@ const TeacherItem = ({ teacher, index }) => {
         </div>
       </div>
       <div className="flex gap-2 items-center">
+        <UpdateStudentClas object={teacher} />
         <DeleteStudentClas ID={teacher?.id} />
       </div>
     </li>
@@ -43,17 +45,14 @@ const TeacherItem = ({ teacher, index }) => {
 function StudentsClasCom() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsClassQuery();
-
-
+  console.log(data,'data');
 
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
       return data?.filter(
         (teacher) =>
-          teacher?.first_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-          teacher?.last_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-          teacher?.middle_name.toLowerCase().includes(searchTerm?.toLowerCase())
+          teacher?.title.toLowerCase().includes(searchTerm?.toLowerCase()) 
       );
     } else {
       return data;

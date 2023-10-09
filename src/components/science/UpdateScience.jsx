@@ -31,7 +31,12 @@ export default function UpdateSciences({ object, setOpen }) {
     e.preventDefault();
     try {
       setHasSubmitted(true);
-      await updateScience(inputValue);
+      await updateScience(
+        {
+          id: inputValue?.id,
+          title: inputValue.slug,
+        }
+      );
       setInputValue({ title: "", slug: "" });
       setHasSubmitted(false);
       setOpen(false);
@@ -60,9 +65,9 @@ export default function UpdateSciences({ object, setOpen }) {
         autoComplete="slug"
         handleChange={handleChange}
       />
-      <button className="disabled:bg-gray-300 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center">
+      <button className="disabled:bg-gray-300 bg-custom-green hover: text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center">
         {!isLoading ? (
-          "Saqlash"
+          "O'zgartirish"
         ) : (
           <ButtonLoader Color="white" Size={20} extraClass="h-6" />
         )}

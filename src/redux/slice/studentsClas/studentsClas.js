@@ -26,7 +26,7 @@ export const StudentsClasCrud = createApi({
         },
         invalidatesTags: ["StudentsClass"],
 
-        updateStudents: build.mutation({
+        updateStudentsClass: build.mutation({
             query: (body) => ({
                 url: `classes/${body.get("id")}/`,
                 method: "PATCH",
