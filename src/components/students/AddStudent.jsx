@@ -48,7 +48,7 @@ export function AddStudent() {
 
       setOpen(false);
     } catch (error) {
-      toast.error("O'qituvchi qo'shilmadi");
+      toast.error(`O'quvchi ${inputValue.firstName} qo'shilmadi`);
       console.error('Failed to add student:', error);
     }
   }
