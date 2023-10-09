@@ -10,7 +10,9 @@ import { TypeAdmin } from "../slice/user/typeAdmin.js";
 import { permitionAdmin } from "../slice/user/permitio.js";
 import { RoomsCrud } from "../slice/rooms/RoomsCrud.js";
 import { TaskCrud } from "../slice/task/TaskCrud.js";
-import { StudentsClasCrud } from "../slice/studentsClas/studentsClas.js"
+import { StudentsClasCrud } from "../slice/studentsClas/studentsClas.js";
+import { ChatCrud } from "../slice/chat/ChatCrud.js";
+import { ParentsCrud } from "../slice/parents/ParentsCrud.js";
 import { generalStatisticsGet, TotalCrud } from "../slice/general/generalStatisca.js";
 
 export const store = configureStore({
@@ -26,6 +28,8 @@ export const store = configureStore({
     [RoomsCrud.reducerPath]: RoomsCrud.reducer,
     [TaskCrud.reducerPath]: TaskCrud.reducer,
     [StudentsClasCrud.reducerPath]: StudentsClasCrud.reducer,
+    [ChatCrud.reducerPath]: ChatCrud.reducer,
+    [ParentsCrud.reducerPath]: ParentsCrud.reducer,
     [TotalCrud.reducerPath]: TotalCrud.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -41,6 +45,8 @@ export const store = configureStore({
       RoomsCrud.middleware,
       TaskCrud.middleware,
       StudentsClasCrud.middleware,
+      ChatCrud.middleware,
+      ParentsCrud.middleware,
       TotalCrud.middleware,
     ),
 });

@@ -1,6 +1,6 @@
 import { LuLayoutDashboard, LuLineChart } from "react-icons/lu";
 import { LiaChalkboardTeacherSolid, LiaUsersCogSolid } from "react-icons/lia";
-import { PiStudent, PiUsersThree} from "react-icons/pi";
+import { PiStudent, PiUsersBold, PiUsersThree } from "react-icons/pi";
 import {
   MdOutlineAttachMoney,
   MdOutlineMoneyOffCsred,
@@ -9,18 +9,19 @@ import {
 import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
-import { BsTable } from "react-icons/bs";
+import { BsChatDots, BsTable } from "react-icons/bs";
 import { BiTask } from "react-icons/bi";
 import Attendence from "../pages/Attendence.jsx";
 import Students from "../pages/Students.jsx";
 import Sciences from "../pages/Sciences.jsx";
 import Staff from "../pages/Staff.jsx";
-import LessonTable from "../pages/LessonTable.jsx";
 import Rooms from "../pages/Rooms.jsx";
 import StudentsClass from "../pages/StudentsClas.jsx";
 import Task from "../pages/Task.jsx";
-import { AiFillMessage } from "react-icons/ai";
 import ChatParentPage from "../pages/ChatParent.jsx";
+import Lessons from "../pages/Lessons.jsx";
+import Income from "../pages/Income.jsx";
+import Parents from "../pages/Parents.jsx";
 
 const menuItems = [
 
@@ -44,7 +45,7 @@ const menuItems = [
         path: "/income",
         private: true,
         hidden: true,
-        element: "kirim",
+        element: <Income />,
         icon: <MdOutlineAttachMoney />,
       },
       {
@@ -94,7 +95,7 @@ const menuItems = [
         path: "/lesson-table",
         private: true,
         hidden: true,
-        element: <LessonTable />,
+        element: <Lessons />,
       },
     ],
     icon: <MdCastForEducation />,
@@ -116,6 +117,15 @@ const menuItems = [
     hidden: true,
     element: <Students />,
     icon: <PiStudent />,
+  },
+  {
+    id: 17,
+    title: "Ota-Onalar",
+    path: "/parents",
+    private: true,
+    hidden: true,
+    element: <Parents />,
+    icon: <PiUsersBold />,
   },
   {
     id: 15,
@@ -159,8 +169,8 @@ const menuItems = [
     path: "/chat-parent",
     private: true,
     hidden: true,
-    element: <ChatParentPage/>,
-    icon: <AiFillMessage />,
+    element: <ChatParentPage />,
+    icon: <BsChatDots />,
   },
 ];
 
