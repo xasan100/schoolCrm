@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
-import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
 import CustomInput from "react-phone-number-input/input";
 import { useEffect } from "react";
 import InputField from "../../generic/InputField";
-import { useCreateStaffMutation } from "../../redux/slice/staff/StaffSlice";
-import FileUpload from "../FileUpload/FileUpload";
 import { memo } from "react";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas";
+import { useCreateParentMutation } from "../../redux/slice/parents/ParentsCrud";
 
 const INITIAL_STATE = {
   user: {
@@ -17,27 +18,25 @@ const INITIAL_STATE = {
     last_name: "",
     first_name: "",
     middle_name: "",
-    image: "",
   },
-  salary: null,
-  position: "",
+  children: [],
 };
 
-function AddStaff() {
+function AddParnet() {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
-  const [createStaff, { isLoading, isSuccess }] = useCreateStaffMutation();
-  const { data } = useGetTeachersQuery();
+  const [createParent, { isLoading, isSuccess }] = useCreateParentMutation();
+  const { data } = useGetStudentsClassQuery();
   const [error, setError] = useState({ sallery: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
     if (hasSubmitted) {
       if (isSuccess) {
-        toast.success("Xodim qo'shildi");
+        toast.success("Ma'lumot qo'shildi");
         setOpen(false);
       } else if (!isLoading && !isSuccess) {
-        toast.error("Xodim qo'shilmadi");
+        toast.error("Ma'lumot qo'shilmadi");
       }
     }
   }, [isSuccess, isLoading, hasSubmitted]);
@@ -141,11 +140,11 @@ function AddStaff() {
 
     try {
       setHasSubmitted(true);
-      await createStaff(formData);
+      await createParent(formData);
       setInputValue(INITIAL_STATE);
       setHasSubmitted(false);
     } catch (error) {
-      toast.error("Xodim qo'shishda xatolik", error.message);
+      toast.error("Ma'lumot qo'shishda xatolik", error.message);
     }
   };
 
@@ -164,7 +163,7 @@ function AddStaff() {
           className="-ml-0.5 mr-1.5 text-xl"
           aria-hidden="true"
         />
-        Xodim Qo'shish
+        Ota-Ona Qo'shish
       </button>
       {opne && (
         <Modal
@@ -228,45 +227,30 @@ function AddStaff() {
               autoComplete="password"
               handleChange={handleChange}
             />
-
-            <div className="col-span-1 row-span-1 relative">
-              <label
-                htmlFor="salary"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Maosh
-              </label>
-              <div className="mt-2">
-                <input
-                  id="salary"
-                  name="salary"
-                  type="text"
-                  autoComplete="salary"
-                  required
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-              {error.sallery && (
-                <p className="text-red-600 absolute text-[12px] -bottom-3">
-                  {error.sallery}
-                </p>
-              )}
-            </div>
-            <FileUpload
-              title={"Rasmingiz"}
-              iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"user.image"}
-              setInputValue={setInputValue}
-              inputValue={inputValue}
-            />
-            <InputField
-              label="Lavozimi"
-              id="position"
-              name="position"
-              type="text"
-              autoComplete="position"
-              handleChange={handleChange}
+            <Select
+              closeMenuOnSelect={false}
+              components={makeAnimated}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  outlineColor: state.isFocused ? "red" : "black",
+                  outline: state.isFocused && "0",
+                }),
+              }}
+              isMulti
+              onChange={(e) =>
+                setInputValue({
+                  ...inputValue,
+                  sciences: e.map((item) => item.value),
+                })
+              }
+              options={
+                isLoading
+                  ? []
+                  : data.map((item) => {
+                      return { value: item.id, label: item.title };
+                    })
+              }
             />
           </div>
         </Modal>
@@ -275,6 +259,6 @@ function AddStaff() {
   );
 }
 
-const MemoizeAddStaff = memo(AddStaff);
+const MemoizeAddStaff = memo(AddParnet);
 
 export default MemoizeAddStaff;
