@@ -24,6 +24,7 @@ import Income from "../pages/Income.jsx";
 import Parents from "../pages/Parents.jsx";
 
 const menuItems = [
+
   {
     id: 0,
     element: <Dashboard />,

@@ -7,12 +7,12 @@ export const AttendanceCrud = createApi({
   tagTypes: ['Attendance'],
   endpoints: (build) => ({
     getAttendance: build.query({
-      query: () => "attendances//",
+      query: () => "attendances/",
       providesTags: ['Attendance'],
     }),
     createAttendance: build.mutation({
       query: (body) => ({
-        url: 'davomat/',
+        url: 'attendances/',
         method: 'POST',
         body,
       }),
@@ -20,14 +20,14 @@ export const AttendanceCrud = createApi({
     }),
     updateAttendance: build.mutation({
       query: (body) => ({
-        url: `students/${body.id}/`,
+        url: `attendances/${body.id}/`,
         method: 'PUT',
         body,
       }),
     }),
     deleteAttendance: build.mutation({
       query: (body) => ({
-        url: `students/${body.id}`,
+        url: `attendances/${body.id}`,
         method: 'DELETE',
         body,
       }),
@@ -40,5 +40,6 @@ export const AttendanceCrud = createApi({
 export const {
   useGetAttendanceQuery,
   useCreateAttendanceMutation,
+  useUpdateAttendanceMutation,
   useDeleteAttendanceMutation,
-} = AttendanceCrud
+} = AttendanceCrud;

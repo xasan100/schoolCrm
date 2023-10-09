@@ -27,7 +27,6 @@ export function AddStudent() {
     img: "",
     deleteId: "",
   });
-
   const addData = async () => {
     const formData = new FormData();
     formData.append('user.username', inputValue.username);
@@ -37,7 +36,7 @@ export function AddStudent() {
     formData.append('user.middle_name', inputValue.middleName);
     formData.append('id_card', inputValue.idCard);
     formData.append('date_of_admission', inputValue.date);
-    formData.append('class_of_school', '');
+    formData.append('class_of_school', inputValue.class_of_school);
     formData.append('user.image', inputValue.img);
     formData.append('id_card_parents', inputValue.id_card_parents);
     formData.append('school_tab', inputValue.school_tab);
@@ -223,6 +222,7 @@ export function AddStudent() {
               LabelFor={"id_card_parents"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
             />
             <FileUpload
               title={"school_tab"}
@@ -230,6 +230,7 @@ export function AddStudent() {
               LabelFor={"school_tab"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
             />
             <div className="col-span-1 row-span-1">
               <label

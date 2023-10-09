@@ -5,12 +5,13 @@ import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice.js
 import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
 import { useCreateAttendanceMutation } from "../../redux/slice/attandance/Attendance.js";
 import { toast } from "react-toastify";
+import { useGetUserQuery } from "../../redux/slice/user/user.js";
 
 export default function Addattandance() {
-  const { data: studentsData, isLoading: studentsLoading } =
-    useGetStudentsQuery();
-  const { data: teachersData, isLoading: teachersLoading } =
-    useGetTeachersQuery();
+  const { data: studentsData, isLoading: studentsLoading } = useGetStudentsQuery();
+  const { data: teachersData, isLoading: teachersLoading } = useGetTeachersQuery();
+  const { data: adminData, isLoading: adminLoading } = useGetUserQuery();
+
   const [sendAttendance, { isSuccess }] = useCreateAttendanceMutation();
   const [opne, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
@@ -30,8 +31,8 @@ export default function Addattandance() {
       if (userId) {
         await sendAttendance({
           user: userId,
-          davomat: selectedOption.toUpperCase(),
-          sabab: inputValue.reason,
+          attendance_type: selectedOption.toUpperCase(),
+          reason: inputValue.reason,
         });
         toast.success(`${inputValue.user} qo'shildi!`);
 
@@ -39,7 +40,7 @@ export default function Addattandance() {
       } else {
         // Handle invalid userId
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -88,29 +89,40 @@ export default function Addattandance() {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
                     <option value="none">Hech qanday</option>
-
                     {inputValue.user === "'Oquvchi" && studentsData
                       ? studentsData.map((student, index) => (
-                          <option
-                            value={student.id}
-                            key={index}
-                            className="m-2"
-                          >
-                            {index + 1}.&nbsp;{student.first_name}
-                          </option>
-                        ))
+                        <option
+                          value={student.id}
+                          key={index}
+                          className="m-2"
+                        >
+                          {index + 1}.&nbsp;{student.user.first_name}
+                        </option>
+                      ))
                       : inputValue.user === "'Oqtuvchi" && teachersData
-                      ? teachersData.map((teacher, index) => (
+                        ? teachersData.map((teacher, index) => (
                           <option
                             value={teacher.id}
                             key={index}
                             className="m-2"
                           >
-                            {index + 1}.&nbsp; {teacher.first_name}
+                            {index + 1}.&nbsp; {teacher.user.first_name}
                           </option>
                         ))
-                      : null}
+                        : inputValue.user === "Admin" && adminData
+                          ? adminData.map((admin, index) => (
+                            <option
+                              value={admin.id}
+                              key={index}
+                              className="m-2"
+                            >
+                              {index + 1}.&nbsp; {admin.user.first_name}
+                            </option>
+                          ))
+                          : null
+                    }
                   </select>
+
                 </div>
               </div>
             </div>

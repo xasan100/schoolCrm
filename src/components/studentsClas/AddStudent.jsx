@@ -13,7 +13,6 @@ export function AddStudentClas() {
     title: "",
     teacher: "",
   });
-  console.log(inputValue,'inputValue');
   const addData = async () => {
     const formData = new FormData();
     formData.append('title', inputValue.title);

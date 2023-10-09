@@ -313,6 +313,8 @@ export default function AddTeacher() {
               LabelFor={"biography"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
+
             />
             <FileUpload
               title={"Obyektivka"}
@@ -320,6 +322,8 @@ export default function AddTeacher() {
               LabelFor={"lens"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
+
             />
             <FileUpload
               title={"So'rovnoma"}
@@ -327,6 +331,8 @@ export default function AddTeacher() {
               LabelFor={"survey"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
+
             />
             <FileUpload
               title={"086 Tibbiy Malumotnoma"}
@@ -334,6 +340,8 @@ export default function AddTeacher() {
               LabelFor={"medical_book"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
+
             />
             <FileUpload
               title={"Shaxsiy Rasmingiz"}
@@ -341,6 +349,8 @@ export default function AddTeacher() {
               LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
+
             />
             <InputField
               label="Manzil"

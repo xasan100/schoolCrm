@@ -114,7 +114,6 @@ function UpdateStaff({ object }) {
     setOpen(false);
   };
 
-  console.log(object);
   return (
     <div>
       <button
@@ -208,6 +207,7 @@ function UpdateStaff({ object }) {
               LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
             />
             <InputField
               value={inputValue.position}

@@ -43,7 +43,7 @@ const TeacherItem = ({ teacher, index }) => {
         <View object={teacher} />
         <StudentPay ID={teacher?.id} />
         <UpdateStudent object={teacher} />
-        <DeleteStudent ID={teacher.id} />
+        <DeleteStudent ID={teacher?.id} />
       </div>
     </li>
   );
@@ -52,7 +52,6 @@ const TeacherItem = ({ teacher, index }) => {
 function TeachersTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsQuery();
-  const [exsel, setExsel] = useState()
 
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list

@@ -9,9 +9,7 @@ import FileUpload from "../FileUpload/FileUpload.jsx";
 export function ExselStudent() {
   // state
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState();
-
-  console.log(inputValue, "inputValue");
+  const [inputValue, setInputValue] = useState('');
 
   // get
   const { data } = useGetTypeQuery();
@@ -20,7 +18,7 @@ export function ExselStudent() {
   const addData = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("student_table", inputValue.student_table);
+    formData.append('students_table', inputValue.fileInput);
     try {
       await createUser(formData);
       toast.success(`O'quvchi Exselda Qo'shildi`);
@@ -59,6 +57,9 @@ export function ExselStudent() {
               setInputValue={setInputValue}
               inputValue={inputValue}
               acceptedFormats={[".xls", ".xlsx", ".xlsm", ".xlsb"]}
+
+
+              fileType={"PNG, JPG, JPEG 5mb gacha"}
             />
           </div>
         </Modal>

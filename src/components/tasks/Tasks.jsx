@@ -12,8 +12,8 @@ const TaskCard = ({ task, color, keyword }) => {
   const fintTeacher = (id) => {
     const findObejct = teachers.find((item) => item.id === id);
     return {
-      name: findObejct.user.first_name,
-      last_name: findObejct.user.last_name,
+      name: findObejct?.user?.first_name,
+      last_name: findObejct?.user?.last_name,
     };
   };
   const { name, last_name } = fintTeacher(task?.to_user);

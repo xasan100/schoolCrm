@@ -153,9 +153,10 @@ export default function Chart() {
     setSelectedMonth(month);
   };
   //882315771
-  console.log(`oy:${changeMonths}`);
   return (
-    <div className="h-[70vh] col-span-11">
+    <div className="h-[60vh]  col-span-11">
+      <div>
+      </div>
       <div className="flex justify-end gap-3">
         <select
           onChange={(e) => handleMonthChange(e)}

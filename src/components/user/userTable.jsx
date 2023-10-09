@@ -4,7 +4,6 @@ import Loader from "../Loader/Loader";
 import DeleteTeacher from "./DeleteUser.jsx";
 import { FaUserTie } from "react-icons/fa";
 import { useCreateUserMutation, useGetUserQuery } from "../../redux/slice/user/user.js";
-
 import AddUser from "./AddUser.jsx"
 import UpdateUserCom from "./UpdateUsers.jsx";
 import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
@@ -28,10 +27,10 @@ const TeacherItem = ({ teacher, index }) => {
         )}
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {teacher?.first_name}
+            {teacher?.user.first_name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {teacher?.last_name}
+            {teacher?.user.last_name}
           </p>
         </div>
       </div>
@@ -47,7 +46,6 @@ const TeacherItem = ({ teacher, index }) => {
 function UserTableCom() {
   const { data, isLoading } = useGetUserQuery();
 
-  const [createUser, { isLoading: Lo, isSuccess }] = useCreateUserMutation();
   const { data: permitiondata } = useGetPermitionQuery()
 
 

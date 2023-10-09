@@ -19,8 +19,8 @@ export default function View({ object }) {
       {open && (
         <Modal closeModal={onClose} actionType="view">
           <div className="w-[50vw] p-4">
-            <div className="flex w-full h-full items-stretch">
-              <div className="w-1/3 p-2 h-full">
+            <div className="flex w-full h-full md:items-stretch md:flex-row sm:flex-col sm:items-center sx:flex-col">
+              <div className="md:w-1/3 sm:w-full sx:w-full p-2 h-full">
                 {/* Left column for avatar, etc. */}
                 <div className="bg-white rounded-lg shadow-lg border p-4 flex items-center flex-col justify-center">
                   {object?.user?.image && object?.user.image !== "" ? (
@@ -43,7 +43,7 @@ export default function View({ object }) {
                   </h2>
                 </div>
               </div>
-              <div className="w-2/3 p-2 h-full">
+              <div className="d:w-2/3 sm:w-full sx:w-full p-2 h-full">
                 <div className="bg-white rounded-lg shadow-lg border p-4">
                   <h2 className="text-xl mb-2">Barcha malumotlar</h2>
                   <p>

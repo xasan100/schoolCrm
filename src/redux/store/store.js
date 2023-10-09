@@ -10,9 +10,14 @@ import { TypeAdmin } from "../slice/user/typeAdmin.js";
 import { permitionAdmin } from "../slice/user/permitio.js";
 import { RoomsCrud } from "../slice/rooms/RoomsCrud.js";
 import { TaskCrud } from "../slice/task/TaskCrud.js";
+<<<<<<< HEAD
 import { StudentsClasCrud } from "../slice/studentsClas/studentsClas.js";
 import { ChatCrud } from "../slice/chat/ChatCrud.js";
 import { ParentsCrud } from "../slice/parents/ParentsCrud.js";
+=======
+import { StudentsClasCrud } from "../slice/studentsClas/studentsClas.js"
+import { generalStatisticsGet, TotalCrud } from "../slice/general/generalStatisca.js";
+>>>>>>> 33aac934dcb71b763336880917674fddd2ef3adc
 
 export const store = configureStore({
   reducer: {
@@ -27,8 +32,12 @@ export const store = configureStore({
     [RoomsCrud.reducerPath]: RoomsCrud.reducer,
     [TaskCrud.reducerPath]: TaskCrud.reducer,
     [StudentsClasCrud.reducerPath]: StudentsClasCrud.reducer,
+<<<<<<< HEAD
     [ChatCrud.reducerPath]: ChatCrud.reducer,
     [ParentsCrud.reducerPath]: ParentsCrud.reducer,
+=======
+    [TotalCrud.reducerPath]: TotalCrud.reducer,
+>>>>>>> 33aac934dcb71b763336880917674fddd2ef3adc
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -43,8 +52,12 @@ export const store = configureStore({
       RoomsCrud.middleware,
       TaskCrud.middleware,
       StudentsClasCrud.middleware,
+<<<<<<< HEAD
       ChatCrud.middleware,
       ParentsCrud.middleware
+=======
+      TotalCrud.middleware,
+>>>>>>> 33aac934dcb71b763336880917674fddd2ef3adc
     ),
 });
 
