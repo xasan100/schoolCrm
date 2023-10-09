@@ -523,6 +523,9 @@ export default function AddTeacher() {
                           return { value: item.id, label: item.title };
                         })
                   }
+                  noOptionsMessage={() => {
+                    return <div>Ma'lumotlar yo'q</div>;
+                  }}
                 />
               </div>
             </div>

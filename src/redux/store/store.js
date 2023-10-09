@@ -17,6 +17,7 @@ import {
   generalStatisticsGet,
   TotalCrud,
 } from "../slice/general/generalStatisca.js";
+import { CheckUserName } from "../slice/checkUsername/CheckUsername.jsx";
 
 export const store = configureStore({
   reducer: {
@@ -34,6 +35,7 @@ export const store = configureStore({
     [ChatCrud.reducerPath]: ChatCrud.reducer,
     [ParentsCrud.reducerPath]: ParentsCrud.reducer,
     [TotalCrud.reducerPath]: TotalCrud.reducer,
+    [CheckUserName.reducerPath]: CheckUserName.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -50,7 +52,8 @@ export const store = configureStore({
       StudentsClasCrud.middleware,
       ChatCrud.middleware,
       ParentsCrud.middleware,
-      TotalCrud.middleware
+      TotalCrud.middleware,
+      CheckUserName.middleware
     ),
 });
 
