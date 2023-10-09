@@ -5,7 +5,11 @@ import {
   useUpdateTeacherMutation,
 } from "../../redux/slice/teachers/TeachersSlice";
 import Modal from "../../generic/Modal";
-import { AiOutlineFileAdd } from "react-icons/ai";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineFileAdd,
+} from "react-icons/ai";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
@@ -118,6 +122,8 @@ export default function UpdateTeacher({ object }) {
       toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
     }
   };
+
+  const [show, setShow] = useState(false);
   const onClose = () => {
     setOpen(false);
   };
@@ -188,10 +194,23 @@ export default function UpdateTeacher({ object }) {
               label="Foydalanuvchi Paroli"
               id="password"
               name="user.password"
-              type="text"
+              type={show ? "text" : "password"}
               value={inputValue.password}
               autoComplete="password"
               handleChange={handleChange}
+              icon={
+                show ? (
+                  <AiOutlineEye
+                    className="absolute top-10 text-xl right-2 cursor-pointer"
+                    onClick={() => setShow(false)}
+                  />
+                ) : (
+                  <AiOutlineEyeInvisible
+                    className="absolute top-10 text-xl right-2 cursor-pointer"
+                    onClick={() => setShow(true)}
+                  />
+                )
+              }
             />
             <div className="col-span-1 row-span-1 relative">
               <label
@@ -242,6 +261,14 @@ export default function UpdateTeacher({ object }) {
               LabelFor={"language_certificate_file"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"Tarjimai Hol"}
@@ -249,6 +276,14 @@ export default function UpdateTeacher({ object }) {
               LabelFor={"biography"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"Obyektivka"}
@@ -256,6 +291,14 @@ export default function UpdateTeacher({ object }) {
               LabelFor={"lens"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"So'rovnoma"}
@@ -263,6 +306,14 @@ export default function UpdateTeacher({ object }) {
               LabelFor={"survey"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"086 Tibbiy Malumotnoma"}
@@ -270,6 +321,14 @@ export default function UpdateTeacher({ object }) {
               LabelFor={"medical_book"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"Shaxsiy Rasmingiz"}
@@ -277,6 +336,7 @@ export default function UpdateTeacher({ object }) {
               LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[".png", ".jpeg", ".jpg"]}
             />
             <InputField
               label="Manzil"
@@ -314,6 +374,70 @@ export default function UpdateTeacher({ object }) {
               autoComplete="id_card"
               handleChange={handleChange}
             />
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="science"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Fan
+              </label>
+              <div className="mt-2">
+                <Select
+                  closeMenuOnSelect={false}
+                  components={makeAnimated}
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      outlineColor: state.isFocused ? "red" : "black",
+                      outline: state.isFocused && "0",
+                    }),
+                  }}
+                  isMulti
+                  onChange={(e) =>
+                    setInputValue({
+                      ...inputValue,
+                      sciences: e.map((item) => item.value),
+                    })
+                  }
+                  defaultValue={
+                    isLoading
+                      ? []
+                      : science
+                          .filter((item) => object.sciences.includes(item.id))
+                          .map((fan) => {
+                            return { value: fan.id, label: fan.title };
+                          })
+                  }
+                  options={
+                    isLoading
+                      ? []
+                      : science.map((item) => {
+                          return { value: item.id, label: item.title };
+                        })
+                  }
+                />
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="work-date"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Ishga qabul qilingan kun
+              </label>
+              <div className="mt-2">
+                <input
+                  value={inputValue.date_of_employment}
+                  id="work-date"
+                  name="date_of_employment"
+                  type="date"
+                  autoComplete="work-date"
+                  required
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
             <div className="col-span-2 row-span-1">
               <label
                 htmlFor="language_certificate"
@@ -395,70 +519,6 @@ export default function UpdateTeacher({ object }) {
                   <option value="FIXED">Doimiy</option>
                   <option value="PER_HOURS">Soatbay</option>
                 </select>
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="work-date"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Ishga qabul qilingan kun
-              </label>
-              <div className="mt-2">
-                <input
-                  value={inputValue.date_of_employment}
-                  id="work-date"
-                  name="date_of_employment"
-                  type="date"
-                  autoComplete="work-date"
-                  required
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="science"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Fan
-              </label>
-              <div className="mt-2">
-                <Select
-                  closeMenuOnSelect={false}
-                  components={makeAnimated}
-                  styles={{
-                    control: (baseStyles, state) => ({
-                      ...baseStyles,
-                      outlineColor: state.isFocused ? "red" : "black",
-                      outline: state.isFocused && "0",
-                    }),
-                  }}
-                  isMulti
-                  onChange={(e) =>
-                    setInputValue({
-                      ...inputValue,
-                      sciences: e.map((item) => item.value),
-                    })
-                  }
-                  defaultValue={
-                    isLoading
-                      ? []
-                      : science
-                          .filter((item) => object.sciences.includes(item.id))
-                          .map((fan) => {
-                            return { value: fan.id, label: fan.title };
-                          })
-                  }
-                  options={
-                    isLoading
-                      ? []
-                      : science.map((item) => {
-                          return { value: item.id, label: item.title };
-                        })
-                  }
-                />
               </div>
             </div>
           </div>

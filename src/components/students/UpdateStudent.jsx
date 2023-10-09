@@ -23,16 +23,16 @@ export default function UpdateStudent({ object }) {
       }
     });
   }
-
+  console.log(inputValue,'inputValue');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append('first_name', inputValue.user.first_name);
+    formData.append('last_name', inputValue.user.last_name);
+    formData.append('middle_name', inputValue.user.middle_name);
     formData.append('user.username', inputValue.user.username);
     formData.append('user.password', inputValue.password);
-    formData.append('first_name', inputValue.first_name);
-    formData.append('last_name', inputValue.last_name);
-    formData.append('middle_name', inputValue.middle_name);
     formData.append('id_card', inputValue.id_card);
     formData.append('date_of_admission', inputValue.date_of_admission);
     formData.append('class_of_school', inputValue.class_of_school);
@@ -44,7 +44,7 @@ export default function UpdateStudent({ object }) {
 
     try {
       await updateTeacher(formData);
-      toast.success(`O'quvchi ${inputValue.first_name} O'zgartirildi`);
+      toast.success(`O'quvchi ${inputValue.user.first_name} O'zgartirildi`);
       setOpen(false);
     } catch (error) {
       toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
@@ -141,10 +141,18 @@ export default function UpdateStudent({ object }) {
                   id="first-name"
                   name="first_name"
                   type="text"
-                  value={inputValue.first_name}
+                  value={inputValue.user.first_name}
                   autoComplete="first_name"
                   // handleChange={handleChange}
-                  onChange={(e) => setInputValue({ ...inputValue, first_name: e.target.value })}
+                  onChange={(e) =>
+                    setInputValue({
+                      ...inputValue,
+                      user: {
+                        ...inputValue.user,
+                        first_name: e.target.value
+                      }
+                    })
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -162,8 +170,16 @@ export default function UpdateStudent({ object }) {
                   label="Familiya"
                   name="last_name"
                   type="text"
-                  value={inputValue.last_name}
-                  onChange={(e) => setInputValue({ ...inputValue, last_name: e.target.value })}
+                  value={inputValue.user.last_name}
+                  onChange={(e) =>
+                    setInputValue({
+                      ...inputValue,
+                      user: {
+                        ...inputValue.user,
+                        last_name: e.target.value
+                      }
+                    })
+                  }
                   autoComplete="last-name"
                   // handleChange={handleChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

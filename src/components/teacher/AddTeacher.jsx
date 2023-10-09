@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineFileAdd,
+  AiOutlineUserAdd,
+} from "react-icons/ai";
 import Modal from "../../generic/Modal";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
@@ -50,7 +55,11 @@ export default function AddTeacher() {
   const [createTeacher, { isLoading, isSuccess }] = useCreateTeacherMutation();
   const { data } = useGetTeachersQuery();
   const { data: science } = useGetSciencesQuery();
-  const [error, setError] = useState({ salary: "", username: "" });
+  const [error, setError] = useState({
+    salary: "",
+    username: "",
+    password: "",
+  });
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
@@ -123,6 +132,28 @@ export default function AddTeacher() {
   };
 
   //Har bir inputdan qiymat olish
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   const numberPattern = /^[0-9]*$/;
+  //   const keys = name.split(".");
+
+  //   const newValue =
+  //     keys.length > 1
+  //       ? updateNestedValue(inputValue, keys, value)
+  //       : { ...inputValue, [name]: value };
+
+  //   setInputValue(newValue);
+
+  //   if (name === "salary") {
+  //     setError((prevError) => ({
+  //       ...prevError,
+  //       salary:
+  //         numberPattern.test(value) || value === ""
+  //           ? ""
+  //           : "Iltimos faqat raqamlar ishlating",
+  //     }));
+  //   }
+  // };
   const handleChange = (e) => {
     const { name, value } = e.target;
     const numberPattern = /^[0-9]*$/;
@@ -136,13 +167,29 @@ export default function AddTeacher() {
     setInputValue(newValue);
 
     if (name === "salary") {
-      setError((prevError) => ({
-        ...prevError,
-        salary:
-          numberPattern.test(value) || value === ""
+      if (value === "") {
+        setError((prevError) => ({ ...prevError, salary: "" }));
+      } else {
+        setError((prevError) => ({
+          ...prevError,
+          salary: numberPattern.test(value)
             ? ""
             : "Iltimos faqat raqamlar ishlating",
-      }));
+        }));
+      }
+    }
+
+    // Password validation
+    if (name === "user.password") {
+      if (value === "") {
+        setError((prevError) => ({ ...prevError, password: "" }));
+      } else {
+        setError((prevError) => ({
+          ...prevError,
+          password:
+            value.length < 8 ? "Parol juda oddiy 👎" : "Parol juda zo'r 👍",
+        }));
+      }
     }
   };
 
@@ -178,9 +225,14 @@ export default function AddTeacher() {
       toast.error("O'qituvchi qo'shishda xatolik", error.message);
     }
   };
-
+  const [show, setShow] = useState(false);
   const onClose = () => {
     setOpen(false);
+    setError({
+      salary: "",
+      username: "",
+      password: "",
+    });
   };
 
   return (
@@ -245,19 +297,42 @@ export default function AddTeacher() {
                 />
               </div>
               {error.username && (
-                <p className="text-red-600 absolute text-[12px] -bottom-3">
+                <p className="text-red-600 absolute text-[12px] -bottom-4">
                   {error.username}
                 </p>
               )}
             </div>
-            <InputField
-              label="Foydalanuvchi Paroli"
-              id="password"
-              name="user.password"
-              type="text"
-              autoComplete="password"
-              handleChange={handleChange}
-            />
+            <div className="col-span-1 row-span-1 relative">
+              <InputField
+                label="Foydalanuvchi Paroli"
+                id="password"
+                name="user.password"
+                type={show ? "text" : "password"}
+                autoComplete="password"
+                handleChange={handleChange}
+                icon={
+                  show ? (
+                    <AiOutlineEye
+                      className="absolute top-10 text-xl right-2 cursor-pointer"
+                      onClick={() => setShow(false)}
+                    />
+                  ) : (
+                    <AiOutlineEyeInvisible
+                      className="absolute top-10 text-xl right-2 cursor-pointer"
+                      onClick={() => setShow(true)}
+                    />
+                  )
+                }
+              />
+              {error.password && (
+                <p
+                  className={`text-${inputValue.user.password.length < 8 ? "red" : "green"
+                    }-600 absolute text-[12px] -bottom-3`}
+                >
+                  {error.password}
+                </p>
+              )}
+            </div>
             <div className="col-span-1 row-span-1 relative">
               <label
                 htmlFor="salary"
@@ -306,6 +381,14 @@ export default function AddTeacher() {
               LabelFor={"language_certificate_file"}
               setInputValue={setInputValue}
               inputValue={inputValue}
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"Tarjimai Hol"}
@@ -313,8 +396,14 @@ export default function AddTeacher() {
               LabelFor={"biography"}
               setInputValue={setInputValue}
               inputValue={inputValue}
-              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
-
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"Obyektivka"}
@@ -322,8 +411,14 @@ export default function AddTeacher() {
               LabelFor={"lens"}
               setInputValue={setInputValue}
               inputValue={inputValue}
-              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
-
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"So'rovnoma"}
@@ -331,8 +426,14 @@ export default function AddTeacher() {
               LabelFor={"survey"}
               setInputValue={setInputValue}
               inputValue={inputValue}
-              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
-
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"086 Tibbiy Malumotnoma"}
@@ -340,8 +441,14 @@ export default function AddTeacher() {
               LabelFor={"medical_book"}
               setInputValue={setInputValue}
               inputValue={inputValue}
-              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
-
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <FileUpload
               title={"Shaxsiy Rasmingiz"}
@@ -349,8 +456,7 @@ export default function AddTeacher() {
               LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
-              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
-
+              acceptedFormats={[".png", ".jpeg", ".jpg"]}
             />
             <InputField
               label="Manzil"
@@ -413,8 +519,8 @@ export default function AddTeacher() {
                     isLoading
                       ? []
                       : science.map((item) => {
-                          return { value: item.id, label: item.title };
-                        })
+                        return { value: item.id, label: item.title };
+                      })
                   }
                 />
               </div>

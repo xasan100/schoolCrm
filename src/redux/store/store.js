@@ -13,7 +13,7 @@ import { TaskCrud } from "../slice/task/TaskCrud.js";
 import { StudentsClasCrud } from "../slice/studentsClas/studentsClas.js";
 import { ChatCrud } from "../slice/chat/ChatCrud.js";
 import { ParentsCrud } from "../slice/parents/ParentsCrud.js";
-import { generalStatisticsGet, TotalCrud } from "../slice/general/generalStatisca.js";
+import {generalStatisticsGet,TotalCrud,} from "../slice/general/generalStatisca.js";
 
 export const store = configureStore({
   reducer: {
@@ -47,7 +47,7 @@ export const store = configureStore({
       StudentsClasCrud.middleware,
       ChatCrud.middleware,
       ParentsCrud.middleware,
-      TotalCrud.middleware,
+      TotalCrud.middleware
     ),
 });
 
