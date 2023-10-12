@@ -54,10 +54,11 @@ function AddParent() {
 
   // Inputdagi qiymatni olganda raqam yoki raqam emasligini tekshirish uchun qo'shimcha funksiya
   const updateNestedValue = (obj, keys, value) => {
-    const newObj = { ...obj };
+    const newObj = { ...obj }; // ob'ektning nusxasini olamiz
     let current = newObj;
 
     for (let i = 0; i < keys.length - 1; i++) {
+      current[keys[i]] = { ...current[keys[i]] }; // nusxalar yordamida yangi ob'ekt yaratamiz
       current = current[keys[i]];
     }
 
@@ -95,10 +96,10 @@ function AddParent() {
 
     setInputValue((prev) => ({
       ...prev,
-      user: { ...prev.user, username: +value },
+      user: { ...prev.user, username: value },
     }));
 
-    if (value.length >= 13) {
+    if (value?.length >= 13) {
       setSkip(false);
     } else {
       setSkip(true);
@@ -211,7 +212,7 @@ function AddParent() {
                 />
               </div>
               {allUserName?.exists && (
-                <p className="text-red-600 absolute text-[12px] -bottom-3">
+                <p className="text-red-600 absolute text-[12px] -bottom-4">
                   Ushbu foydalanuvchi nomi allaqachon mavjud
                 </p>
               )}

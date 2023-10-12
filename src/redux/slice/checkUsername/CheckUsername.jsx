@@ -7,7 +7,7 @@ export const CheckUserName = createApi({
   tagTypes: ["AllUserNames"],
   endpoints: (build) => ({
     getAllUserName: build.query({
-      query: (username) => `users/check_username_exists/?username=+${username}`,
+      query: (username) => `users/check_username_exists/?username=${username}`,
       providesTags: ["AllUserNames"],
     }),
   }),

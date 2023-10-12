@@ -53,7 +53,6 @@ function UpdateParent({ object }) {
     return newObj;
   };
 
-
   //Faqatgina username inputidan qiymat olish chunki u boshqacha component
   const handleUsernameChange = (e) => {
     const value = e;
@@ -63,7 +62,7 @@ function UpdateParent({ object }) {
       user: { ...prev.user, username: value },
     }));
 
-    if (value.length >= 13) {
+    if (value?.length >= 13) {
       setSkip(false);
     } else {
       setSkip(true);
@@ -75,12 +74,15 @@ function UpdateParent({ object }) {
     const { name, value } = e.target;
     const keys = name.split(".");
 
-    const newValue =
-      keys.length > 1
-        ? updateNestedValue(inputValue, keys, value)
-        : { ...inputValue, [name]: value };
+    let newInputValue = JSON.parse(JSON.stringify(inputValue));
 
-    setInputValue(newValue);
+    if (keys.length > 1) {
+      newInputValue = updateNestedValue(newInputValue, keys, value);
+    } else {
+      newInputValue[name] = value;
+    }
+
+    setInputValue(newInputValue);
 
     // Password validation
     if (name === "user.password") {
@@ -97,9 +99,25 @@ function UpdateParent({ object }) {
   };
 
   //O'qituvchi qo'shish
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    for (let key in inputValue) {
+      if (key === "user") {
+        for (let userKey in inputValue[key]) {
+          formData.append(`user.${userKey}`, inputValue[key][userKey]);
+        }
+      } else if (
+        key === "children" &&
+        inputValue[key] &&
+        Array.isArray(inputValue[key])
+      ) {
+        inputValue[key].forEach((value) => {
+          formData.append(key, value);
+        });
+      } else {
+        formData.append(key, inputValue[key]);
+      }
+    }
     try {
       setHasSubmitted(true);
       await updateParent(inputValue);
@@ -170,7 +188,7 @@ function UpdateParent({ object }) {
                 />
               </div>
               {allUserName?.exists && (
-                <p className="text-red-600 absolute text-[12px] -bottom-3">
+                <p className="text-red-600 absolute text-[12px] -bottom-4">
                   Ushbu foydalanuvchi nomi allaqachon mavjud
                 </p>
               )}
@@ -239,7 +257,7 @@ function UpdateParent({ object }) {
                       ? []
                       : data
                           .filter((item) =>
-                            inputValue.children_dict.includes(item.id)
+                            inputValue.children.includes(item.id)
                           )
                           .map((child) => {
                             return {

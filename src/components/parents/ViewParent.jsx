@@ -49,9 +49,31 @@ export default function ViewParent({ object }) {
                   <p>
                     <strong>Foydalanuvchi nomi:</strong> {object.user.username}
                   </p>
-                  <p>
-                    <strong>Maosh:</strong> {object.salary}
-                  </p>
+                  <div>
+                    <strong>Farzandlar</strong>{" "}
+                    <table className="border-collapse border">
+                      <thead>
+                        <tr>
+                          <th className="border p-2">№</th>
+                          <th className="border p-2">Ismi</th>
+                          <th className="border p-2">Familiyasi</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {object.children_dict.map((child, index) => (
+                          <tr key={child.user.id}>
+                            <td className="border p-2">{index + 1}</td>
+                            <td className="border p-2">
+                              {child.user.first_name}
+                            </td>
+                            <td className="border p-2">
+                              {child.user.last_name}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
