@@ -21,7 +21,7 @@ export const ParentsCrud = createApi({
     updateParent: build.mutation({
       query: (body) => ({
         url: `parents/${body.id}/`,
-        method: "PATCH",
+        method: "PUT",
         body,
       }),
       invalidatesTags: ["Parents"],

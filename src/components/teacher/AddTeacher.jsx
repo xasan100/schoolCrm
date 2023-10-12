@@ -131,29 +131,7 @@ export default function AddTeacher() {
     }));
   };
 
-  //Har bir inputdan qiymat olish
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   const numberPattern = /^[0-9]*$/;
-  //   const keys = name.split(".");
 
-  //   const newValue =
-  //     keys.length > 1
-  //       ? updateNestedValue(inputValue, keys, value)
-  //       : { ...inputValue, [name]: value };
-
-  //   setInputValue(newValue);
-
-  //   if (name === "salary") {
-  //     setError((prevError) => ({
-  //       ...prevError,
-  //       salary:
-  //         numberPattern.test(value) || value === ""
-  //           ? ""
-  //           : "Iltimos faqat raqamlar ishlating",
-  //     }));
-  //   }
-  // };
   const handleChange = (e) => {
     const { name, value } = e.target;
     const numberPattern = /^[0-9]*$/;
