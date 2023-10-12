@@ -13,9 +13,9 @@ const TeacherItem = ({ teacher, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {teacher?.user.image && teacher.user.image !== "" ? (
+        {teacher?.user?.image && teacher?.user?.image !== "" ? (
           <img
-            src={teacher.user.image}
+            src={teacher?.user?.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -26,7 +26,7 @@ const TeacherItem = ({ teacher, index }) => {
         )}
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {teacher?.user.first_name}
+            {teacher?.user?.first_name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
             {teacher?.user.last_name}

@@ -14,7 +14,7 @@ export function AddStudent() {
   const [open, setOpen] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
   const [types, setTypes] = useState()
-  
+
   const [inputValue, setInputValue] = useState({
     types: '',
     username: '',
@@ -85,7 +85,7 @@ export function AddStudent() {
           className="-ml-0.5 mr-1.5 text-xl"
           aria-hidden="true"
         />
-        O'qituvchi Qo'shish
+        Admin Qo'shish
       </button>
       {open && (
         <Modal title={<h1>Admin Q'shshish</h1>}

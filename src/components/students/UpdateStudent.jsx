@@ -8,11 +8,14 @@ import FileUpload from "../FileUpload/FileUpload";
 import { LuEdit2 } from "react-icons/lu";
 import CustomInput from "react-phone-number-input/input";
 import { useGetStudentsQuery, useUpdateStudentsMutation } from "../../redux/slice/students/students.js";
+import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 
 export default function UpdateStudent({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
   const [updateTeacher, { isLoading, isSuccess }] = useUpdateStudentsMutation();
+  const { data: dataClas, isLoading: isLoadingClas } = useGetStudentsClassQuery();
+
 
   const updateUser = () => {
     setInputValue({
@@ -271,24 +274,23 @@ export default function UpdateStudent({ object }) {
               </div>
             </div>
 
-
             <div className="mt-2">
-
               <label htmlFor="">class of school</label>
               <select
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                defaultValue={inputValue.scince}
-                id="science"
-                name="science"
-                value={inputValue.class_of_school}
-                onChange={(e) => setInputValue({ ...inputValue, class_of_school: e.target.value })}
-              >
-                <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="1">5</option>
-                <option value="1">6</option>
+                onChange={(e) =>
+                  setInputValue({
+                    ...inputValue,
+                    class_of_school: e.target.value,
+                  })
+                }
+              >{
+                  dataClas?.map((val) => {
+                    return (
+                      <option value={val.id}>{val.title}</option>
+                    )
+                  })
+                }
               </select>
             </div>
           </div>

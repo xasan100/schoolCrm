@@ -2,21 +2,21 @@ import React, { useState, useMemo } from "react";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import { FaUserTie } from "react-icons/fa";
-import { useGetStaffQuery } from "../../redux/slice/staff/StaffSlice";
-import AddStaff from "./AddStaff";
-import ViewStaff from "./ViewStaff";
-import UpdateStaff from "./UpdateStaff";
-import DeleteStaff from "./DeleteStaff";
+import AddParent from "./AddParent";
+import UpdateParent from "./UpdateParent";
+import ViewParent from "./ViewParent";
+import DeleteParent from "./DeleteParent";
+import { useGetParentsQuery } from "../../redux/slice/parents/ParentsCrud";
 
-const StaffItem = ({ staff, index }) => {
+const StaffItem = ({ parent, index }) => {
   // JSX for each teacher
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {staff?.user.image && staff?.user.image !== "" ? (
+        {parent.user.image && parent.user.image !== "" ? (
           <img
-            src={staff?.user.image}
+            src={parent.user.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -27,17 +27,17 @@ const StaffItem = ({ staff, index }) => {
         )}
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {staff?.user.first_name}
+            {parent.user.first_name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {staff?.user.last_name}
+            {parent.user.last_name}
           </p>
         </div>
       </div>
       <div className="flex gap-2 items-center">
-        <ViewStaff object={staff} />
-        <UpdateStaff object={staff} />
-        <DeleteStaff ID={staff.id} />
+        <ViewParent object={parent} />
+        <UpdateParent object={parent} />
+        <DeleteParent ID={parent?.id} />
       </div>
     </li>
   );
@@ -45,17 +45,16 @@ const StaffItem = ({ staff, index }) => {
 
 function ParentsTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading } = useGetStaffQuery();
-
+  const { data, isLoading } = useGetParentsQuery();
   const filteredStaff = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
       return data.filter(
-        (staff) =>
-          staff.user.first_name
+        (parent) =>
+          parent.user.first_name
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
-          staff.user.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+          parent.user.last_name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     } else {
       return data;
@@ -102,7 +101,7 @@ function ParentsTableComponent() {
               />
             </div>
           </div>
-          <AddStaff />
+          <AddParent />
         </div>
         {isLoading ? (
           <Loader
@@ -111,8 +110,8 @@ function ParentsTableComponent() {
           />
         ) : filteredStaff.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
-            {filteredStaff.map((staff, index) => (
-              <StaffItem staff={staff} index={index} key={staff.id} />
+            {filteredStaff.map((parent, index) => (
+              <StaffItem parent={parent} index={index} key={parent.id} />
             ))}
           </ul>
         ) : (

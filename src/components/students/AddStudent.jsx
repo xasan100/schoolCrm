@@ -97,9 +97,6 @@ export function AddStudent() {
     const { name, value } = e.target;
     setInputValue({ ...inputValue, password: value });
 
-
-
-
     // Password validation
     if (name === "password") { // Check if the field name is "user.password"
       if (value === "") {

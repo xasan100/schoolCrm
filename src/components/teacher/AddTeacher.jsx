@@ -160,7 +160,7 @@ export default function AddTeacher() {
     const keys = name.split(".");
 
     const newValue =
-      keys.length > 1
+      keys?.length > 1
         ? updateNestedValue(inputValue, keys, value)
         : { ...inputValue, [name]: value };
 
@@ -522,6 +522,9 @@ export default function AddTeacher() {
                         return { value: item.id, label: item.title };
                       })
                   }
+                  noOptionsMessage={() => {
+                    return <div>Ma'lumotlar yo'q</div>;
+                  }}
                 />
               </div>
             </div>

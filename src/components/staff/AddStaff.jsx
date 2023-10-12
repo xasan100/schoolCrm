@@ -6,10 +6,9 @@ import { toast } from "react-toastify";
 import CustomInput from "react-phone-number-input/input";
 import { useEffect } from "react";
 import InputField from "../../generic/InputField";
-import { useCreateStaffMutation } from "../../redux/slice/staff/StaffSlice";
 import FileUpload from "../FileUpload/FileUpload";
 import { memo } from "react";
-
+import { useCreateStaffMutation } from "../../redux/slice/staff/StaffSlice.js";
 const INITIAL_STATE = {
   user: {
     username: "",
@@ -26,7 +25,7 @@ const INITIAL_STATE = {
 function AddStaff() {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
-  const [createStaff, { isLoading, isSuccess }] = useCreateStaffMutation();
+  const [createParent, { isLoading, isSuccess }] = useCreateStaffMutation();
   const { data } = useGetTeachersQuery();
   const [error, setError] = useState({ sallery: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -141,7 +140,7 @@ function AddStaff() {
 
     try {
       setHasSubmitted(true);
-      await createStaff(formData);
+      await createParent(formData);
       setInputValue(INITIAL_STATE);
       setHasSubmitted(false);
     } catch (error) {
