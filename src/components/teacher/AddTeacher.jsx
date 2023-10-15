@@ -138,7 +138,7 @@ export default function AddTeacher() {
     const keys = name.split(".");
 
     const newValue =
-      keys.length > 1
+      keys?.length > 1
         ? updateNestedValue(inputValue, keys, value)
         : { ...inputValue, [name]: value };
 
@@ -304,9 +304,8 @@ export default function AddTeacher() {
               />
               {error.password && (
                 <p
-                  className={`text-${
-                    inputValue.user.password.length < 8 ? "red" : "green"
-                  }-600 absolute text-[12px] -bottom-3`}
+                  className={`text-${inputValue.user.password.length < 8 ? "red" : "green"
+                    }-600 absolute text-[12px] -bottom-3`}
                 >
                   {error.password}
                 </p>
@@ -498,8 +497,8 @@ export default function AddTeacher() {
                     isLoading
                       ? []
                       : science.map((item) => {
-                          return { value: item.id, label: item.title };
-                        })
+                        return { value: item.id, label: item.title };
+                      })
                   }
                   noOptionsMessage={() => {
                     return <div>Ma'lumotlar yo'q</div>;

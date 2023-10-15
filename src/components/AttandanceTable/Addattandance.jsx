@@ -79,7 +79,7 @@ export default function Addattandance() {
               </select>
               <br />
               <div>
-                <p className="mb-1"> {inputValue.user}lar</p>
+                <p className="mb-1">Foydalanuvchilar</p>
 
                 <div>
                   <select

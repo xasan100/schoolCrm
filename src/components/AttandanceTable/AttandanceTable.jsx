@@ -1,6 +1,5 @@
 /** @format */
 import React, { useEffect, useState, useMemo } from "react";
-import { AiOutlineEye } from "react-icons/ai";
 import { useGetAttendanceQuery } from "../../redux/slice/attandance/Attendance.js";
 import Addattandance from "./Addattandance.jsx";
 
@@ -21,6 +20,18 @@ function AttandanceTableComponent() {
     setFilteredData(result);
   }, [type, data]);
 
+  const filteredUsers = filteredData?.filter((users) => {
+    const username = users?.user_object?.first_name?.toLowerCase();
+    const firstName = users?.user_object?.last_name?.toLowerCase();
+    const davomat = users?.davomat?.toLowerCase();
+    const lowerCaseSearchQuery = searchQuery?.toLowerCase();
+    return (
+      username?.includes(lowerCaseSearchQuery) ||
+      firstName?.includes(lowerCaseSearchQuery) ||
+      davomat?.includes(lowerCaseSearchQuery)
+    );
+  });
+
   const filter = (name) => {
     let res;
     if (name === "all") {
@@ -30,20 +41,7 @@ function AttandanceTableComponent() {
     }
     setFilteredData(res);
   };
-  const filteredUsers = filteredData?.filter((users) => {
-    const username = users?.user_object?.first_name?.toLowerCase();
-    const firstName = users?.user_object?.last_name?.toLowerCase();
-    const davomat = users?.davomat?.toLowerCase();
-    const lowerCaseSearchQuery = searchQuery?.toLowerCase();
 
-    return (
-      username?.includes(lowerCaseSearchQuery) ||
-      firstName?.includes(lowerCaseSearchQuery) ||
-      davomat?.includes(lowerCaseSearchQuery)
-    );
-  });
-  console.log("Search Query:", searchQuery);
-  console.log("Filtered Data:", filteredData);
 
   return (
     <div className='h-ful gap-3 col-span-12'>
@@ -123,7 +121,7 @@ function AttandanceTableComponent() {
           {isLoading ? (
             <h1>Loading...</h1>
           ) : (
-            filteredData?.map((users, index) => (
+              filteredUsers?.map((users, index) => (
               <li className='flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200'>
                 <div className='flex min-w-0 gap-x-4'>
                   <h1>{index + 1}.</h1>

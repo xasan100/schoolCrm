@@ -1,8 +1,6 @@
 import React, { useState, useMemo } from "react";
-
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-// import UpdateTeacher from "./UpdateTeacher";
 import { FaUserTie } from "react-icons/fa";
 import DeleteStudent from "./DeleteStudents.jsx";
 import AddStudent from "./AddStudent.jsx"
@@ -11,7 +9,7 @@ import View from "./View.jsx";
 import UpdateStudent from "./UpdateStudent.jsx";
 import ExselStudent from "./StudentsExsel.jsx";
 import StudentPay from "./StudentPay.jsx";
-import FileUpload from "../FileUpload/FileUpload.jsx";
+
 
 const TeacherItem = ({ teacher, index }) => {
 

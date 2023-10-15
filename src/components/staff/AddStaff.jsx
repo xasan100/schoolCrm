@@ -8,8 +8,7 @@ import { useEffect } from "react";
 import InputField from "../../generic/InputField";
 import FileUpload from "../FileUpload/FileUpload";
 import { memo } from "react";
-import { useCreateParentMutation } from "../../redux/slice/parents/ParentsCrud";
-
+import { useCreateStaffMutation } from "../../redux/slice/staff/StaffSlice.js";
 const INITIAL_STATE = {
   user: {
     username: "",
@@ -26,7 +25,7 @@ const INITIAL_STATE = {
 function AddStaff() {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
-  const [createParent, { isLoading, isSuccess }] = useCreateParentMutation();
+  const [createParent, { isLoading, isSuccess }] = useCreateStaffMutation();
   const { data } = useGetTeachersQuery();
   const [error, setError] = useState({ sallery: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);

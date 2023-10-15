@@ -1,17 +1,29 @@
 import React, { useState } from "react";
-import { AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import CustomInput from "react-phone-number-input/input";
-import { useCreateStudentMutation } from "../../redux/slice/students/students.js";
+import { useCreateStudentMutation, useGetStudentsQuery } from "../../redux/slice/students/students.js";
 import { toast } from "react-toastify";
+import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 
 export function AddStudent() {
-  const [open, setOpen] = useState(false); // Fixed the typo here
-  const [createStudent, { isLoading, isSuccess }] = useCreateStudentMutation();
+  const [createStudent, { isLoading: isLoadingCreate, isSuccess }] = useCreateStudentMutation();
 
+  const { data, isLoading } = useGetStudentsQuery();
+  const { data: dataClas, isLoading: isLoadingClas } = useGetStudentsClassQuery();
+
+
+  const [open, setOpen] = useState(false); // Fixed the typo here
+
+
+  const [error, setError] = useState({
+    salary: "",
+    username: "",
+    password: "",
+  });
   const [inputValue, setInputValue] = useState({
     username: "",
     password: "",
@@ -27,6 +39,7 @@ export function AddStudent() {
     img: "",
     deleteId: "",
   });
+
   const addData = async () => {
     const formData = new FormData();
     formData.append('user.username', inputValue.username);
@@ -48,12 +61,54 @@ export function AddStudent() {
 
       setOpen(false);
     } catch (error) {
-      toast.error("O'qituvchi qo'shilmadi");
+      toast.error(`O'quvchi ${inputValue.firstName} qo'shilmadi`);
       console.error('Failed to add student:', error);
     }
   }
   const onClose = () => {
     setOpen(false);
+    setError('')
+    setInputValue('')
+
+  };
+
+  //Faqatgina username inputidan qiymat olish chunki u boshqacha component
+  const handleUsernameChange = (e) => {
+
+    const value = e;
+    const isUsernameExists = data.some(
+      (teacher) => teacher.user.username === value
+    );
+
+    setInputValue((prev) => ({
+      ...prev,
+      user: { ...prev.user, username: value },
+    }));
+
+    setError((prevError) => ({
+      ...prevError,
+      username: isUsernameExists ? "Ushbu username allaqachon mavjud!" : "",
+    }));
+    setInputValue({ ...inputValue, username: value })
+  };
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setInputValue({ ...inputValue, password: value });
+
+    // Password validation
+    if (name === "password") { // Check if the field name is "user.password"
+      if (value === "") {
+        setError((error) => ({ ...error, password: "" }));
+      } else {
+        setError((error) => ({
+          ...error,
+          password:
+            value.length < 8 ? "Parol juda oddiy 👎" : "Parol juda zo'r 👍",
+        }));
+      }
+    }
   };
 
   return (
@@ -74,45 +129,73 @@ export function AddStudent() {
           loader={isLoading}
           closeModal={onClose} addFunc={addData}>
           <div className="grid grid-rows-6 grid-cols-4 gap-2">
-            <div className="col-span-1 row-span-1">
+            <div className="col-span-1 row-span-1 relative">
               <label
                 htmlFor="first-name"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
                 Telfon Raqam
               </label>
-              <div className="mt-2">
+              <div className="mt-2" >
                 <CustomInput
                   placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
                   maxLength={17}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) =>
-                    setInputValue({ ...inputValue, username: e })
-                  }
+                  onChange={(e) => handleUsernameChange(e)}
                   value={inputValue.username}
                 />
+
               </div>
+              {error.username && (
+                <p className="text-red-600  absolute text-[12px] -bottom-3  text-xs">
+                  {error.username}
+                </p>
+              )}
+
             </div>
-            <div className="col-span-1 row-span-1">
+            <div className="col-span-1 row-span-1 relative" >
               <label
-                htmlFor="last-name"
+                htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
                 Parol Yarating
               </label>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
-                  id="last-name"
-                  name="last_name"
-                  type="text"
-                  autoComplete="last-name"
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
                   required
-                  onChange={(e) =>
-                    setInputValue({ ...inputValue, password: e.target.value })
-                  }
+                  onChange={handlePasswordChange}
+                  value={inputValue.password}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                >
+                  {showPassword ? (
+                    <AiOutlineEye
+                      className="absolute top-2 text-xl right-2 cursor-pointer"
+                    />
+
+                  ) : (
+                    <AiOutlineEyeInvisible
+                      className="absolute top-2 text-xl right-2 cursor-pointer"
+                    />
+                  )}
+                </button>
               </div>
+              {error?.password && (
+                <p
+                  className={`text-${inputValue?.password.length < 8 ? "red" : "green"
+                    }-600 absolute text-[12px] -bottom-3`}
+                >
+                  {error.password}
+                </p>
+              )}
             </div>
             <div className="col-span-1 row-span-1">
               <label
@@ -264,17 +347,13 @@ export function AddStudent() {
                     class_of_school: e.target.value,
                   })
                 }
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
+              >{
+                  dataClas?.map((val) => {
+                    return (
+                      <option value={val.id}>{val.title}</option>
+                    )
+                  })
+                }
               </select>
             </div>
           </div>

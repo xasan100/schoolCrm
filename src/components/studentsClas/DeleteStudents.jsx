@@ -11,10 +11,10 @@ export default function DeleteStudentClas({ ID }) {
     const handleDelete = async (id) => {
         try {
             await deleteTeacher({ id });
-            toast.success("O'quvchi o'chirildi!");
+            toast.success("Sinf  o'chirildi!");
             setIsOpen(false);
         } catch (err) {
-            toast.error("O'quvchi o'chirishda xatolik:", err);
+            toast.error("Sinf o'chirishda xatolik:", err);
         }
     };
     return (

@@ -10,6 +10,12 @@ export const TeachersCrud = createApi({
       query: () => "teachers/",
       providesTags: ["Teachers"],
     }),
+
+    getTeachersbusy: build.query({
+      query: () => "teachers/teachers_for_class/",
+      providesTags: ["Teachersbusy"],
+    }),
+    
     createTeacher: build.mutation({
       query: (body) => ({
         url: `teachers/`,
@@ -39,6 +45,7 @@ export const TeachersCrud = createApi({
 
 export const {
   useGetTeachersQuery,
+  useGetTeachersbusyQuery, 
   useCreateTeacherMutation,
   useUpdateTeacherMutation,
   useDeleteTeacherMutation,

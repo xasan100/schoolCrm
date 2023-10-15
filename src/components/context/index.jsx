@@ -7,11 +7,9 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
     const [day, setDay] = useState(true);
-
     const toggleTheme = () => {
         setDay(prevDay => !prevDay);
     };
-
     return (
         <ThemeContext.Provider value={{ day, toggleTheme }}>
             {children}

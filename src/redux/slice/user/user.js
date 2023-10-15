@@ -21,7 +21,7 @@ export const UserCrud = createApi({
         updateUser: build.mutation({
             query: (body) => ({
                 url: `admins/${body.get("id")}/`,
-                method: "PATCH",
+                method: "PUT",
                 body,
             }),
             invalidatesTags: ["UserCrud"],

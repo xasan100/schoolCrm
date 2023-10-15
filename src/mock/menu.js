@@ -22,6 +22,7 @@ import ChatParentPage from "../pages/ChatParent.jsx";
 import Lessons from "../pages/Lessons.jsx";
 import Income from "../pages/Income.jsx";
 import Parents from "../pages/Parents.jsx";
+import Teacher from "../pages/Teacher.jsx";
 
 const menuItems = [
 
@@ -170,6 +171,15 @@ const menuItems = [
     private: true,
     hidden: true,
     element: <ChatParentPage />,
+    icon: <BsChatDots />,
+  },
+  {
+    id: 18,
+    title: "O'qtuvchi Kabineti",
+    path: "/teacher-profile",
+    private: false,
+    hidden: false,
+    element: <Teacher/>,
     icon: <BsChatDots />,
   },
 ];
