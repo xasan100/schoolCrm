@@ -10,6 +10,11 @@ export const LessonTableCrud = createApi({
       query: () => "lessons/get_lessons_of_class/",
       providesTags: ["LessonTable"],
     }),
+
+    getLessonTime: build.query({
+      query: () => "lesson_times/",
+      providesTags: ["getLessonTime"],
+    }),
     createLessonExsel: build.mutation({
       query: (body) => ({
         url: `lessons/add_lesson_with_excel/`,
@@ -18,26 +23,11 @@ export const LessonTableCrud = createApi({
       }),
       invalidatesTags: ["LessonTable"],
     }),
-    // updateStaff: build.mutation({
-    //   query: (body) => ({
-    //     url: `employers/${body.get("id")}/`,
-    //     method: "PUT",
-    //     body,
-    //   }),
-    //   invalidatesTags: ["Staff"],
-    // }),
-    // deleteStaff: build.mutation({
-    //   query: (body) => ({
-    //     url: `employers/${body.id}/`,
-    //     method: "DELETE",
-    //     body,
-    //   }),
-    //   invalidatesTags: ["Staff"],
-    // }),
   }),
 });
 
 export const {
   useGetLessonTableQuery,
   useCreateLessonExselMutation,
+  useGetLessonTimeQuery,
 } = LessonTableCrud;

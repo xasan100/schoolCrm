@@ -9,6 +9,8 @@ export default function Sidebar() {
   const [active, setActive] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown uchun yangi state
 
+
+  console.log(publicMenuItemsFalse,'publicMenuItemsFalse');
   const handleMenuItemClick = (path, item) => {
     setActive(item.id);
     navigate(path);
@@ -27,7 +29,7 @@ export default function Sidebar() {
         <img src={Logo} alt="logo" className="w-3/4" />
       </div>
       <ul className="flex flex-col list-none">
-        {menuItems.map((item) => (
+        {publicMenuItemsFalse?.filter((item) => (
           <li
             className={`flex items-start gap-4 py-2 px-4 text-lg font-semibold rounded-r-3xl cursor-pointer ${
               active === item.id ? "bg-primary text-white" : "text-gray-700"

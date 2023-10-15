@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import ExselLessonCreate from "./LessonExsel.jsx";
-import { useGetLessonTableQuery } from "../../redux/slice/lessonTable/LessonTableSlice.js";
+import { useGetLessonTableQuery, useGetLessonTimeQuery } from "../../redux/slice/lessonTable/LessonTableSlice.js";
 import Loader from "../Loader/Loader.jsx";
+import { BeatLoader } from "react-spinners";
 
 
 
 export default function LessonTable() {
   const { data, isLoading } = useGetLessonTableQuery();
+  const { data: dataTime, isLoading: isLoadingTime } = useGetLessonTimeQuery();
+
+
+
   const [day, setDay] = useState()
 
   const [inputValue, setInputValue] = useState(
@@ -36,8 +41,6 @@ export default function LessonTable() {
 
 
 
-
-
   const table = [
     { day: "Dushanba", lessons: [{ text: "Ona-tili" }, { text: "Adabiyot" }] },
     {
@@ -58,8 +61,8 @@ export default function LessonTable() {
 
 
   return (
-    <div>
-      <div className="flex justify-between h-[80px]">
+    <div className="container mx-auto">
+      <div className=" flex justify-between h-[80px]">
         <h1 className="text-2xl font-bold">Dars Jadvali</h1>
         <div className="flex content-center gap-5">
           <ExselLessonCreate />
@@ -69,7 +72,7 @@ export default function LessonTable() {
               onChange={handleInputChange}
             >
               {
-                
+
                 data?.map((val, index) => {
 
                   return (
@@ -84,38 +87,34 @@ export default function LessonTable() {
       </div>
 
 
-      <div className="grid grid-cols-12 col-span-12 w-full  overflow-y-scroll h-[74vh]">
-        <div className="col-span-1 grid grid-cols-12 items-end">
-          <span className="col-span-full">8:00</span>
-          <span className="col-span-full">9:00</span>
-          <span className="col-span-full">10:00</span>
-          <span className="col-span-full">11:00</span>
-          <span className="col-span-full">12:00</span>
-          <span className="col-span-full">13:00</span>
-          <span className="col-span-full">14:00</span>
-          <span className="col-span-full">15:00</span>
-          <span className="col-span-full">16:00</span>
-          <span className="col-span-full">17:00</span>
-        </div>
+      <div className="grid grid-cols-12 col-span-12 w-full  overflow-y-scroll h-[76vh]">
 
-        {/* // <DayColumn key={index} title={item?.day} lessons={item?.lesson_date} /> */}
+        <div className="col-span-1 grid grid-cols-12 items-end my-30">
+          {
+            dataTime?.map((val, index) => {
+              return (
+                <>
+                  <span key={index + 1} className="my-30 col-span-full bg-lime-600 text-white flex justify-center items-center">{val?.begin_time}</span>
+                  <span className="my-30 col-span-full bg-red-600 text-white flex justify-center items-center">{val?.end_time}</span>
+                </>
+
+              )
+            })
+          }
+        </div>
         <div className="col-span-11  divide-x-2 divide-gray-300 border-2 ">
           <div className="grid grid-cols-6 gap-4 p-1" >
             {table?.map((item, i) => (
-              <div key={i} className="h-[40px]  w-[160px] p-2 bg-yellow-400 rounded-md text-white flex items-center justify-center" >
+              <div key={i} className="h-[40px]  w-[150px] p-2 bg-yellow-400 rounded-md text-white flex items-center justify-center" >
                 {item?.day}
               </div>
             ))}
           </div>
           <div className="grid grid-cols-6 gap-4 p-1">
             {isLoading ? (
-              // <Loader
-              //   extraClass="col-span-12 flex justify-center"
-              //   Color="#62B238"
-              // />
-            <h1>Loading...</h1>
+              <h1>Loading...</h1>
             ) : day ? (
-              day.map((item, i) => (
+              day?.map((item, i) => (
                 <div
                   key={i}
                   className="cursor-pointer h-[100px] w-[150px] p-2 bg-primary hover:bg-indigo-500 rounded-md text-white flex flex-col justify-around ite "
@@ -125,7 +124,7 @@ export default function LessonTable() {
                 </div>
               ))
             ) : data ? (
-              data.map((v) =>
+              data?.slice(0, 1)?.map((v) =>
                 v?.lessons?.map((e, i) => (
                   <div
                     key={i}

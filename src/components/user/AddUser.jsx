@@ -104,7 +104,7 @@ export function AddStudent() {
                     <option value="Hech biri">Hech biri</option>
                     {isLoading ? <Loader /> : data?.map((val) => (
                       <option
-                        value={val.id}> {val.title}</option>
+                        value={val.title}> {val.title}</option>
                     ))}
                   </select>
                 </div>

@@ -110,7 +110,6 @@ export function AddStudent() {
       }
     }
   };
-  console.log(inputValue?.class_of_school);
 
   return (
     <div className="col-span-4">
