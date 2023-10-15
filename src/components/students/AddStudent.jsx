@@ -193,7 +193,6 @@ export function AddStudent() {
                   className={`text-${inputValue?.password.length < 8 ? "red" : "green"
                     }-600 absolute text-[12px] -bottom-3`}
                 >
-                  <h1></h1>
                   {error.password}
                 </p>
               )}
