@@ -18,6 +18,7 @@ import {
   TotalCrud,
 } from "../slice/general/generalStatisca.js";
 import { CheckUserName } from "../slice/checkUsername/CheckUsername.jsx";
+import { IncomesCrud } from "../slice/income/IncomeCrud";
 
 export const store = configureStore({
   reducer: {
@@ -36,6 +37,7 @@ export const store = configureStore({
     [ParentsCrud.reducerPath]: ParentsCrud.reducer,
     [TotalCrud.reducerPath]: TotalCrud.reducer,
     [CheckUserName.reducerPath]: CheckUserName.reducer,
+    [IncomesCrud.reducerPath]: IncomesCrud.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -53,7 +55,8 @@ export const store = configureStore({
       ChatCrud.middleware,
       ParentsCrud.middleware,
       TotalCrud.middleware,
-      CheckUserName.middleware
+      CheckUserName.middleware,
+      IncomesCrud.middleware
     ),
 });
 
