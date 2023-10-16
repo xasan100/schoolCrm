@@ -3,17 +3,40 @@ import Logo from "../../assets/logo.png";
 import BigImg from "../../assets/29124.png";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Sigin = () => {
   const [state, setState] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const handleSubmit = async () => {
-    await axios
-      .post("https://alcrm.pythonanywhere.com/api/v1/token/", state)
-      .then((res) => {
-        const token = res.data.access;
+    try {
+      // POST so'rovini jo'natish
+      const response = await axios.post(
+        "https://alcrm.pythonanywhere.com/api/v1/token/",
+        state
+      );
+      if (response && response.data.access) {
+        const token = response.data.access;
         sessionStorage.setItem("token", token);
-      })
-      .catch((err) => console.log(err));
+
+        // GET so'rovini jo'natish
+        const profileResponse = await axios.get(
+          "https://alcrm.pythonanywhere.com/api/v1/users/me/",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (profileResponse && profileResponse.data) {
+          sessionStorage.setItem(
+            "profile",
+            JSON.stringify(profileResponse.data)
+          );
+          console.log(profileResponse);
+        }
+
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">

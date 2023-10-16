@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { Authentication as ThemeContext } from "../../context/index";
+import { ThemeContext } from "../../components/context/index";
 // import Loading from "../../examples/loading/Loading";
 
 const pathValues = [
@@ -49,7 +49,7 @@ function PrivateRoute({ children, path }) {
   }
 
   // SuperAdmin uchun barcha sahifalarga kirishga ruxsat berilgan
-  if (profile?.roles?.role_name === "admin") {
+  if (profile?.user.type_user === "admin") {
     return children;
   }
 

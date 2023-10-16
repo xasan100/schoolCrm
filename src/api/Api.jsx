@@ -3,4 +3,7 @@ let url = "https://alcrm.pythonanywhere.com/api/v1/";
 
 export const api = fetchBaseQuery({
   baseUrl: url,
+  headers: {
+    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+  },
 });

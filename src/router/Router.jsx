@@ -4,6 +4,7 @@ import Layout from "../components/layout/Layout.jsx";
 import Sigin from "../components/sigin/index.jsx";
 import menuItems from "../mock/menu.js";
 import Error from "./errorPage.jsx";
+import PrivateRoute from "./PrivateRouter/PrivateRoute.jsx";
 
 export default function Router() {
   return (
@@ -28,7 +29,13 @@ export default function Router() {
             ])
             .map((item) => (
               <>
-                <Route key={item.id} path={item.path} element={item.element} />
+                <Route
+                  key={item.id}
+                  path={item.path}
+                  element={
+                    <PrivateRoute path={item.path}>{item.element}</PrivateRoute>
+                  }
+                />
               </>
             ))}
         </Route>
