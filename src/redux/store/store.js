@@ -15,7 +15,7 @@ import { ChatCrud } from "../slice/chat/ChatCrud.js";
 import { ParentsCrud } from "../slice/parents/ParentsCrud.js";
 // import {generalStatisticsGet,TotalCrud,} from "../slice/general/generalStatisca.js";
 import {
-  generalStatisticsGet,
+ 
   TotalCrud,
 } from "../slice/general/generalStatisca.js";
 import { CheckUserName } from "../slice/checkUsername/CheckUsername.jsx";
