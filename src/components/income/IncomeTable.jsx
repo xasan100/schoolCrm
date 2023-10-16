@@ -1,42 +1,39 @@
 import React, { useState, useMemo } from "react";
-import AddTeacher from "./AddTeacher";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
-import DeleteTeacher from "./DeleteTeacher";
-import UpdateTeacher from "./UpdateTeacher";
-import { FaUserTie } from "react-icons/fa";
+import { BsArrowDownCircle } from "react-icons/bs";
 import View from "./View";
+import { useGetIncomesQuery } from "../../redux/slice/income/IncomeCrud";
+import UpdateIncome from "./UpdateIncome";
+import DeleteIncome from "./DeleteIncome";
+import AddIncome from "./AddIncome";
 
-const IncomeTable = ({ teacher, index }) => {
+const IncomeTable = ({ income, index }) => {
+  const formatNumber = (value) => {
+    const numberChange = new Intl.NumberFormat().format(value);
+    return numberChange;
+  };
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
-      <div className="flex min-w-0 gap-x-4">
+      <div className="flex min-w-0 gap-x-4 items-center">
         <h1>{index + 1}.</h1>
-        {teacher?.user.image && teacher.user.image !== "" ? (
-          <img
-            src={teacher.user.image}
-            alt="Teacher"
-            className="h-12 w-12 flex-none rounded-full border object-cover"
-          />
-        ) : (
-          <div className="w-12 h-12 rounded-full border bg-gray-200 flex justify-center items-center">
-            <FaUserTie className="text-3xl text-primary" />
-          </div>
-        )}
+        <div className="w-12 h-12 rounded-full border bg-gray-200 flex justify-center items-center">
+          <BsArrowDownCircle className="text-xl text-green-500" />
+        </div>
         <div className="min-w-0 flex-auto">
-          <p className="text-sm font-semibold leading-6 text-gray-900">
-            {teacher?.user.first_name}
+          <p className="text-sm font-semibold leading-6 text-gray-500 flex items-center gap-2">
+            <span>{income?.student.user.first_name}</span>
+            <span>{income?.student.user.last_name}</span>
           </p>
-          <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {teacher?.user.last_name}
+          <p className="mt-1 truncate text-sm leading-5 text-black font-bold">
+            {formatNumber(income?.amount)}
           </p>
         </div>
       </div>
       <div className="flex gap-2 items-center">
-        <View object={teacher} />
-        <UpdateTeacher object={teacher} />
-        <DeleteTeacher ID={teacher.id} />
+        <View object={income} />
+        <UpdateIncome object={income} />
+        <DeleteIncome ID={income.id} />
       </div>
     </li>
   );
@@ -44,20 +41,20 @@ const IncomeTable = ({ teacher, index }) => {
 
 function TeachersTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading } = useGetTeachersQuery();
+  const { data, isLoading } = useGetIncomesQuery();
 
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
       return data.filter(
-        (teacher) =>
-          teacher.user.first_name
+        (income) =>
+          income.student.user.first_name
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
-          teacher.user.last_name
+          income.student.user.last_name
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
-          teacher.user.middle_name
+          income.student.user.middle_name
             .toLowerCase()
             .includes(searchTerm.toLowerCase())
       );
@@ -106,7 +103,7 @@ function TeachersTableComponent() {
               />
             </div>
           </div>
-          <AddTeacher />
+          <AddIncome />
         </div>
         {isLoading ? (
           <Loader
@@ -114,9 +111,9 @@ function TeachersTableComponent() {
             Color="#62B238"
           />
         ) : filteredTeachers.length > 0 ? (
-          <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
-            {filteredTeachers.map((teacher, index) => (
-              <IncomeTable teacher={teacher} index={index} key={teacher.id} />
+          <ul className="overflow-y-scroll h-[68vh] divide-gray-300 divide-y-2 border rounded-lg col-span-12">
+            {filteredTeachers.map((income, index) => (
+              <IncomeTable income={income} index={index} key={income.id} />
             ))}
           </ul>
         ) : (

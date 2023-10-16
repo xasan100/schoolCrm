@@ -6,10 +6,6 @@ import menuItems from "../mock/menu.js";
 import Error from "./errorPage.jsx";
 
 export default function Router() {
-
-  const publicMenuItems = menuItems.filter((menu) => menu.private);
-  const publicMenuItemsFalse = menuItems.filter((menu) => !menu.private);
-  console.log(publicMenuItems, 'publicMenuItems');
   return (
     <BrowserRouter>
       <Routes>
@@ -17,7 +13,12 @@ export default function Router() {
         <Route element={<Layout />}>
           {menuItems
             ?.flatMap((menu) => [
-              { id: menu.id, path: menu.path, element: menu.element, private: menu.private },
+              {
+                id: menu.id,
+                path: menu.path,
+                element: menu.element,
+                private: menu.private,
+              },
               ...(menu.submenu?.map((sub) => ({
                 id: sub.id,
                 path: sub.path,
@@ -30,7 +31,6 @@ export default function Router() {
                 <Route key={item.id} path={item.path} element={item.element} />
               </>
             ))}
-        
         </Route>
         {/* Redirection */}
         {/* 404 Route */}
