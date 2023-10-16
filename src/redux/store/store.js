@@ -14,10 +14,11 @@ import { StudentsClasCrud } from "../slice/studentsClas/studentsClas.js";
 import { ChatCrud } from "../slice/chat/ChatCrud.js";
 import { ParentsCrud } from "../slice/parents/ParentsCrud.js";
 // import {generalStatisticsGet,TotalCrud,} from "../slice/general/generalStatisca.js";
-import { TotalCrud, } from "../slice/general/generalStatisca.js";
+import { TotalCrud } from "../slice/general/generalStatisca.js";
 import { CheckUserName } from "../slice/checkUsername/CheckUsername.jsx";
 import { IncomesCrud } from "../slice/income/IncomeCrud";
 import { LessonTableCrud } from "../slice/lessonTable/LessonTableSlice.js";
+import { ExpenseCrud } from "../slice/expense/ExpenseCrud.js";
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ export const store = configureStore({
     [CheckUserName.reducerPath]: CheckUserName.reducer,
     [IncomesCrud.reducerPath]: IncomesCrud.reducer,
     [LessonTableCrud.reducerPath]: LessonTableCrud.reducer,
+    [ExpenseCrud.reducerPath]: ExpenseCrud.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -57,7 +59,8 @@ export const store = configureStore({
       TotalCrud.middleware,
       CheckUserName.middleware,
       IncomesCrud.middleware,
-      LessonTableCrud.middleware
+      LessonTableCrud.middleware,
+      ExpenseCrud.middleware
     ),
 });
 

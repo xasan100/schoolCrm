@@ -29,7 +29,7 @@ const GeneralStatistics = () => {
 
     return (
         <div>
-            <div className="max-w-full py-6 sm:mx-auto sm:px-6 lg:px-8">
+            <div className="max-w-full sm:mx-auto sm:px-6 lg:px-8">
                 <div className="sm:flex justify-between sm:space-x-4">
                     {data?.map((val, index) => (
                         <React.Fragment key={index}>

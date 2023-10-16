@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import Modal from "../../generic/Modal";
 import { toast } from "react-toastify";
-import { useDeleteIncomeMutation } from "../../redux/slice/income/IncomeCrud";
+import { useDeleteExpenseMutation } from "../../redux/slice/expense/ExpenseCrud";
 
-export default function DeleteIncome({ ID }) {
+export default function DeleteExpense({ ID }) {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(!isOpen);
-  const [deleteIncome, { isLoading }] = useDeleteIncomeMutation();
+  const [deleteExpense, { isLoading }] = useDeleteExpenseMutation();
   const handleDelete = async (id) => {
     try {
-      await deleteIncome({ id });
+      await deleteExpense({ id });
       toast.success("Ma'lumot o'chirildi!");
       setIsOpen(false);
     } catch (err) {

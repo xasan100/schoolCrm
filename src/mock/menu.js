@@ -23,9 +23,9 @@ import Lessons from "../pages/Lessons.jsx";
 import Income from "../pages/Income.jsx";
 import Parents from "../pages/Parents.jsx";
 import Teacher from "../pages/Teacher.jsx";
+import Expenses from "../pages/Expenses.jsx";
 
 const menuItems = [
-
   {
     id: 0,
     element: <Dashboard />,
@@ -55,7 +55,7 @@ const menuItems = [
         path: "/expense",
         private: true,
         hidden: true,
-        element: "Chiqim",
+        element: <Expenses />,
         icon: <MdOutlineMoneyOffCsred />,
       },
     ],
@@ -179,7 +179,7 @@ const menuItems = [
     path: "/teacher-profile",
     private: false,
     hidden: false,
-    element: <Teacher/>,
+    element: <Teacher />,
     icon: <BsChatDots />,
   },
 ];
