@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import Modal from "../../generic/Modal";
-import { useDeleteTeacherMutation } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
 import { useDeleteUserMutation } from "../../redux/slice/user/user.js";
 

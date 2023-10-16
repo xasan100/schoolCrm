@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineUserAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
-import { useCreateStudentMutation } from "../../redux/slice/students/students.js";
 import { toast } from "react-toastify";
 import { useGetTypeQuery } from "../../redux/slice/user/typeAdmin.js";
 import Loader from "../Loader/Loader.jsx";
@@ -14,7 +13,9 @@ export function AddStudent() {
   const [open, setOpen] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
   const [types, setTypes] = useState()
+  const [showPassword, setShowPassword] = useState(false);
 
+  console.log(types,'types');
   const [inputValue, setInputValue] = useState({
     types: '',
     username: '',
@@ -25,14 +26,17 @@ export function AddStudent() {
 
   },
   );
-
+  const TypesName = types?.match(/[A-z]/g)?.join('');
+  console.log(TypesName,'TypesName');
   useEffect(() => {
-    if (types == 4) setTypes('Admin')
+
+
+    if (types === 4) setTypes('Admin')
 
   }, [types])
   // get
   const { data } = useGetTypeQuery()
-  const [createUser, { isLoading, isSuccess }] = useCreateUserMutation();
+  const [createUser, { isLoading  }] = useCreateUserMutation();
   const { data: permitiondata } = useGetPermitionQuery()
 
   const handleCheckboxChange = (id, isChecked) => {
@@ -50,9 +54,8 @@ export function AddStudent() {
     formData.append('user.password', inputValue?.password);
     formData.append('user.first_name', inputValue?.first_name);
     formData.append('user.last_name', inputValue?.last_name);
-    // formData.append('user.image', inputValue.img);
     formData.append('salary', inputValue?.salary);
-    formData.append('types', types === 'Admin' ? 4 : types);
+    formData.append('types', types?.match(/\d+/g)?.join(''))
     // formData.append('.userid', inputValue?.id);
     if (checkedIds && Array.isArray(checkedIds)) {
       checkedIds.forEach((id) => {
@@ -104,7 +107,7 @@ export function AddStudent() {
                     <option value="Hech biri">Hech biri</option>
                     {isLoading ? <Loader /> : data?.map((val) => (
                       <option
-                        value={val.title}> {val.title}</option>
+                        value={`${val?.title} ${val?.id}`}> {val?.title}</option>
                     ))}
                   </select>
                 </div>
@@ -120,12 +123,12 @@ export function AddStudent() {
                     value={inputValue.username}
                   />
                 </div>
-                <div>
+                <div className="relative">
                   <span>Password</span>
                   <input
                     id="password"
                     name="user.password"
-                    type="text"
+                    type={showPassword ? 'text' : 'password'}
                     autoComplete="password"
                     required
                     onChange={(e) =>
@@ -133,23 +136,48 @@ export function AddStudent() {
                     }
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 bottom-3/1 flex items-center cursor-pointer"
+                  >
+                    {showPassword ? (
+                      <AiOutlineEye
+                        className="absolute top-2/4 text-xl right-4 cursor-pointer"
+                      />
+
+                    ) : (
+                      <AiOutlineEyeInvisible
+                        className="absolute top-2/4 text-xl right-4 cursor-pointer"
+                      />
+                    )}
+                  </button>
                 </div>
               </div>
               <div className="grid gap-3">
 
-                <div>
+                <div className="relative">
                   <p>Oylik Maosh</p>
                   <input
-                    id="password"
-                    name="user.password"
+                    id="salary"
+                    name="user.salary"
                     type="text"
-                    autoComplete="password"
+                    autoComplete="salary"
                     required
-                    onChange={(e) =>
-                      setInputValue({ ...inputValue, salary: e.target.value })
-                    }
+                    pattern="[0-9]*" // Use a pattern to allow only numeric characters
+                    onChange={(e) => {
+                      const inputValueCopy = { ...inputValue };
+                      const inputSalary = e.target.value;
+                      inputValueCopy.salary = inputSalary;
+                      setInputValue(inputValueCopy);
+                    }}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  <span className="text-red-600" >
+                    {inputValue.salary !== null && isNaN(inputValue.salary)
+                      ? <p className="text-red-600 absolute text-[12px] -bottom-4">Iltimos faqad raqam ishlating !</p>
+                      : ''}
+                  </span>
                 </div>
                 <div>
                   <span>Ismingiz </span>
@@ -184,7 +212,7 @@ export function AddStudent() {
             </div>
             <div className="grid gap-5 grid-cols-2">
               {
-                types === 'Admin' ? permitiondata?.map((val) => {
+                TypesName === 'Admin' ? permitiondata?.map((val) => {
                   return (
                     <div className="flex items-center mb-4" key={val.id}>
                       <input
