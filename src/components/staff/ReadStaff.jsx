@@ -46,7 +46,6 @@ const StaffItem = ({ staff, index }) => {
 function StaffTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStaffQuery();
-
   const filteredStaff = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
 import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
@@ -26,6 +26,8 @@ function AddStaff() {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
   const [createParent, { isLoading, isSuccess }] = useCreateStaffMutation();
+  const [showPassword, setShowPassword] = useState(false);
+
   const { data } = useGetTeachersQuery();
   const [error, setError] = useState({ sallery: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -102,7 +104,6 @@ function AddStaff() {
   //Har bir inputdan qiymat olish
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const numberPattern = /^[0-9]*$/;
     const keys = name.split(".");
 
     const newValue =
@@ -112,15 +113,6 @@ function AddStaff() {
 
     setInputValue(newValue);
 
-    if (name === "salary") {
-      setError((prevError) => ({
-        ...prevError,
-        salary:
-          numberPattern.test(value) || value === ""
-            ? ""
-            : "Iltimos faqat raqamlar ishlating",
-      }));
-    }
   };
 
   //O'qituvchi qo'shish
@@ -172,7 +164,7 @@ function AddStaff() {
           loader={isLoading}
           isDisabled={isDisabled}
         >
-          <div className="grid sm:grid-rows-6 grid-cols-2 sx:grid-cols-1 gap-2">
+          <div className="grid sm:grid-rows-6 grid-cols-2 sx:grid-cols-1 gap-2 relative">
             <InputField
               label="Ism"
               id="first-name"
@@ -224,34 +216,50 @@ function AddStaff() {
               label="Foydalanuvchi Paroli"
               id="password"
               name="user.password"
-              type="text"
+              type={showPassword ? 'text' : 'password'}
               autoComplete="password"
               handleChange={handleChange}
+              className='relative'
             />
-
-            <div className="col-span-1 row-span-1 relative">
-              <label
-                htmlFor="salary"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Maosh
-              </label>
-              <div className="mt-2">
-                <input
-                  id="salary"
-                  name="salary"
-                  type="text"
-                  autoComplete="salary"
-                  required
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-2/4  pr-3 bottom-3/1 flex items-center cursor-pointer"
+            >
+              {showPassword ? (
+                <AiOutlineEye
+                  className="absolute top-[195px] text-xl right-4 cursor-pointer"
                 />
-              </div>
-              {error.sallery && (
-                <p className="text-red-600 absolute text-[12px] -bottom-3">
-                  {error.sallery}
-                </p>
+
+              ) : (
+                <AiOutlineEyeInvisible
+                    className="absolute top-[195px] text-xl right-4 cursor-pointer"
+                />
               )}
+            </button>
+            <div className="col-span-1 row-span-1 relative">
+              <p>Oylik Maosh</p>
+
+              <input
+                id="salary"
+                name="user.salary"
+                type="text"
+                autoComplete="salary"
+                required
+                pattern="[0-9]*" // Use a pattern to allow only numeric characters
+                onChange={(e) => {
+                  const inputValueCopy = { ...inputValue };
+                  const inputSalary = e.target.value;
+                  inputValueCopy.salary = inputSalary;
+                  setInputValue(inputValueCopy);
+                }}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+              <span className="text-red-600" >
+                {inputValue.salary !== null && isNaN(inputValue.salary)
+                  ? <p className="text-red-600 absolute text-[12px] -bottom-2">Iltimos faqad raqam ishlating !</p>
+                  : ''}
+              </span>
             </div>
             <FileUpload
               title={"Rasmingiz"}
