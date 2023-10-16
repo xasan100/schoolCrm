@@ -1,25 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { Authentication } from "../../context/AuthContext";
+import { Authentication as ThemeContext } from "../../context/index";
 // import Loading from "../../examples/loading/Loading";
 
-const allowedRoutesForManager = [
-  "/sales-department",
-  "/sales-department/details",
-  "/sales-department/details/type/:id",
-  "/buildings",
-  "/buildings/details/:id",
-  "/orders",
-  "/apartments",
-  "/customers/*",
-  "/profile",
-  "/busy-apartments",
-  "/cassier",
-  "/currencies",
+const pathValues = [
+  "/",
+  "/income",
+  "/expense",
+  "/sciences",
+  "/classes",
+  "/rooms",
+  "/lesson-table",
+  "/teachers",
+  "/students",
+  "/parents",
+  "/tasks",
+  "/attandance",
+  "/staffs",
+  "/users",
+  "/chat-parent",
+  "/teacher-profile",
 ];
 
 function PrivateRoute({ children, path }) {
-  const { profile } = useContext(Authentication);
+  const { profile } = useContext(ThemeContext);
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
@@ -45,12 +49,12 @@ function PrivateRoute({ children, path }) {
   }
 
   // SuperAdmin uchun barcha sahifalarga kirishga ruxsat berilgan
-  if (profile?.roles?.role_name === "SuperAdmin") {
+  if (profile?.roles?.role_name === "admin") {
     return children;
   }
 
-  if (!allowedRoutesForManager.includes(path)) {
-    return <Navigate to={allowedRoutesForManager[0]} replace />;
+  if (pathValues.includes(path)) {
+    return <Navigate to={pathValues[0]} replace />;
   }
   // Agar foydalanuvchi oddiy foydalanuvchi bo'lsa va uga ruxsat berilgan yo'lda bo'lmasa
   return children;
