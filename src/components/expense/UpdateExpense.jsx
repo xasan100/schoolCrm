@@ -3,21 +3,22 @@ import Modal from "../../generic/Modal";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import InputField from "../../generic/InputField";
-import { useGetStudentsQuery } from "../../redux/slice/students/students";
-import { useUpdateIncomeMutation } from "../../redux/slice/income/IncomeCrud";
+import { memo } from "react";
+import { useUpdateExpenseMutation } from "../../redux/slice/expense/ExpenseCrud";
+import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
 import { LuEdit2 } from "react-icons/lu";
 
-function UpdateIncome({ object }) {
+function UpdateExpense({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState({
     id: object.id,
     amount: object.amount,
     comment: object.comment,
-    student: object.student.id,
+    user: object.user,
     type: object.type,
   });
-  const [updateIncome, { isLoading, isSuccess }] = useUpdateIncomeMutation();
-  const { data } = useGetStudentsQuery();
+  const [updateExpense, { isLoading, isSuccess }] = useUpdateExpenseMutation();
+  const { data } = useGetTeachersQuery();
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -46,6 +47,30 @@ function UpdateIncome({ object }) {
     return newObj;
   };
 
+  //Har bir inputga qiymat berilgan yoki berilmaganini tekshirish
+  const isAnyFieldEmpty = (input) => {
+    for (let key in input) {
+      const value = input[key];
+
+      if (typeof value === "object" && value !== null) {
+        // null qiymatini "ob'ekt" sifatida hisoblamaslik uchun shart qo'shdim
+        if (Array.isArray(value) && value.length === 0) {
+          return true;
+        }
+        if (isAnyFieldEmpty(value)) {
+          // Ichidagi ob'ektlarni rekursiv tekshirish
+          return true;
+        }
+      } else if (value === "" || value === null || value === undefined) {
+        // Bo'sh qiymatlarni aniq tekshirish
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const isDisabled = isAnyFieldEmpty(inputValue);
+
   //Har bir inputdan qiymat olish
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,10 +89,10 @@ function UpdateIncome({ object }) {
     e.preventDefault();
     try {
       setHasSubmitted(true);
-      await updateIncome(inputValue);
+      await updateExpense(inputValue);
       setHasSubmitted(false);
     } catch (error) {
-      toast.error("Ma'lumot o'zgartishda xatolik", error.message);
+      toast.error("Ma'lumot o'zgartirishda xatolik", error.message);
     }
   };
 
@@ -86,7 +111,12 @@ function UpdateIncome({ object }) {
         Taxrirlash
       </button>
       {opne && (
-        <Modal closeModal={onClose} addFunc={handleSubmit} loader={isLoading}>
+        <Modal
+          closeModal={onClose}
+          addFunc={handleSubmit}
+          loader={isLoading}
+          isDisabled={isDisabled}
+        >
           <div className="grid sm:grid-rows-6 grid-cols-2 sx:grid-cols-1 gap-2">
             <InputField
               label="Qiymat"
@@ -106,28 +136,49 @@ function UpdateIncome({ object }) {
               autoComplete="comment"
               handleChange={handleChange}
             />
-            <div className="col-span-2 row-span-1">
+            <div className="col-span-1 row-span-1">
               <label
-                htmlFor="children"
+                htmlFor="user"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                Farzandlar
+                Xodimlar
               </label>
               <div className="mt-1.5">
                 <select
-                  defaultValue={object.student.id}
                   onChange={handleChange}
-                  name="student"
-                  id="student"
+                  defaultValue={inputValue.user}
+                  name="user"
+                  id="user"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value="0">Hech Qanday</option>
-                  {data?.map((student) => (
-                    <option key={student.user.id} value={student.user.id}>
-                      {student.user.first_name} &space;
-                      {student.user.last_name}
+                  {data?.map((teacher) => (
+                    <option key={teacher.user.id} value={teacher.user.id}>
+                      {teacher.user.first_name} &space;
+                      {teacher.user.last_name}
                     </option>
                   ))}
+                </select>
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="expense_type"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Nima uchun
+              </label>
+              <div className="mt-1.5">
+                <select
+                  defaultValue={inputValue.type}
+                  onChange={handleChange}
+                  name="type"
+                  id="expense_type"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="">Hech Qanday</option>
+                  <option value="SALARY">Oylik</option>
+                  <option value="OTHER">Boshqa harajat</option>
                 </select>
               </div>
             </div>
@@ -138,4 +189,6 @@ function UpdateIncome({ object }) {
   );
 }
 
-export default UpdateIncome;
+const MemoizeAddExpense = memo(UpdateExpense);
+
+export default MemoizeAddExpense;

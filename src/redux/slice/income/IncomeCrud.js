@@ -20,7 +20,7 @@ export const IncomesCrud = createApi({
     }),
     updateIncome: build.mutation({
       query: (body) => ({
-        url: `incomes/${body.get("id")}/`,
+        url: `incomes/${body.id}/`,
         method: "PUT",
         body,
       }),

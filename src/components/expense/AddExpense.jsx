@@ -4,23 +4,23 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import InputField from "../../generic/InputField";
 import { memo } from "react";
-import { useGetStudentsQuery } from "../../redux/slice/students/students";
 import { BsPatchPlus } from "react-icons/bs";
-import { useCreateIncomeMutation } from "../../redux/slice/income/IncomeCrud";
+import { useCreateExpenseMutation } from "../../redux/slice/expense/ExpenseCrud";
+import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
 
 const INITIAL_STATE = {
   amount: "",
   comment: "",
-  student: "",
-  type: "EACH_PAY",
+  user: "",
+  type: "OTHER",
 };
 
-function AddIncome() {
+function AddExpense() {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
-  const [createIncome, { isLoading, isSuccess }] = useCreateIncomeMutation();
+  const [createExpense, { isLoading, isSuccess }] = useCreateExpenseMutation();
   const [skip, setSkip] = useState(true);
-  const { data } = useGetStudentsQuery();
+  const { data } = useGetTeachersQuery();
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -92,7 +92,7 @@ function AddIncome() {
     e.preventDefault();
     try {
       setHasSubmitted(true);
-      await createIncome(inputValue);
+      await createExpense(inputValue);
       setInputValue(INITIAL_STATE);
       setHasSubmitted(false);
     } catch (error) {
@@ -112,7 +112,7 @@ function AddIncome() {
         className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         <BsPatchPlus className="-ml-0.5 mr-1.5 text-xl" aria-hidden="true" />
-        Kirim Qo'shish
+        Chiqim Qo'shish
       </button>
       {opne && (
         <Modal
@@ -138,27 +138,47 @@ function AddIncome() {
               autoComplete="comment"
               handleChange={handleChange}
             />
-            <div className="col-span-2 row-span-1">
+            <div className="col-span-1 row-span-1">
               <label
-                htmlFor="children"
+                htmlFor="user"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                Farzandlar
+                Xodimlar
               </label>
               <div className="mt-1.5">
                 <select
                   onChange={handleChange}
-                  name="student"
-                  id="student"
+                  name="user"
+                  id="user"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value="0">Hech Qanday</option>
-                  {data?.map((student) => (
-                    <option key={student.user.id} value={student.user.id}>
-                      {student.user.first_name} &space;
-                      {student.user.last_name}
+                  {data?.map((teacher) => (
+                    <option key={teacher.user.id} value={teacher.user.id}>
+                      {teacher.user.first_name} &space;
+                      {teacher.user.last_name}
                     </option>
                   ))}
+                </select>
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="expense_type"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Nima uchun
+              </label>
+              <div className="mt-1.5">
+                <select
+                  onChange={handleChange}
+                  name="type"
+                  id="expense_type"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="">Hech Qanday</option>
+                  <option value="SALARY">Oylik</option>
+                  <option value="OTHER">Boshqa harajat</option>
                 </select>
               </div>
             </div>
@@ -169,6 +189,6 @@ function AddIncome() {
   );
 }
 
-const MemoizeAddStaff = memo(AddIncome);
+const MemoizeAddExpense = memo(AddExpense);
 
-export default MemoizeAddStaff;
+export default MemoizeAddExpense;

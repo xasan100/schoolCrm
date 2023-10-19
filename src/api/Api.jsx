@@ -9,6 +9,6 @@ const token = getToken();
 export const api = fetchBaseQuery({
   baseUrl: url,
   headers: {
-    Authorization: `Bearer ${token}`
-  }
+    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+  },
 });

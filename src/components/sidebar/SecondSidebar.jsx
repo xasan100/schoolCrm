@@ -112,7 +112,7 @@ export default function SecondSidebar() {
   }, [day]);
 
   return (
-    <aside className="h-screen">
+    <aside className="h-screen shadow-xl">
       <nav className={`h-full flex flex-col justify-between ${day ? 'light-mode' : 'dark-mode'}`}>
         <div className="pb-2 flex justify-between items-center flex-col overflow-hidden scrollbar-hide">
           <div className="p-3 flex justify-between items-center w-full">

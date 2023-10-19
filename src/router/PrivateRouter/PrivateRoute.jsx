@@ -49,7 +49,7 @@ function PrivateRoute({ children, path }) {
   }
 
   // SuperAdmin uchun barcha sahifalarga kirishga ruxsat berilgan
-  if (profile?.user.type_user ) {
+  if (profile?.user?.type_user) {
     return children;
   }
 

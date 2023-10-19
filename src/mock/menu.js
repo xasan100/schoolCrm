@@ -10,7 +10,7 @@ import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
 import { BsChatDots, BsTable } from "react-icons/bs";
-import { BiTask, BiUser } from "react-icons/bi";
+import { BiTask } from "react-icons/bi";
 import Attendence from "../pages/Attendence.jsx";
 import Students from "../pages/Students.jsx";
 import Sciences from "../pages/Sciences.jsx";
@@ -23,7 +23,7 @@ import Lessons from "../pages/Lessons.jsx";
 import Income from "../pages/Income.jsx";
 import Parents from "../pages/Parents.jsx";
 import StudentProfilePage from "../pages/Student-profile.jsx";
-import { HiOutlineUsers } from "react-icons/hi2";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import PersonalTab from "../components/ParentPersonal/student_tab/index.jsx";
 
 
@@ -178,12 +178,12 @@ const menuItems = [
   },
   {
     id: 18,
-    title: "O'quvchi Kabineti",
+    title: "O'uvchi Kabineti",
     path: "/student-profile",
     private: false,
     hidden: false,
     element: <StudentProfilePage/>,
-    icon: <BiUser />,
+    icon: <AiOutlineUserAdd />,
   },
   {
     id: 19,
@@ -192,9 +192,8 @@ const menuItems = [
     private: false,
     hidden: false,
     element: <PersonalTab />,
-    icon: <HiOutlineUsers />,
+    icon: <AiOutlineUserAdd />,
   },
-
 ];
 
 export default menuItems;
