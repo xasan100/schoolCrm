@@ -10,10 +10,10 @@ import { toast } from "react-toastify";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 
 export function AddStudent() {
-  const [createStudent, { isLoading: isLoadingCreate, isSuccess }] = useCreateStudentMutation();
+  const [createStudent,isLoading] = useCreateStudentMutation();
 
-  const { data, isLoading } = useGetStudentsQuery();
-  const { data: dataClas, isLoading: isLoadingClas } = useGetStudentsClassQuery();
+  const { data } = useGetStudentsQuery();
+  const { data: dataClas } = useGetStudentsClassQuery();
 
 
   const [open, setOpen] = useState(false); // Fixed the typo here
@@ -171,7 +171,7 @@ export function AddStudent() {
                   value={inputValue.password}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                <button
+                <p
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
@@ -186,7 +186,7 @@ export function AddStudent() {
                       className="absolute top-2 text-xl right-2 cursor-pointer"
                     />
                   )}
-                </button>
+                </p>
               </div>
               {error?.password && (
                 <p

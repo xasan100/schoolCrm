@@ -18,6 +18,8 @@ import { TotalCrud, } from "../slice/general/generalStatisca.js";
 import { CheckUserName } from "../slice/checkUsername/CheckUsername.jsx";
 import { IncomesCrud } from "../slice/income/IncomeCrud";
 import { LessonTableCrud } from "../slice/lessonTable/LessonTableSlice.js";
+import { StudentProfileApi } from "../slice/student_profile/StaffSlice.js";
+
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +40,7 @@ export const store = configureStore({
     [CheckUserName.reducerPath]: CheckUserName.reducer,
     [IncomesCrud.reducerPath]: IncomesCrud.reducer,
     [LessonTableCrud.reducerPath]: LessonTableCrud.reducer,
+    [StudentProfileApi.reducerPath]: StudentProfileApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -57,7 +60,8 @@ export const store = configureStore({
       TotalCrud.middleware,
       CheckUserName.middleware,
       IncomesCrud.middleware,
-      LessonTableCrud.middleware
+      LessonTableCrud.middleware,
+      StudentProfileApi.middleware,
     ),
 });
 

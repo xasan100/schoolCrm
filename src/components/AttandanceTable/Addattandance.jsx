@@ -8,11 +8,10 @@ import { toast } from "react-toastify";
 import { useGetUserQuery } from "../../redux/slice/user/user.js";
 
 export default function Addattandance() {
-  const { data: studentsData, isLoading: studentsLoading } = useGetStudentsQuery();
-  const { data: teachersData, isLoading: teachersLoading } = useGetTeachersQuery();
-  const { data: adminData, isLoading: adminLoading } = useGetUserQuery();
-
-  const [sendAttendance, { isSuccess }] = useCreateAttendanceMutation();
+  const { data: studentsData, } = useGetStudentsQuery();
+  const { data: teachersData, } = useGetTeachersQuery();
+  const { data: adminData, } = useGetUserQuery();
+  const [sendAttendance, isLoading] = useCreateAttendanceMutation();
   const [opne, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [inputValue, setInputValue] = useState({
@@ -21,7 +20,6 @@ export default function Addattandance() {
     userId: "",
     isOpen: true,
   });
-
   const handleOptionChange = (event) => setSelectedOption(event.target.value);
   const handleSendAttendance = async () => {
     try {
@@ -35,7 +33,7 @@ export default function Addattandance() {
           reason: inputValue.reason,
         });
         toast.success(`${inputValue.user} qo'shildi!`);
-
+        setInputValue('')
         setOpen(false);
       } else {
         // Handle invalid userId
@@ -61,7 +59,7 @@ export default function Addattandance() {
           closeModal={() => setOpen(false)}
           title={`Davomat Qo'shish`}
           addFunc={() => handleSendAttendance()}
-          loader={isSuccess}
+          loader={!isLoading}
         >
           <div className="w-full grid grid-cols-[300px_minmax(400px,_1fr)] gap-4">
             <div className="mt-4 w-full ">

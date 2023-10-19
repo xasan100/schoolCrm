@@ -1,4 +1,3 @@
-import { IoMdMore } from "react-icons/io";
 import { LuChevronFirst, LuChevronLast } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
@@ -107,7 +106,7 @@ export default function SecondSidebar() {
     window.addEventListener("resize", handleResize);
   }, []); 
 
-  const { day, toggleTheme } = useTheme();
+  const { day  } = useTheme();
   useEffect(() => {
     document.body.className = day ? 'light-mode' : 'dark-mode';
   }, [day]);

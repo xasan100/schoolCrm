@@ -7,6 +7,7 @@ import Loader from "../Loader/Loader.jsx";
 import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
 import CustomInput from "react-phone-number-input/input";
 import { useCreateUserMutation } from "../../redux/slice/user/user.js";
+import { useGetAllUserNameQuery } from "../../redux/slice/checkUsername/CheckUsername.jsx";
 
 export function AddStudent() {
   // state
@@ -14,8 +15,8 @@ export function AddStudent() {
   const [checkedIds, setCheckedIds] = useState([]);
   const [types, setTypes] = useState()
   const [showPassword, setShowPassword] = useState(false);
-
-  console.log(types,'types');
+  const { data: allUserName } = useGetAllUserNameQuery();
+  console.log(allUserName,'types');
   const [inputValue, setInputValue] = useState({
     types: '',
     username: '',
@@ -66,10 +67,10 @@ export function AddStudent() {
     }
     try {
       await createUser(formData);
-      toast.success(`O'quvchi ${inputValue?.first_name} O'zgartirildi`);
+      toast.success(`Addmin ${inputValue?.first_name} Qo'shildi`);
       setOpen(false);
     } catch (error) {
-      toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
+      toast.error("Admin o'zgartirishda xatolik", error.message);
     }
   };
   const onClose = () => {

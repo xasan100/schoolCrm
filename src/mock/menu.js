@@ -10,7 +10,7 @@ import Users from "../pages/Users.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import Teachers from "../pages/Teachers.jsx";
 import { BsChatDots, BsTable } from "react-icons/bs";
-import { BiTask } from "react-icons/bi";
+import { BiTask, BiUser } from "react-icons/bi";
 import Attendence from "../pages/Attendence.jsx";
 import Students from "../pages/Students.jsx";
 import Sciences from "../pages/Sciences.jsx";
@@ -22,7 +22,10 @@ import ChatParentPage from "../pages/ChatParent.jsx";
 import Lessons from "../pages/Lessons.jsx";
 import Income from "../pages/Income.jsx";
 import Parents from "../pages/Parents.jsx";
-import Teacher from "../pages/Teacher.jsx";
+import StudentProfilePage from "../pages/Student-profile.jsx";
+import { HiOutlineUsers } from "react-icons/hi2";
+import PersonalTab from "../components/ParentPersonal/student_tab/index.jsx";
+
 
 const menuItems = [
 
@@ -175,13 +178,23 @@ const menuItems = [
   },
   {
     id: 18,
-    title: "O'qtuvchi Kabineti",
-    path: "/teacher-profile",
+    title: "O'quvchi Kabineti",
+    path: "/student-profile",
     private: false,
     hidden: false,
-    element: <Teacher/>,
-    icon: <BsChatDots />,
+    element: <StudentProfilePage/>,
+    icon: <BiUser />,
   },
+  {
+    id: 19,
+    title: "Ota-Ona Kabineti",
+    path: "/parent-profile",
+    private: false,
+    hidden: false,
+    element: <PersonalTab />,
+    icon: <HiOutlineUsers />,
+  },
+
 ];
 
 export default menuItems;

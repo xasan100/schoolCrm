@@ -29,7 +29,6 @@ const Sigin = () => {
             "profile",
             JSON.stringify(profileResponse.data)
           );
-          console.log(profileResponse);
         }
 
         navigate("/");

@@ -56,7 +56,7 @@ export default function View({ object }) {
                     <strong>Familiyasi:</strong> {object?.user.last_name}
                   </p>
                   <p>
-                    <strong>Otasini Ismi:</strong> {object.middle_name}
+                    <strong>Otasini Ismi:</strong> {object.user.middle_name}
                   </p>
                   <p>
                     <strong>Id card:</strong> {object.id_card}
