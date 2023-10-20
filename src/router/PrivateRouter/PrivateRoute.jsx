@@ -2,9 +2,27 @@ import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../components/context/index";
 import { toast } from "react-toastify";
-import menuItems from "../../mock/menu";
 
-const pathValues = menuItems.map((item) => item.path);
+const pathValues = [
+  "/",
+  "/income",
+  "/expense",
+  "/sciences",
+  "/classes",
+  "/rooms",
+  "/lesson-table",
+  "/teachers",
+  "/students",
+  "/parents",
+  "/tasks",
+  "/attandance",
+  "/staffs",
+  "/users",
+  "/chat-parent",
+  "/student-profile",
+  "/parent-profile",
+  "/teacher-profile",
+];
 
 const teacherPath = ["/teacher-profile"];
 const studentPath = ["/student-profile"];
@@ -36,13 +54,12 @@ function PrivateRoute({ children, path }) {
     return <Navigate to="/login" replace />;
   }
 
-  // ...
+  let defaultPath = "/login";
   const userType = profile?.user?.type_user;
-  let defaultPath = "/login"; // Agar foydalanuvchi turi tanlanmagan bo'lsa, login sahifasiga qaytarish
 
   switch (userType) {
     case "admin":
-      defaultPath = pathValues[0];
+      defaultPath = pathValues.includes(path) ? path : pathValues[0];
       break;
     case "teacher":
       defaultPath = teacherPath[0];
@@ -54,17 +71,14 @@ function PrivateRoute({ children, path }) {
       defaultPath = parentPath[0];
       break;
     default:
-      toast.warning("Sizda ushbu saihfa mavjud emas");
-      break;
+      toast.warning("Sizda ushbu sahifa mavjud emas");
   }
 
-  // Agar foydalanuvchi turi uchun ruxsat etilgan yo'l topilsa, shu yo'lga qaytarish
   return path === defaultPath ? (
     children
   ) : (
     <Navigate to={defaultPath} replace />
   );
-  // ...
 }
 
 export default PrivateRoute;

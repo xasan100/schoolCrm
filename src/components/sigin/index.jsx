@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "../../assets/logo.png";
 import BigImg from "../../assets/29124.png";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../context";
 const Sigin = () => {
+  const { setProfile } = useContext(ThemeContext);
   const [state, setState] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -25,6 +27,7 @@ const Sigin = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (profileResponse && profileResponse.data) {
+          setProfile(profileResponse.data);
           sessionStorage.setItem(
             "profile",
             JSON.stringify(profileResponse.data)

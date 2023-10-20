@@ -19,7 +19,7 @@ export const ThemeProvider = ({ children }) => {
     }
   }, []);
   return (
-    <ThemeContext.Provider value={{ day, toggleTheme, profile }}>
+    <ThemeContext.Provider value={{ day, toggleTheme, profile, setProfile }}>
       {children}
     </ThemeContext.Provider>
   );
