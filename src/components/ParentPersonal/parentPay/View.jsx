@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import Modal from "../../../generic/Modal.jsx";
 // import { useGetStudentsPaysQuery } from "../../../redux/slice/student_profile/StaffSlice.js";
-import StduntsTablePayComponent from "./studentTablePay.jsx"
+import StduntsTablePayComponent from "./parentTablePay.jsx"
 export default function View() {
   const [open, setOpen] = useState(false);
   // const { data } = useGetStudentsPaysQuery();

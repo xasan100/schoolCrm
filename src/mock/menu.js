@@ -24,11 +24,10 @@ import Income from "../pages/Income.jsx";
 import Parents from "../pages/Parents.jsx";
 import StudentProfilePage from "../pages/Student-profile.jsx";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import PersonalTab from "../components/ParentPersonal/student_tab/index.jsx";
-
+import TeacherTab from "../pages/TeachersProfile.jsx";
+import PersonalTab from "../components/ParentPersonal/parent_tab/index.jsx";
 
 const menuItems = [
-
   {
     id: 0,
     element: <Dashboard />,
@@ -178,20 +177,29 @@ const menuItems = [
   },
   {
     id: 18,
-    title: "O'uvchi Kabineti",
+    title: "Shaxsiy Kabinet",
     path: "/student-profile",
     private: false,
     hidden: false,
-    element: <StudentProfilePage/>,
+    element: <StudentProfilePage />,
     icon: <AiOutlineUserAdd />,
   },
   {
     id: 19,
-    title: "Ota-Ona Kabineti",
+    title: "Shaxsiy Kabinet",
     path: "/parent-profile",
     private: false,
     hidden: false,
     element: <PersonalTab />,
+    icon: <AiOutlineUserAdd />,
+  },
+  {
+    id: 20,
+    title: "Shaxsiy Kabinet",
+    path: "/teacher-profile",
+    private: false,
+    hidden: false,
+    element: <TeacherTab />,
     icon: <AiOutlineUserAdd />,
   },
 ];

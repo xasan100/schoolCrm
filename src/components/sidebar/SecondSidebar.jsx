@@ -1,10 +1,11 @@
 import { LuChevronFirst, LuChevronLast } from "react-icons/lu";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import menuItems from "../../mock/menu";
 import Logo from "../../assets/logo.png";
+import { IoMdMore } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "../context/index.jsx";
+import { ThemeContext, useTheme } from "../context/index.jsx";
 export function SidebarItem({
   link,
   active,
@@ -19,10 +20,11 @@ export function SidebarItem({
       onClick={() => navigate(link.path)}
       className={`my-1 p-1
       font-medium rounded-md cursor-pointer
-      ${active === link.id
+      ${
+        active === link.id
           ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
           : "hover:bg-indigo-50 text-gray-600"
-        }
+      }
     `}
     >
       <div
@@ -36,8 +38,9 @@ export function SidebarItem({
       >
         {link.icon}
         <span
-          className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"
-            }`}
+          className={`overflow-hidden transition-all ${
+            expanded ? "w-52 ml-3" : "w-0"
+          }`}
         >
           {link.title}
         </span>
@@ -71,10 +74,11 @@ export function SidebarItem({
               }}
               className={`py-1 px-4
   font-medium rounded-md cursor-pointer select-none
-  ${active === sub.id
-                  ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
-                  : "hover:bg-indigo-50 text-gray-600"
-                }
+  ${
+    active === sub.id
+      ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
+      : "hover:bg-indigo-50 text-gray-600"
+  }
 `}
             >
               {sub.title}
@@ -90,6 +94,8 @@ export default function SecondSidebar() {
   const [expanded, setExpanded] = useState(true);
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
+  const { profile } = useContext(ThemeContext);
+  const [filterMenu, setFilterMenu] = useState([]);
   const navigate = useNavigate();
 
   const handleResize = () => {
@@ -100,26 +106,46 @@ export default function SecondSidebar() {
     }
   };
 
+  const typeUser = profile?.user?.type_user;
+
+  useEffect(() => {
+    const pathMap = {
+      admin: menuItems,
+      teacher: menuItems.filter((e) => e.path === "/teacher-profile"),
+      parent: menuItems.filter((e) => e.path === "/parent-profile"),
+      student: menuItems.filter((e) => e.path === "/student-profile"),
+    };
+
+    const newMenu = pathMap[typeUser] || pathMap.student;
+    setFilterMenu(newMenu);
+    setActive(newMenu[0].id);
+  }, [typeUser]);
+
   useEffect(() => {
     handleResize();
     // Oynaning kengligini kuzatib, o'zgartirish yuz berganda funksiyamizni chaqiramiz
     window.addEventListener("resize", handleResize);
-  }, []); 
+  }, []);
 
-  const { day  } = useTheme();
+  const { day } = useTheme();
   useEffect(() => {
-    document.body.className = day ? 'light-mode' : 'dark-mode';
+    document.body.className = day ? "light-mode" : "dark-mode";
   }, [day]);
 
   return (
     <aside className="h-screen shadow-xl">
-      <nav className={`h-full flex flex-col justify-between ${day ? 'light-mode' : 'dark-mode'}`}>
+      <nav
+        className={`h-full flex flex-col justify-between ${
+          day ? "light-mode" : "dark-mode"
+        }`}
+      >
         <div className="pb-2 flex justify-between items-center flex-col overflow-hidden scrollbar-hide">
           <div className="p-3 flex justify-between items-center w-full">
             <img
               src={Logo}
-              className={`overflow-hidden transition-all ${expanded ? "w-52" : "w-0"
-                }`}
+              className={`overflow-hidden transition-all ${
+                expanded ? "w-52" : "w-0"
+              }`}
               alt=""
             />
             <button
@@ -130,7 +156,7 @@ export default function SecondSidebar() {
             </button>
           </div>
           <ul className={`px-3 mt-16 overflow-y-scroll select-none `}>
-            {menuItems.map((link) => (
+            {filterMenu.map((link) => (
               <SidebarItem
                 key={link.id}
                 link={link}
@@ -145,25 +171,29 @@ export default function SecondSidebar() {
           </ul>
         </div>
 
-        {/* <div className="border-t flex p-3 mt-20">
-          <img
-            src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
-            alt=""
-            className="w-10 h-10 rounded-md"
-          />
-          <div
-            className={`
+        {typeUser === "admin" ? (
+          <div className="border-t flex p-3 mt-20">
+            <img
+              src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
+              alt=""
+              className="w-10 h-10 rounded-md"
+            />
+            <div
+              className={`
               flex justify-between items-center
               overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
           `}
-          >
-            <div className="leading-4">
-              <h4 className="font-semibold">John Doe</h4>
-              <span className="text-xs text-gray-600">johndoe@gmail.com</span>
+            >
+              <div className="leading-4">
+                <h4 className="font-semibold">John Doe</h4>
+                <span className="text-xs text-gray-600">johndoe@gmail.com</span>
+              </div>
+              <IoMdMore size={20} />
             </div>
-            <IoMdMore size={20} />
           </div>
-        </div> */}
+        ) : (
+          <></>
+        )}
       </nav>
     </aside>
   );

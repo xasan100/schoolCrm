@@ -62,7 +62,7 @@ function TeachersTableComponent() {
             .includes(searchTerm.toLowerCase())
       );
     } else {
-      return data;
+      return data && [];
     }
   }, [data, searchTerm]);
 

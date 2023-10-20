@@ -1,26 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../components/context/index";
-// import Loading from "../../examples/loading/Loading";
+import { toast } from "react-toastify";
 
 const pathValues = [
   "/",
-  "/income",
-  "/expense",
-  "/sciences",
-  "/classes",
-  "/rooms",
-  "/lesson-table",
-  "/teachers",
-  "/students",
-  "/parents",
-  "/tasks",
-  "/attandance",
-  "/staffs",
-  "/users",
-  "/chat-parent",
-  "/teacher-profile",
+  // ... boshqa yo'llar
 ];
+
+const teacherPath = ["/teacher-profile"];
+const studentPath = ["/student-profile"];
+const parentPath = ["/parent-profile"];
 
 function PrivateRoute({ children, path }) {
   const { profile } = useContext(ThemeContext);
@@ -48,16 +38,37 @@ function PrivateRoute({ children, path }) {
     return <Navigate to="/login" replace />;
   }
 
-  // SuperAdmin uchun barcha sahifalarga kirishga ruxsat berilgan
-  if (profile?.user?.type_user) {
-    return children;
+  // ...
+  const userType = profile?.user?.type_user;
+  let defaultPath = "/login"; // Agar foydalanuvchi turi tanlanmagan bo'lsa, login sahifasiga qaytarish
+
+  console.log("User Type:", userType);
+  console.log("Path:", path);
+
+  switch (userType) {
+    case "admin":
+      return children; // Admin uchun barcha yo'llar ochiq
+    case "teacher":
+      defaultPath = teacherPath[0];
+      break;
+    case "student":
+      defaultPath = studentPath[0];
+      break;
+    case "parent":
+      defaultPath = parentPath[0];
+      break;
+    default:
+      toast.warning("Sizda ushbu saihfa mavjud emas");
+      break;
   }
 
-  if (pathValues.includes(path)) {
-    return <Navigate to={pathValues[0]} replace />;
-  }
-  // Agar foydalanuvchi oddiy foydalanuvchi bo'lsa va uga ruxsat berilgan yo'lda bo'lmasa
-  return children;
+  // Agar foydalanuvchi turi uchun ruxsat etilgan yo'l topilsa, shu yo'lga qaytarish
+  return path === defaultPath ? (
+    children
+  ) : (
+    <Navigate to={defaultPath} replace />
+  );
+  // ...
 }
 
 export default PrivateRoute;

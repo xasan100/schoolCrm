@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { FaRegBell } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import Settings from "./Settings";
 import Notification from "./Notification";
-import { useTheme } from "../context/index.jsx";
+import { ThemeContext, useTheme } from "../context/index.jsx";
 
 export default function TopHeader() {
   // const [day, setDay] = useState(true);
   const [open, setOpen] = useState("");
   const { day, toggleTheme } = useTheme();
-
+  const { profile } = useContext(ThemeContext);
+  const typeUser = profile?.user?.type_user;
   useEffect(() => {
-    document.body.className = day ? 'light-mode' : 'dark-mode';
+    document.body.className = day ? "light-mode" : "dark-mode";
   }, [day]);
 
   const handleChange = (title) => {
@@ -22,7 +23,11 @@ export default function TopHeader() {
     }
   };
   return (
-    <div className={`shadow-lg flex justify-end p-4 ${day ? 'light-mode' : 'dark-mode'}`}>
+    <div
+      className={`shadow-lg flex justify-end p-4 ${
+        day ? "light-mode" : "dark-mode"
+      }`}
+    >
       <div className="flex itmes-center gap-6">
         <span
           className={`hover:bg-gray-200 p-2 rounded-full text-3xl cursor-pointer select-none delay-150`}
@@ -41,14 +46,18 @@ export default function TopHeader() {
             3
           </span>
         </span>
-        <span
-          onClick={() => handleChange("settings")}
-          className={`hover:bg-gray-200 ${
-            open === "settings" && "bg-gray-200"
-          } p-2 rounded-full text-3xl cursor-pointer select-none delay-150`}
-        >
-          <FiSettings />
-        </span>
+        {typeUser === "admin" ? (
+          <span
+            onClick={() => handleChange("settings")}
+            className={`hover:bg-gray-200 ${
+              open === "settings" && "bg-gray-200"
+            } p-2 rounded-full text-3xl cursor-pointer select-none delay-150`}
+          >
+            <FiSettings />
+          </span>
+        ) : (
+          <></>
+        )}
         <Settings open={open} />
         <Notification open={open} />
       </div>
