@@ -16,7 +16,7 @@ export default function ParentProfileCom() {
           <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
             <div>
               <p className="font-bold text-gray-700 text-xl">
-                {object.children.length}
+                {object?.children?.length || 0}
               </p>
               <p className="text-gray-400">Farzandlarim</p>
             </div>
@@ -31,7 +31,7 @@ export default function ParentProfileCom() {
           </div>
           <div className="relative">
             <div className="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500">
-              {object?.user?.image && object?.user.image !== "" ? (
+              {object?.user?.image && object?.user?.image !== "" ? (
                 <img
                   src={object?.user.image}
                   alt="avatar"
