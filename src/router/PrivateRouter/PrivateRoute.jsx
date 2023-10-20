@@ -2,11 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../components/context/index";
 import { toast } from "react-toastify";
+import menuItems from "../../mock/menu";
 
-const pathValues = [
-  "/",
-  // ... boshqa yo'llar
-];
+const pathValues = menuItems.map((item) => item.path);
 
 const teacherPath = ["/teacher-profile"];
 const studentPath = ["/student-profile"];
@@ -42,12 +40,10 @@ function PrivateRoute({ children, path }) {
   const userType = profile?.user?.type_user;
   let defaultPath = "/login"; // Agar foydalanuvchi turi tanlanmagan bo'lsa, login sahifasiga qaytarish
 
-  console.log("User Type:", userType);
-  console.log("Path:", path);
-
   switch (userType) {
     case "admin":
-      return children; // Admin uchun barcha yo'llar ochiq
+      defaultPath = pathValues[0];
+      break;
     case "teacher":
       defaultPath = teacherPath[0];
       break;
