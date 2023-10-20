@@ -26,6 +26,7 @@ import StudentProfilePage from "../pages/Student-profile.jsx";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import TeacherTab from "../pages/TeachersProfile.jsx";
 import PersonalTab from "../components/ParentPersonal/parent_tab/index.jsx";
+// import PersonalTab from "../components/ParentPersonal/parent_tab/index.jsx";
 
 const menuItems = [
   {
