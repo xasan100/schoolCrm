@@ -7,16 +7,19 @@ import Loader from "../Loader/Loader.jsx";
 import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
 import CustomInput from "react-phone-number-input/input";
 import { useCreateUserMutation } from "../../redux/slice/user/user.js";
-import { useGetAllUserNameQuery } from "../../redux/slice/checkUsername/CheckUsername.jsx";
+import { debounce } from "lodash";
+
 
 export function AddStudent() {
   // state
   const [open, setOpen] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
+  const [number, setNumber] = useState('')
+  const [error, setError] = useState({ sallery: "", username: "", password: '' });
   const [types, setTypes] = useState()
   const [showPassword, setShowPassword] = useState(false);
-  const { data: allUserName } = useGetAllUserNameQuery();
-  console.log(allUserName,'types');
+
+
   const [inputValue, setInputValue] = useState({
     types: '',
     username: '',
@@ -30,10 +33,7 @@ export function AddStudent() {
   const TypesName = types?.match(/[A-z]/g)?.join('');
   console.log(TypesName,'TypesName');
   useEffect(() => {
-
-
     if (types === 4) setTypes('Admin')
-
   }, [types])
   // get
   const { data } = useGetTypeQuery()
@@ -51,7 +51,7 @@ export function AddStudent() {
   const addData = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('user.username', inputValue?.username);
+    formData.append('user.username', number);
     formData.append('user.password', inputValue?.password);
     formData.append('user.first_name', inputValue?.first_name);
     formData.append('user.last_name', inputValue?.last_name);
@@ -76,7 +76,38 @@ export function AddStudent() {
   const onClose = () => {
     setOpen(false);
   };
+  const fetchFromBackend = async () => {
+    const response = await fetch(`https://alcrm.pythonanywhere.com/api/v1/users/check_username_exists/?username=${number}`);
+    const data = await response.json();
+    if (data.exists) {
+      setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })
+    }
+    else {
+      setError({ ...error, username: '' })
+    }
+  };
+  const debouncedFetch = debounce(fetchFromBackend, 100); // 300ms delay
+  useEffect(() => {
+    if (number?.length >= 13) {
+      debouncedFetch();
+    }
+  }, [number]);
 
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setInputValue({ ...inputValue, password: value });
+    if (name === "password") { // Check if the field name is "user.password"
+      if (value === "") {
+        setError((error) => ({ ...error, password: "" }));
+      } else {
+        setError((error) => ({
+          ...error,
+          password:
+            value.length < 8 ? "Parol juda oddiy 👎" : "Parol juda zo'r 👍",
+        }));
+      }
+    }
+  };
 
   return (
     <div className="col-span-4">
@@ -95,9 +126,9 @@ export function AddStudent() {
         <Modal title={<h1>Admin Q'shshish</h1>}
           loader={isLoading}
           closeModal={onClose} addFunc={addData}>
-          <div className="grid  grid-cols-2    ">
-            <div className="grid gap-5 grid-cols-3">
-              <div className="grid gap-2">
+          <div className="grid  grid-cols-2  gap-2  ">
+            <div className="grid gap-3 grid-cols-2 items-center">
+              <div className="grid gap-2 items-center">
                 <div>
                   <span>Tanlash</span>
                   <select
@@ -113,59 +144,82 @@ export function AddStudent() {
                   </select>
                 </div>
 
-                <div>
-                  <span>Telfon Raqam</span>
-                  <CustomInput
-                    maxLength={17}
+             <div>
+              <label
+                htmlFor="username"
+                    className="block  text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Foydalanuvchi nomi
+              </label>
+                <CustomInput
+                  placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
+                  maxLength={17}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    onChange={(e) =>
-                      setInputValue({ ...inputValue, username: e })
-                    }
-                    value={inputValue.username}
-                  />
-                </div>
-                <div className="relative">
-                  <span>Password</span>
-                  <input
-                    id="password"
-                    name="user.password"
-                    type={showPassword ? 'text' : 'password'}
-                    autoComplete="password"
-                    required
-                    onChange={(e) =>
-                      setInputValue({ ...inputValue, password: e.target.value })
-                    }
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                  <span
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 bottom-3/1 flex items-center cursor-pointer"
+                  onChange={(e) => setNumber(e)}
+                  value={number}
+                />
+              </div>
+              {error.username && (
+                <p className="text-red-600  absolute text-[12px] -bottom-3  text-xs">
+                  {error.username.length >= 13 ? error.username : ''}
+                </p>
+              )}
+                <div className="col-span-1 row-span-1 relative" >
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900 w-72"
                   >
-                    {showPassword ? (
-                      <AiOutlineEye
-                        className="absolute top-2/4 text-xl right-4 cursor-pointer"
-                      />
+                    Parol Yarating
+                  </label>
+                  <div className="mt-2 relative">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      required
+                      onChange={handlePasswordChange}
+                      value={inputValue.password}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                    <p
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                    >
+                      {showPassword ? (
+                        <AiOutlineEye
+                          className="absolute top-2 text-xl right-2 cursor-pointer"
+                        />
 
-                    ) : (
-                      <AiOutlineEyeInvisible
-                        className="absolute top-2/4 text-xl right-4 cursor-pointer"
-                      />
-                    )}
-                  </span>
+                      ) : (
+                        <AiOutlineEyeInvisible
+                          className="absolute top-2 text-xl right-2 cursor-pointer"
+                        />
+                      )}
+                    </p>
+                  </div>
+                  {error?.password && (
+                    <p
+                      className={`text-${inputValue?.password.length < 8 ? "red" : "green"
+                        } absolute bottom-2/1 text-xs`}
+                    >
+                      {error.password}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="grid gap-3">
-
-                <div className="relative">
+                <div className="col-span-1 row-span-1 relative">
                   <p>Oylik Maosh</p>
+
                   <input
                     id="salary"
                     name="user.salary"
                     type="text"
                     autoComplete="salary"
                     required
-                    pattern="[0-9]*" // Use a pattern to allow only numeric characters
+                    pattern="[0-9]*"
                     onChange={(e) => {
                       const inputValueCopy = { ...inputValue };
                       const inputSalary = e.target.value;
@@ -180,7 +234,7 @@ export function AddStudent() {
                       : ''}
                   </span>
                 </div>
-                <div>
+                <div >
                   <span>Ismingiz </span>
                   <input
                     id="password"
@@ -191,7 +245,7 @@ export function AddStudent() {
                     onChange={(e) =>
                       setInputValue({ ...inputValue, first_name: e.target.value })
                     }
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
                 <div>
@@ -205,13 +259,13 @@ export function AddStudent() {
                     onChange={(e) =>
                       setInputValue({ ...inputValue, last_name: e.target.value })
                     }
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block  w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
 
             </div>
-            <div className="grid gap-5 grid-cols-2">
+            <div className="grid gap-5 grid-cols-2 my-[40px 0px]">
               {
                 TypesName === 'Admin' ? permitiondata?.map((val) => {
                   return (

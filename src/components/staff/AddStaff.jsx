@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineUserAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
 import { toast } from "react-toastify";
 import CustomInput from "react-phone-number-input/input";
 import { useEffect } from "react";
 import InputField from "../../generic/InputField";
-import FileUpload from "../FileUpload/FileUpload";
 import { memo } from "react";
 import { useCreateStaffMutation } from "../../redux/slice/staff/StaffSlice.js";
 import { debounce } from "lodash";
+import { MdOutlineInsertPhoto } from "react-icons/md";
+import ImageUpload from "../ImageUpload/ImageUpload.jsx";
 
 
 
@@ -24,10 +25,10 @@ function AddStaff() {
     middleName: "",
     position: "",
     salary: "",
-    image:'',
+    image: '',
   });
 
-  const [createParent, { isLoading, isSuccess }] = useCreateStaffMutation();
+  const [createParent, { isLoading }] = useCreateStaffMutation();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState({ sallery: "", username: "", password: '' });
 
@@ -36,20 +37,22 @@ function AddStaff() {
 
   const onClose = () => {
     setOpen(false);
-    setError({ sallery: "", username: "", message: '' });
+    setError({ sallery: "", username: "", password: '' });
     setNumber('')
   };
-  
+
 
   const addData = async () => {
     const formData = new FormData();
-    formData.append('user.username', number);
+    formData.append('user.user.username', number);
     formData.append('user.password', inputValue.password);
-    formData.append('user.first_name', inputValue.firstName);
-    formData.append('user.last_name', inputValue.lastName);
+    formData.append('user.user.first_name', inputValue.firstName);
+    formData.append('user.user.last_name', inputValue.lastName);
     formData.append('user.middle_name', inputValue.middleName);
     formData.append('position', inputValue.position);
     formData.append('salary', inputValue.salary);
+    formData.append('user.image', inputValue.img);
+
     try {
       await createParent(formData).unwrap();
       toast.success(`O'quvchi ${inputValue.firstName} qo'shildi`);
@@ -60,8 +63,9 @@ function AddStaff() {
         lastName: "",
         middleName: "",
         position: "",
-        salary:""
+        salary: ""
       })
+      setNumber('')
       setOpen(false);
     } catch (error) {
       toast.error(`O'quvchi ${inputValue.firstName} qo'shilmadi`);
@@ -168,39 +172,50 @@ function AddStaff() {
                 </p>
               )}
             </div>
-            <InputField
-              label="Foydalanuvchi Paroli"
-              id="password"
-              name="user.password"
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="password"
-              handleChange={handlePasswordChange} 
-              className='relative'
-            />
-            <span
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-2/4  pr-3 bottom-3/1 flex items-center cursor-pointer"
-            >
-              {showPassword ? (
-                <AiOutlineEye
-                  className="absolute top-[195px] text-xl right-4 cursor-pointer"
-                />
-
-              ) : (
-                <AiOutlineEyeInvisible
-                  className="absolute top-[195px] text-xl right-4 cursor-pointer"
-                />
-              )}
-            </span>
-            {error.password && (
-              <p
-                className={`text-${inputValue.user.password.length < 8 ? "red" : "green"
-                  }-600 absolute text-[12px] bottom-[215px]`}
+            <div className="col-span-1 row-span-1 relative" >
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                {error.password}
-              </p>
-            )}
+                Parol Yarating
+              </label>
+              <div className="mt-2 relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  onChange={handlePasswordChange}
+                  value={inputValue.password}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+                <p
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                >
+                  {showPassword ? (
+                    <AiOutlineEye
+                      className="absolute top-2 text-xl right-2 cursor-pointer"
+                    />
+
+                  ) : (
+                    <AiOutlineEyeInvisible
+                      className="absolute top-2 text-xl right-2 cursor-pointer"
+                    />
+                  )}
+                </p>
+              </div>
+              {error?.password && (
+                <p
+                  className={`text-${inputValue?.password.length < 8 ? "red" : "green"
+                    } absolute bottom-2/1 text-xs`}
+                >
+                  {error.password}
+                </p>
+              )}
+            </div>
             <div className="col-span-1 row-span-1 relative">
               <p>Oylik Maosh</p>
 
@@ -225,20 +240,21 @@ function AddStaff() {
                   : ''}
               </span>
             </div>
-            <FileUpload
-              title={"Rasmingiz"}
-              iconName={<AiOutlineFileAdd className="text-2xl" />}
+            <ImageUpload
+              title={"IMG"}
+              iconName={<MdOutlineInsertPhoto className="text-5xl" />}
+              iconTitle={"Rasmni Yuklash"}
+              fileType={"PNG, JPG, JPEG 5mb gacha"}
+              LabelFor={"img"}
               setInputValue={setInputValue}
-              LabelFor="user.image"
               inputValue={inputValue}
-              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
-
             />
             <InputField
               label="Lavozimi"
               id="position"
               name="position"
               type="text"
+              value={inputValue?.position}
               autoComplete="position"
               handleChange={(e) => setInputValue({ ...inputValue, position: e.target.value })}
             />

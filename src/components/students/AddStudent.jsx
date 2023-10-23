@@ -5,7 +5,7 @@ import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import CustomInput from "react-phone-number-input/input";
-import { useCreateStudentMutation, useGetStudentsQuery } from "../../redux/slice/students/students.js";
+import { useCreateStudentMutation } from "../../redux/slice/students/students.js";
 import { toast } from "react-toastify";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 import { debounce } from "lodash";
@@ -37,7 +37,7 @@ export function AddStudent() {
   });
   const addData = async () => {
     const formData = new FormData();
-    formData.append('user.username', );
+    formData.append('user.username',);
     formData.append('user.password', inputValue.password);
     formData.append('user.first_name', inputValue.firstName);
     formData.append('user.last_name', inputValue.lastName);
@@ -195,7 +195,7 @@ export function AddStudent() {
               {error?.password && (
                 <p
                   className={`text-${inputValue?.password.length < 8 ? "red" : "green"
-                    }`}
+                    } absolute bottom-2/1 text-xs`}
                 >
                   {error.password}
                 </p>
