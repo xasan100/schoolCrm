@@ -137,7 +137,7 @@ export function AddStudent() {
                     }
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <button
+                  <span
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 pr-3 bottom-3/1 flex items-center cursor-pointer"
@@ -152,7 +152,7 @@ export function AddStudent() {
                         className="absolute top-2/4 text-xl right-4 cursor-pointer"
                       />
                     )}
-                  </button>
+                  </span>
                 </div>
               </div>
               <div className="grid gap-3">

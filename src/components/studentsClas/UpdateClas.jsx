@@ -18,7 +18,7 @@ export default function UpdateStudentClas({ object }) {
   )
   const { data: teachersForClassData, isLoading: isLoadingTeachersForClass, refetch } = useGetTeachersbusyQuery();
   const [updateStudentsClass, { isLoading, isError, error }] = useUpdateStudentsClassMutation();
-  const { data: roomData, isLoading: roomIsLoading, refetch: refetchroom } = useGetRoomsbusyQuery();
+  const { data: roomData,  refetch: refetchroom } = useGetRoomsbusyQuery();
 
 
 

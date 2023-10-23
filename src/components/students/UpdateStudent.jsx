@@ -7,33 +7,23 @@ import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import { LuEdit2 } from "react-icons/lu";
 import CustomInput from "react-phone-number-input/input";
-import { useGetStudentsQuery, useUpdateStudentsMutation } from "../../redux/slice/students/students.js";
+import {  useUpdateStudentsMutation } from "../../redux/slice/students/students.js";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 
 export default function UpdateStudent({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
-  const [updateTeacher, { isLoading, isSuccess }] = useUpdateStudentsMutation();
-  const { data: dataClas, isLoading: isLoadingClas } = useGetStudentsClassQuery();
+  const [updateTeacher, { isLoading,  }] = useUpdateStudentsMutation();
+  const { data: dataClas,  } = useGetStudentsClassQuery();
 
 
-  const updateUser = () => {
-    setInputValue({
-      ...inputValue,
-      user: {
-        ...inputValue.user,
-        username: "newUsername"
-      }
-    });
-  }
-  console.log(inputValue,'inputValue');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('first_name', inputValue.user.first_name);
-    formData.append('last_name', inputValue.user.last_name);
-    formData.append('middle_name', inputValue.user.middle_name);
+    formData.append('user.first_name', inputValue.user.first_name);
+    formData.append('user.last_name', inputValue.user.last_name);
+    formData.append('user.middle_name', inputValue.user.middle_name);
     formData.append('user.username', inputValue.user.username);
     formData.append('user.password', inputValue.password);
     formData.append('id_card', inputValue.id_card);
@@ -50,7 +40,7 @@ export default function UpdateStudent({ object }) {
       toast.success(`O'quvchi ${inputValue.user.first_name} O'zgartirildi`);
       setOpen(false);
     } catch (error) {
-      toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);
+      toast.error("O'quvchi o'zgartirishda xatolik xatolik", error.message);
     }
   };
   const onClose = () => {
@@ -202,10 +192,18 @@ export default function UpdateStudent({ object }) {
                   id="middle-name"
                   name="middle_name"
                   type="text"
-                  value={inputValue.middle_name}
+                  value={inputValue?.user?.middle_name}
                   autoComplete="middle-name"
                   // handleChange={handleChange}
-                  onChange={(e) => setInputValue({ ...inputValue, middle_name: e.target.value })}
+                  onChange={(e) =>
+                    setInputValue({
+                      ...inputValue,
+                      user: {
+                        ...inputValue.user,
+                        middle_name: e.target.value
+                      }
+                    })
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

@@ -29,10 +29,17 @@ const TeacherItem = ({ teacher, index }) => {
           <p className="text-sm font-semibold leading-6 text-gray-900">
             {teacher?.title}
           </p>
+
+        </div>
+        <div className="min-w-0 flex-auto">
+          <p className="text-sm font-semibold leading-6 text-gray-900">
+            {teacher?.room_name?.name || 'Xona Tanlanmagan'}
+          </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-            {teacher?.teacher}
+            {teacher?.teacher_object?.user?.first_name || `O'qtuvchi Tanlanmagan`}
           </p>
         </div>
+        
       </div>
       <div className="flex gap-2 items-center">
         <UpdateStudentClas object={teacher} />
