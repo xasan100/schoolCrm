@@ -37,7 +37,7 @@ export function AddStudent() {
   });
   const addData = async () => {
     const formData = new FormData();
-    formData.append('user.username',);
+    formData.append('user.username',number);
     formData.append('user.password', inputValue.password);
     formData.append('user.first_name', inputValue.firstName);
     formData.append('user.last_name', inputValue.lastName);

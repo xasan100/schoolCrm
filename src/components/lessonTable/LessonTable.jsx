@@ -85,10 +85,7 @@ export default function LessonTable() {
         </div>
 
       </div>
-
-
       <div className="grid grid-cols-12 col-span-12 w-full  overflow-y-scroll h-[76vh]">
-
         <div className="col-span-1 grid grid-cols-12 items-end my-30">
           {
             dataTime?.map((val, index) => {
@@ -117,7 +114,7 @@ export default function LessonTable() {
               day?.map((item, i) => (
                 <div
                   key={i}
-                  className="cursor-pointer h-[100px] w-[150px] p-2 bg-primary hover:bg-indigo-500 rounded-md text-white flex flex-col justify-around ite "
+                  className="cursor-pointer h-[100px] w-[160px] p-2 bg-primary hover:bg-indigo-500 rounded-md text-white flex flex-col justify-around ite "
                 >
                   <p className="text-[12px]">O': {item?.teacher || `O'qtuvchi Yo'q`}</p>
                   <p className="text-[14px]">F: {item?.fan || `Fan Yo'q`}</p>
