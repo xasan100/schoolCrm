@@ -3,14 +3,14 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
 import { toast } from "react-toastify";
 import { useCreateStudentClassMutation } from "../../redux/slice/studentsClas/studentsClas.js";
-import { useGetTeachersQuery, useGetTeachersbusyQuery } from "../../redux/slice/teachers/TeachersSlice.js";
-import { useGetRoomsQuery, useGetRoomsbusyQuery } from "../../redux/slice/rooms/RoomsCrud.js";
+import { useGetTeachersbusyQuery } from "../../redux/slice/teachers/TeachersSlice.js";
+import { useGetRoomsbusyQuery } from "../../redux/slice/rooms/RoomsCrud.js";
 
 export function AddStudentClas() {
   const [open, setOpen] = useState(false); // Fixed the typo here
-  const [createStudent, { isLoading, isSuccess }] = useCreateStudentClassMutation();
-  const { data: teachersForClassData, isLoading: isLoadingTeachersForClass, refetch } = useGetTeachersbusyQuery();
-  const { data: roomData, isLoading: roomIsLoading, refetch: refetchroom } = useGetRoomsbusyQuery();
+  const [createStudent, { isLoading, }] = useCreateStudentClassMutation();
+  const { data: teachersForClassData, refetch } = useGetTeachersbusyQuery();
+  const { data: roomData, refetch: refetchroom } = useGetRoomsbusyQuery();
 
   const [inputValue, setInputValue] = useState({
     title: "",
@@ -30,6 +30,13 @@ export function AddStudentClas() {
     } catch (error) {
       toast.error("Sinf Qushilmadi");
     }
+    setInputValue(
+      {
+        title: "",
+        teacher: "",
+        room: "",
+      }
+    )
     refetchroom()
     refetch()
   }
@@ -55,7 +62,6 @@ export function AddStudentClas() {
           loader={isLoading}
           closeModal={onClose} addFunc={addData}
           title={<h1>Sinf Qo'shish</h1>}>
-
           <div>
             <div className="grid gap-3 grid-cols-3">
               <div className="grid gap-2">

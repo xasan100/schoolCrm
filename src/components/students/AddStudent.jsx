@@ -99,7 +99,7 @@ export function AddStudent() {
     }
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`https://alcrm.pythonanywhere.com/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`192.168.1.68:8000api/v1/users/check_username_exists/?username=${number}`);
     const data = await response.json();
     if (data.exists) {
       setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })

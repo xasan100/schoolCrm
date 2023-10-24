@@ -5,16 +5,21 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context";
+import CustomInput from "react-phone-number-input/input";
+
 const Sigin = () => {
   const { setProfile } = useContext(ThemeContext);
   const [state, setState] = useState({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = async () => {
+    setLoading(true);
+
     try {
       // POST so'rovini jo'natish
       const response = await axios.post(
-        "https://alcrm.pythonanywhere.com/api/v1/token/",
+        "http://192.168.1.68:8000/api/v1/token/",
         state
       );
       if (response && response.data.access) {
@@ -23,7 +28,7 @@ const Sigin = () => {
 
         // GET so'rovini jo'natish
         const profileResponse = await axios.get(
-          "https://alcrm.pythonanywhere.com/api/v1/users/me/",
+          "http://192.168.1.68:8000/api/v1/users/me/",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (profileResponse && profileResponse.data) {
@@ -38,7 +43,6 @@ const Sigin = () => {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
     }
   };
   return (
@@ -52,14 +56,14 @@ const Sigin = () => {
             <h1 className="text-2xl xl:text-3xl font-extrabold">Kirish</h1>
             <div className="w-full flex-1 mt-8">
               <div className="mx-auto max-w-xs relative">
-                <input
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                  placeholder="Foydalanuvchi Nomi"
-                  onChange={(e) =>
-                    setState({ ...state, username: e.target.value })
-                  }
-                />
+                <CustomInput
+                  placeholder="Telfon raqam"
+                  maxLength={17}
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                  autoComplete="current-password"
 
+                  onChange={(e) =>
+                    setState({ ...state, username: e })} />
                 <input
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                   autoComplete="current-password"
@@ -69,35 +73,43 @@ const Sigin = () => {
                   }
                   type={showPassword ? "text" : "password"}
                 />
-                <button
+                <p
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                 >
                   {showPassword ? (
-                    <AiOutlineEye className="absolute top-4/4 text-xl right-7 cursor-pointer" />
+                    <AiOutlineEye className="absolute top-[110px] text-xl right-7 cursor-pointer" />
                   ) : (
-                    <AiOutlineEyeInvisible className="absolute top-5/1 text-xl right-7 cursor-pointer" />
+                    <AiOutlineEyeInvisible className="absolute top-[110px] text-xl right-7 cursor-pointer" />
                   )}
-                </button>
-
+                </p>
                 <button
                   onClick={() => handleSubmit()}
                   className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                  disabled={loading} // Disable the button while loading
                 >
-                  <svg
-                    className="w-6 h-6 -ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                    <circle cx="8.5" cy="7" r="4" />
-                    <path d="M20 8v6M23 11h-6" />
-                  </svg>
-                  <span className="ml-3">Kirish</span>
+                  {loading ? (
+                    <div >
+                      Loading... 
+                    </div>
+                  ) : (
+                    <>
+                      <svg
+                        className="w-6 h-6 -ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                        <circle cx="8.5" cy="7" r="4" />
+                        <path d="M20 8v6M23 11h-6" />
+                      </svg>
+                      <span>Kirish</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>

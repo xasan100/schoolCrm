@@ -13,7 +13,7 @@ export default function ReadRooms() {
       {isLoading ? (
         <Loader extraClass="col-span-12 flex justify-center" Color="#62B238" />
       ) : (
-        data.map((room) => (
+        data?.map((room) => (
           <div
             key={room.id}
             className="col-span-3 py-6 border bg-white rounded-lg shadow-lg flex items-center justify-center relative group"
@@ -22,7 +22,7 @@ export default function ReadRooms() {
               <UpdateRoom object={room} />
               <DeleteRoom ID={room.id} />
             </div>
-            <h1 className="font-semibold">{room.name}</h1>
+            <h1 className="font-semibold">{room?.name}</h1>
           </div>
         ))
       )}
