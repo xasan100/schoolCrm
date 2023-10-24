@@ -18,7 +18,7 @@ function UpdateStaff({ object }) {
   const { data } = useGetTeachersQuery();
   const [error, setError] = useState({ sallery: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
-
+  console.log(object,'object');
   useEffect(() => {
     if (hasSubmitted) {
       if (isSuccess) {
@@ -127,24 +127,63 @@ function UpdateStaff({ object }) {
       {opne && (
         <Modal closeModal={onClose} addFunc={handleSubmit} loader={isLoading}>
           <div className="grid sm:grid-rows-6 grid-cols-2 sx:grid-cols-1 gap-2">
-            <InputField
-              value={inputValue?.user.first_name}
-              label="Ism"
-              id="first-name"
-              name="user.first_name"
-              type="text"
-              autoComplete="first_name"
-              handleChange={handleChange}
-            />
-            <InputField
-              value={inputValue?.user.last_name}
-              label="Familiya"
-              id="last-name"
-              name="user.last_name"
-              type="text"
-              autoComplete="last-name"
-              handleChange={handleChange}
-            />
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                First Name
+              </label>
+              <div className="mt-2">
+                <input
+                  id="first-name"
+                  name="first_name"
+                  type="text"
+                  value={inputValue.user.first_name}
+                  autoComplete="first_name"
+                  // handleChange={handleChange}
+                  onChange={(e) =>
+                    setInputValue({
+                      ...inputValue,
+                      user: {
+                        ...inputValue.user,
+                        first_name: e.target.value
+                      }
+                    })
+                  }
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Last Name
+              </label>
+              <div className="mt-2">
+                <input
+                  id="password"
+                  label="Familiya"
+                  name="last_name"
+                  type="text"
+                  value={inputValue.user.last_name}
+                  onChange={(e) =>
+                    setInputValue({
+                      ...inputValue,
+                      user: {
+                        ...inputValue.user,
+                        last_name: e.target.value
+                      }
+                    })
+                  }
+                  autoComplete="last-name"
+                  // handleChange={handleChange}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
             <div className="col-span-1 row-span-1 relative">
               <label
                 htmlFor="username"
@@ -210,13 +249,13 @@ function UpdateStaff({ object }) {
               acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
             />
             <InputField
-              value={inputValue.position}
               label="Lavozimi"
-              id="lavozim"
-              name="lavozim"
+              id="position"
+              name="position"
               type="text"
-              autoComplete="lavozim"
-              handleChange={handleChange}
+              value={inputValue?.position}
+              autoComplete="position"
+              handleChange={(e) => setInputValue({ ...inputValue, position: e.target.value })}
             />
           </div>
         </Modal>

@@ -1,24 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineFileAdd, AiOutlineUserAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import CustomInput from "react-phone-number-input/input";
-import { useCreateStudentMutation, useGetStudentsQuery } from "../../redux/slice/students/students.js";
+import { useCreateStudentMutation } from "../../redux/slice/students/students.js";
 import { toast } from "react-toastify";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
+import { debounce } from "lodash";
 
 export function AddStudent() {
-  const [createStudent,isLoading] = useCreateStudentMutation();
-
-  const { data } = useGetStudentsQuery();
+  const [createStudent, { isLoading }] = useCreateStudentMutation();
   const { data: dataClas } = useGetStudentsClassQuery();
-
-
+  const [number, setNumber] = useState('')
   const [open, setOpen] = useState(false); // Fixed the typo here
-
-
   const [error, setError] = useState({
     salary: "",
     username: "",
@@ -39,10 +35,9 @@ export function AddStudent() {
     img: "",
     deleteId: "",
   });
-
   const addData = async () => {
     const formData = new FormData();
-    formData.append('user.username', inputValue.username);
+    formData.append('user.username',);
     formData.append('user.password', inputValue.password);
     formData.append('user.first_name', inputValue.firstName);
     formData.append('user.last_name', inputValue.lastName);
@@ -54,50 +49,42 @@ export function AddStudent() {
     formData.append('id_card_parents', inputValue.id_card_parents);
     formData.append('school_tab', inputValue.school_tab);
     formData.append('picture_3x4', inputValue.picture_3x4);
-
     try {
       await createStudent(formData).unwrap();
       toast.success(`O'quvchi ${inputValue.firstName} qo'shildi`);
-
+      setInputValue({
+        username: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        middleName: "",
+        idCard: "",
+        date: "",
+        class_of_school: "",
+        id_card_parents: "",
+        picture_3x4: "",
+        school_tab: "",
+        img: "",
+        deleteId: "",
+      })
       setOpen(false);
     } catch (error) {
       toast.error(`O'quvchi ${inputValue.firstName} qo'shilmadi`);
-      console.error('Failed to add student:', error);
     }
   }
   const onClose = () => {
     setOpen(false);
     setError('')
     setInputValue('')
+    setNumber('')
 
   };
 
-  //Faqatgina username inputidan qiymat olish chunki u boshqacha component
-  const handleUsernameChange = (e) => {
-
-    const value = e;
-    const isUsernameExists = data.some(
-      (teacher) => teacher.user.username === value
-    );
-
-    setInputValue((prev) => ({
-      ...prev,
-      user: { ...prev.user, username: value },
-    }));
-
-    setError((prevError) => ({
-      ...prevError,
-      username: isUsernameExists ? "Ushbu username allaqachon mavjud!" : "",
-    }));
-    setInputValue({ ...inputValue, username: value })
-  };
   const [showPassword, setShowPassword] = useState(false);
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setInputValue({ ...inputValue, password: value });
-
-    // Password validation
     if (name === "password") { // Check if the field name is "user.password"
       if (value === "") {
         setError((error) => ({ ...error, password: "" }));
@@ -107,9 +94,27 @@ export function AddStudent() {
           password:
             value.length < 8 ? "Parol juda oddiy 👎" : "Parol juda zo'r 👍",
         }));
+
       }
     }
   };
+  const fetchFromBackend = async () => {
+    const response = await fetch(`https://alcrm.pythonanywhere.com/api/v1/users/check_username_exists/?username=${number}`);
+    const data = await response.json();
+    if (data.exists) {
+      setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })
+    }
+    else {
+      setError({ ...error, username: '' })
+    }
+  };
+  const debouncedFetch = debounce(fetchFromBackend, 200); // 300ms delay
+  useEffect(() => {
+    if (number?.length >= 13) {
+      debouncedFetch();
+    }
+  }, [number]);
+
 
   return (
     <div className="col-span-4">
@@ -141,14 +146,13 @@ export function AddStudent() {
                   placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
                   maxLength={17}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) => handleUsernameChange(e)}
-                  value={inputValue.username}
-                />
+                  onChange={(e) => setNumber(e)}
+                  value={number} />
 
               </div>
               {error.username && (
                 <p className="text-red-600  absolute text-[12px] -bottom-3  text-xs">
-                  {error.username}
+                  {error.username.length >= 13 ? error.username : ''}
                 </p>
               )}
 
@@ -191,7 +195,7 @@ export function AddStudent() {
               {error?.password && (
                 <p
                   className={`text-${inputValue?.password.length < 8 ? "red" : "green"
-                    }-600 absolute text-[12px] -bottom-3`}
+                    } absolute bottom-2/1 text-xs`}
                 >
                   {error.password}
                 </p>

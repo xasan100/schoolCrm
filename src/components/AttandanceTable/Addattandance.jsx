@@ -6,12 +6,16 @@ import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
 import { useCreateAttendanceMutation } from "../../redux/slice/attandance/Attendance.js";
 import { toast } from "react-toastify";
 import { useGetUserQuery } from "../../redux/slice/user/user.js";
+import { useGetStaffQuery } from "../../redux/slice/staff/StaffSlice.js";
 
 export default function Addattandance() {
   const { data: studentsData, } = useGetStudentsQuery();
   const { data: teachersData, } = useGetTeachersQuery();
   const { data: adminData, } = useGetUserQuery();
-  const [sendAttendance, isLoading] = useCreateAttendanceMutation();
+  const { data: stafData } = useGetStaffQuery();
+
+  
+  const [sendAttendance, {isLoading}] = useCreateAttendanceMutation();
   const [opne, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [inputValue, setInputValue] = useState({
@@ -59,7 +63,7 @@ export default function Addattandance() {
           closeModal={() => setOpen(false)}
           title={`Davomat Qo'shish`}
           addFunc={() => handleSendAttendance()}
-          loader={!isLoading}
+          loader={isLoading}
         >
           <div className="w-full grid grid-cols-[300px_minmax(400px,_1fr)] gap-4">
             <div className="mt-4 w-full ">
@@ -117,7 +121,17 @@ export default function Addattandance() {
                               {index + 1}.&nbsp; {admin.user.first_name}
                             </option>
                           ))
-                          : null
+
+                          : inputValue.user === "Xodim" && stafData
+                            ? stafData.map((admin, index) => (
+                              <option
+                                value={admin.id}
+                                key={index}
+                                className="m-2"
+                              >
+                                {index + 1}.&nbsp; {admin.user.first_name}
+                              </option>
+                            )) : ''
                     }
                   </select>
 

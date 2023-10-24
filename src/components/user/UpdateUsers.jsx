@@ -13,25 +13,15 @@ export default function UpdateStudent({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
   const [checkedIds, setCheckedIds] = useState([]);
-  const [updateTeacher, { isLoading, isSuccess }] = useUpdateUserMutation();
+  const [updateTeacher, { isLoading,  }] = useUpdateUserMutation();
   const { data } = useGetTypeQuery()
   const { data: permitiondata } = useGetPermitionQuery()
   const [types, setTypes] = useState()
 
-  const updateUser = () => {
-    setInputValue({
-      ...inputValue,
-      user: {
-        ...inputValue.user,
-        username: "newUsername"
-      }
-    });
-  }
-
 
 
   useEffect(() => {
-    if (types == 4) setTypes('Admin')
+    if (types === 4) setTypes('Admin')
 
   }, [types])
   const handleCheckboxChange = (id, isChecked) => {
@@ -204,7 +194,7 @@ export default function UpdateStudent({ object }) {
             </div>
             <div className="grid gap-5 grid-cols-2">
               {
-                types == 'Admin' ? permitiondata?.map((val) => {
+                types === 'Admin' ? permitiondata?.map((val) => {
                   return (
                     <div className="flex items-center mb-4" key={val.id}>
                       <input

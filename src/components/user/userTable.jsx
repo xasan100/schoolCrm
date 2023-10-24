@@ -3,7 +3,7 @@ import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import DeleteTeacher from "./DeleteUser.jsx";
 import { FaUserTie } from "react-icons/fa";
-import { useCreateUserMutation, useGetUserQuery } from "../../redux/slice/user/user.js";
+import {  useGetUserQuery } from "../../redux/slice/user/user.js";
 import AddUser from "./AddUser.jsx"
 import UpdateUserCom from "./UpdateUsers.jsx";
 import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
@@ -55,9 +55,9 @@ function UserTableCom() {
     if (searchTerm) {
       return data?.filter(
         (teacher) =>
-          teacher?.first_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-          teacher?.last_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-          teacher?.middle_name.toLowerCase().includes(searchTerm?.toLowerCase())
+          teacher?.user?.first_name?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+          teacher?.user?.last_name?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+          teacher?.user?.middle_name?.toLowerCase().includes(searchTerm?.toLowerCase())
       );
     } else {
       return data;

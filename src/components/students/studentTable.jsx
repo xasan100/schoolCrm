@@ -7,8 +7,6 @@ import AddStudent from "./AddStudent.jsx"
 import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
 import View from "./View.jsx";
 import UpdateStudent from "./UpdateStudent.jsx";
-import ExselStudent from "./StudentsExsel.jsx";
-import StudentPay from "./StudentPay.jsx";
 
 
 const TeacherItem = ({ teacher, index }) => {
@@ -39,7 +37,6 @@ const TeacherItem = ({ teacher, index }) => {
       </div>
       <div className="flex gap-2 items-center">
         <View object={teacher} />
-        <StudentPay ID={teacher?.id} />
         <UpdateStudent object={teacher} />
         <DeleteStudent ID={teacher?.id} />
       </div>
@@ -107,7 +104,6 @@ function TeachersTableComponent() {
               />
             </div>
           </div>
-          <ExselStudent />
           <AddStudent />
         </div>
         {isLoading ? (
