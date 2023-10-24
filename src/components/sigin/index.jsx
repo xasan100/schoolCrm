@@ -35,6 +35,7 @@ const Sigin = () => {
         }
 
         navigate("/");
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
