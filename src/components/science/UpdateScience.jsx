@@ -31,13 +31,10 @@ export default function UpdateSciences({ object, setOpen }) {
     e.preventDefault();
     try {
       setHasSubmitted(true);
-      await updateScience(
-        {
-          id: inputValue?.id,
-          title: inputValue.slug,
-        }
-      );
-      setInputValue({ title: "", slug: "" });
+      await updateScience({
+        id: inputValue?.id,
+        title: inputValue.title,
+      });
       setHasSubmitted(false);
       setOpen(false);
     } catch (error) {
@@ -54,15 +51,6 @@ export default function UpdateSciences({ object, setOpen }) {
         name="title"
         type="text"
         autoComplete="title"
-        handleChange={handleChange}
-      />
-      <InputField
-        value={inputValue.slug}
-        label="Qisqartma"
-        id="slug"
-        name="slug"
-        type="text"
-        autoComplete="slug"
         handleChange={handleChange}
       />
       <button className="disabled:bg-gray-300 bg-custom-green hover: text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center">

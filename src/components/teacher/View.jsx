@@ -6,6 +6,7 @@ import { FaUserTie } from "react-icons/fa";
 export default function View({ object }) {
   const [open, setOpen] = useState(false);
   const onClose = () => setOpen(!open);
+
   return (
     <div>
       <button
@@ -70,12 +71,14 @@ export default function View({ object }) {
                   <p>
                     <strong>Manzili:</strong> {object.address}
                   </p>
-                  <p>
-                    <strong>Maosh:</strong> {object.salary}
-                  </p>
-                  <p>
-                    <strong>Maosh turi:</strong> {object.salary_type}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <strong>Fan:</strong>
+                    <p className="flex items-center gap-2">
+                      {object?.sciences_dict.map((e) => (
+                        <span key={e.id}>{e.title}</span>
+                      ))}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

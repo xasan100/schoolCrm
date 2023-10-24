@@ -62,13 +62,14 @@ function TeachersTableComponent() {
             .includes(searchTerm.toLowerCase())
       );
     } else {
-      return data && [];
+      return data || [];
     }
   }, [data, searchTerm]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
 
   return (
     <div className="h-full gap-3 col-span-12 sx:overflow-x-auto">

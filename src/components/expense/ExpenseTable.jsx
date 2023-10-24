@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
-import { BsArrowDownCircle } from "react-icons/bs";
+import { BsArrowUpCircle } from "react-icons/bs";
 import DeleteExpense from "./DeleteExpense";
 import UpdateExpense from "./UpdateExpense";
 import MemoizeAddExpense from "./AddExpense";
@@ -17,7 +17,7 @@ const ExpenseTable = ({ expense, index }) => {
       <div className="flex w-full gap-x-4 items-center justify-between">
         <h1>{index + 1}.</h1>
         <div className="w-12 h-12 rounded-full border bg-gray-200 flex justify-center items-center">
-          <BsArrowDownCircle className="text-xl text-green-500" />
+          <BsArrowUpCircle className="text-xl text-red-500" />
         </div>
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-500 flex items-center gap-2">

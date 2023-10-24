@@ -30,15 +30,11 @@ const INITIAL_STATE = {
     image: "",
   },
   id_card: "",
-  salary_type: "FIXED",
-  salary: 0,
   date_of_employment: "",
   gender: "MALE",
   address: "",
-  description: "",
   experience: "HIGH_CATEGORY",
   language_certificate: "TESOL",
-  experience_desc: "",
   language_certificate_file: "",
   sciences: [0],
   lens: "",
@@ -56,7 +52,6 @@ export default function AddTeacher() {
   const { data } = useGetTeachersQuery();
   const { data: science } = useGetSciencesQuery();
   const [error, setError] = useState({
-    salary: "",
     username: "",
     password: "",
   });
@@ -89,22 +84,24 @@ export default function AddTeacher() {
   //Har bir inputga qiymat berilgan yoki berilmaganini tekshirish
   const isAnyFieldEmpty = (input) => {
     for (let key in input) {
+      // language_certificate va experience maydonlarini tashlab yuborish
+      if (key === "language_certificate" || key === "experience") {
+        continue;
+      }
+
       const value = input[key];
 
       if (typeof value === "object" && value !== null) {
-        // null qiymatini "ob'ekt" sifatida hisoblamaslik uchun shart qo'shdim
         if (Array.isArray(value) && value.length === 0) {
           return true;
         }
         if (value instanceof File) {
-          continue; // Faylni tekshirishni tashlab yuborish
+          continue;
         }
         if (isAnyFieldEmpty(value)) {
-          // Ichidagi ob'ektlarni rekursiv tekshirish
           return true;
         }
       } else if (value === "" || value === null || value === undefined) {
-        // Bo'sh qiymatlarni aniq tekshirish
         return true;
       }
     }
@@ -131,10 +128,8 @@ export default function AddTeacher() {
     }));
   };
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const numberPattern = /^[0-9]*$/;
     const keys = name.split(".");
 
     const newValue =
@@ -143,19 +138,6 @@ export default function AddTeacher() {
         : { ...inputValue, [name]: value };
 
     setInputValue(newValue);
-
-    if (name === "salary") {
-      if (value === "") {
-        setError((prevError) => ({ ...prevError, salary: "" }));
-      } else {
-        setError((prevError) => ({
-          ...prevError,
-          salary: numberPattern.test(value)
-            ? ""
-            : "Iltimos faqat raqamlar ishlating",
-        }));
-      }
-    }
 
     // Password validation
     if (name === "user.password") {
@@ -304,34 +286,11 @@ export default function AddTeacher() {
               />
               {error.password && (
                 <p
-                  className={`text-${inputValue.user.password.length < 8 ? "red" : "green"
-                    }-600 absolute text-[12px] -bottom-3`}
+                  className={`text-${
+                    inputValue.user.password.length < 8 ? "red" : "green"
+                  }-600 absolute text-[12px] -bottom-3`}
                 >
                   {error.password}
-                </p>
-              )}
-            </div>
-            <div className="col-span-1 row-span-1 relative">
-              <label
-                htmlFor="salary"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Maosh
-              </label>
-              <div className="mt-2">
-                <input
-                  id="salary"
-                  name="salary"
-                  type="text"
-                  autoComplete="salary"
-                  required
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-              {error.salary && (
-                <p className="text-red-600 absolute text-[12px] -bottom-3">
-                  {error.salary}
                 </p>
               )}
             </div>
@@ -445,22 +404,6 @@ export default function AddTeacher() {
               handleChange={handleChange}
             />
             <InputField
-              label="Izoh"
-              id="description"
-              name="description"
-              type="text"
-              autoComplete="description"
-              handleChange={handleChange}
-            />
-            <InputField
-              label="Tajriba"
-              id="experience_desc"
-              name="experience_desc"
-              type="text"
-              autoComplete="experience_desc"
-              handleChange={handleChange}
-            />
-            <InputField
               label="Passport yoki ID karta raqami"
               id="id_card"
               name="id_card"
@@ -497,8 +440,8 @@ export default function AddTeacher() {
                     isLoading
                       ? []
                       : science.map((item) => {
-                        return { value: item.id, label: item.title };
-                      })
+                          return { value: item.id, label: item.title };
+                        })
                   }
                   noOptionsMessage={() => {
                     return <div>Ma'lumotlar yo'q</div>;
@@ -523,6 +466,25 @@ export default function AddTeacher() {
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+              </div>
+            </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="gender"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Jinsi
+              </label>
+              <div className="mt-2">
+                <select
+                  id="gender"
+                  name="gender"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="MALE">Erkak</option>
+                  <option value="FEMALE">Ayol</option>
+                </select>
               </div>
             </div>
             <div className="col-span-2 row-span-1">
@@ -563,44 +525,6 @@ export default function AddTeacher() {
                   <option value="HIGH_CATEGORY">Oliy toifa</option>
                   <option value="FIRST_CATEGORY">1-toifa</option>
                   <option value="SECOND_CATEGORY">2-toifa</option>
-                </select>
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="gender"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Jinsi
-              </label>
-              <div className="mt-2">
-                <select
-                  id="gender"
-                  name="gender"
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="MALE">Erkak</option>
-                  <option value="FEMALE">Ayol</option>
-                </select>
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="salary_type"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Oylik Turi
-              </label>
-              <div className="mt-2">
-                <select
-                  id="salary_type"
-                  name="salary_type"
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="FIXED">Doimiy</option>
-                  <option value="PER_HOURS">Soatbay</option>
                 </select>
               </div>
             </div>
