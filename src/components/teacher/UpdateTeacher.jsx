@@ -212,31 +212,6 @@ export default function UpdateTeacher({ object }) {
                 )
               }
             />
-            <div className="col-span-1 row-span-1 relative">
-              <label
-                htmlFor="salary"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Maosh
-              </label>
-              <div className="mt-2">
-                <input
-                  id="salary"
-                  name="salary"
-                  type="text"
-                  value={inputValue.salary}
-                  autoComplete="sallery"
-                  required
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-              {error.salary && (
-                <p className="text-red-600 absolute text-[12px] -bottom-3">
-                  {error.salary}
-                </p>
-              )}
-            </div>
             <ImageUpload
               title={"Passport yoki ID karta rasmi"}
               iconName={<MdOutlineInsertPhoto className="text-5xl" />}
@@ -348,24 +323,6 @@ export default function UpdateTeacher({ object }) {
               handleChange={handleChange}
             />
             <InputField
-              label="Izoh"
-              id="description"
-              name="description"
-              type="text"
-              value={inputValue.description}
-              autoComplete="description"
-              handleChange={handleChange}
-            />
-            <InputField
-              label="Tajriba"
-              id="experience_desc"
-              name="experience_desc"
-              type="text"
-              value={inputValue.experience_desc}
-              autoComplete="experience_desc"
-              handleChange={handleChange}
-            />
-            <InputField
               label="Passport yoki ID karta raqami"
               id="id_card"
               name="id_card"
@@ -438,6 +395,26 @@ export default function UpdateTeacher({ object }) {
                 />
               </div>
             </div>
+            <div className="col-span-1 row-span-1">
+              <label
+                htmlFor="gender"
+                className="block text-sm font-medium leading-6 text-gray-900 w-72"
+              >
+                Jinsi
+              </label>
+              <div className="mt-2">
+                <select
+                  defaultValue={inputValue.gender}
+                  id="gender"
+                  name="gender"
+                  onChange={(e) => handleChange(e)}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="MALE">Erkak</option>
+                  <option value="FEMALE">Ayol</option>
+                </select>
+              </div>
+            </div>
             <div className="col-span-2 row-span-1">
               <label
                 htmlFor="language_certificate"
@@ -478,46 +455,6 @@ export default function UpdateTeacher({ object }) {
                   <option value="HIGH_CATEGORY">Oliy toifa</option>
                   <option value="FIRST_CATEGORY">1-toifa</option>
                   <option value="SECOND_CATEGORY">2-toifa</option>
-                </select>
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="gender"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Jinsi
-              </label>
-              <div className="mt-2">
-                <select
-                  defaultValue={inputValue.gender}
-                  id="gender"
-                  name="gender"
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="MALE">Erkak</option>
-                  <option value="FEMALE">Ayol</option>
-                </select>
-              </div>
-            </div>
-            <div className="col-span-1 row-span-1">
-              <label
-                htmlFor="sallery_type"
-                className="block text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Oylik Turi
-              </label>
-              <div className="mt-2">
-                <select
-                  defaultValue={inputValue.sallery_type}
-                  id="salary_type"
-                  name="salary_type"
-                  onChange={(e) => handleChange(e)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="FIXED">Doimiy</option>
-                  <option value="PER_HOURS">Soatbay</option>
                 </select>
               </div>
             </div>
