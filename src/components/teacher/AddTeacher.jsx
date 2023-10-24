@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import InputField from "../../generic/InputField";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import { useGetAllUserNameQuery } from "../../redux/slice/checkUsername/CheckUsername";
 const INITIAL_STATE = {
   user: {
     username: "",
@@ -49,7 +50,8 @@ export default function AddTeacher() {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
   const [createTeacher, { isLoading, isSuccess }] = useCreateTeacherMutation();
-  const { data } = useGetTeachersQuery();
+  const [skip, setSkip] = useState(true);
+  const { data } = useGetAllUserNameQuery(inputValue.user.username, { skip });
   const { data: science } = useGetSciencesQuery();
   const [error, setError] = useState({
     username: "",
@@ -111,21 +113,35 @@ export default function AddTeacher() {
   const isDisabled = isAnyFieldEmpty(inputValue);
 
   //Faqatgina username inputidan qiymat olish chunki u boshqacha component
+  // const handleUsernameChange = (e) => {
+  //   const value = e;
+  //   const isUsernameExists = data.some(
+  //     (teacher) => teacher.user.username === value
+  //   );
+
+  //   setInputValue((prev) => ({
+  //     ...prev,
+  //     user: { ...prev.user, username: value },
+  //   }));
+
+  //   setError((prevError) => ({
+  //     ...prevError,
+  //     username: isUsernameExists ? "Ushbu username allaqachon mavjud!" : "",
+  //   }));
+  // };
   const handleUsernameChange = (e) => {
     const value = e;
-    const isUsernameExists = data.some(
-      (teacher) => teacher.user.username === value
-    );
 
     setInputValue((prev) => ({
       ...prev,
       user: { ...prev.user, username: value },
     }));
 
-    setError((prevError) => ({
-      ...prevError,
-      username: isUsernameExists ? "Ushbu username allaqachon mavjud!" : "",
-    }));
+    if (value?.length >= 13) {
+      setSkip(false);
+    } else {
+      setSkip(true);
+    }
   };
 
   const handleChange = (e) => {
@@ -256,9 +272,9 @@ export default function AddTeacher() {
                   value={inputValue.username}
                 />
               </div>
-              {error.username && (
+              {data?.exists && (
                 <p className="text-red-600 absolute text-[12px] -bottom-4">
-                  {error.username}
+                  Ushbu foydalanuvchi nomi allaqachon mavjud
                 </p>
               )}
             </div>

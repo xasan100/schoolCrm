@@ -37,7 +37,7 @@ function AddParent() {
     inputValue.user.username,
     { skip }
   );
-  console.log(allUserName,'allUserName');
+
   const [show, setShow] = useState(false);
   const [error, setError] = useState({ password: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
