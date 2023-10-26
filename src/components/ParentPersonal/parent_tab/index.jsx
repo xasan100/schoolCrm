@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import ParentPerTableComponent from "../parent_attendace/parentTable.jsx";
 import { PiChatsCircleDuotone, PiStudent } from "react-icons/pi";
+import { AiOutlineCalculator } from 'react-icons/ai';
 import { BsCalendarDate, BsCoin } from "react-icons/bs";
 import ParentProfileCom from "../parent_per/ParentProfile.jsx";
-
-import ParentPerDebtsCom from "../parentPay/parentTable.jsx"
+import ParentPerDebtsCom from "../parentPay/parentTable.jsx";
+import ParentPayCom from "../parentPay/parentTablePay.jsx"
 const tabs = [
   {
     id: "profile",
@@ -24,7 +25,18 @@ const tabs = [
     icon: PiChatsCircleDuotone,
     content: "Xabarlar",
   },
-  { id: "payment", label: "To'lovlar", icon: BsCoin, component: ParentPerDebtsCom },
+  {
+    id: "Xisobotlar",
+    label: "Xisobotlar",
+    icon: AiOutlineCalculator,
+    component: ParentPerDebtsCom
+  },
+  {
+    id: "pay",
+    label: "To'lovlar",
+    icon: BsCoin,
+    component: ParentPayCom
+  },
 ];
 
 function PersonalTab() {

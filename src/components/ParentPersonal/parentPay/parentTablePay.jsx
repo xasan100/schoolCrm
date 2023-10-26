@@ -1,40 +1,36 @@
 import React, { useState } from "react";
 import { FaUserTie } from "react-icons/fa";
-import { useGetParentDebtsQuery } from "../../../redux/slice/parent_profile/Parent_Profile.js";
+import {  useGetParentPaysQuery } from "../../../redux/slice/parent_profile/Parent_Profile.js";
 import { useTheme } from "../../context/index.jsx";
 
-function StduntsPerDebtsCom() {
-  const { data, isLoading } = useGetParentDebtsQuery();
+function ParentPayCom() {
+  const { data, isLoading } = useGetParentPaysQuery();
   const { profile } = useTheme()
+  console.log(isLoading, 'isLoading');
   const [select, setSelect] = useState(
     {
       debtor: '',
       userName: '',
     }
   )
-  
 
   return (
     <div>
       <div className="flex justify-end gap-4">
-        <select onChange={(e) => setSelect({ ...select, debtor: e.target.value })}>
-          <option value=''>Hammasi</option>
-          <option value='true'>To'lanagan</option>
-          <option value='false'>To'lanmagan</option>
-        </select>
         {
-          profile.children_dict.length >= 1 &&
-          <select onChange={(e) => setSelect({ ...select, userName: e.target.value })}>
-            <option value="">Farzadlari</option>
-            {profile?.children_dict?.map((value) => {
-              return <option key={value.id} value={value?.user?.username}>{value?.user.first_name}</option>
-            })}
-          </select>
+          profile?.children_dict.length >1 && 
+        <select onChange={(e) => setSelect({ ...select, userName: e.target.value })}>
+          <option value="">Farzadlari</option>
+          {profile?.children_dict?.map((value) => {
+            return <option key={value.id} value={value?.user?.username}>{value?.user.first_name}</option>
+
+          })}
+            </select>
         }
       </div>
       <div>
         <fieldset className="border border-solid border-gray-300 p-3 h-full">
-          <legend>Qarzdorlik</legend>
+          <legend>To'lovlar</legend>
           <div className="flex flex-col gap-4  overflow-y-scroll h-[68vh]">
 
             {
@@ -57,15 +53,16 @@ function StduntsPerDebtsCom() {
 
                       <div className="flex justify-between gap-5">
                         <div className="flex flex-col items-center">
-                          <h1>Qolgan qarzdorlik</h1>
-                          <h1>{item?.balance}</h1>
+                          <h1>To'langan miqdori</h1>
+                          <h1>{item?.amount} &nbsp; so'm</h1>
                         </div>
                         <div className="flex flex-col items-center">
-                          <h1>Anashu oy uchun o'qish narxi</h1>
-                          <h1>{item.price}</h1>
+                          <h1>To'langan sana</h1>
+                          <h1>{item?.created_date} </h1>
                         </div>
-                        <div>
-                          <h1 >{item.paid ? <h1 className="text-green-600 font-semibold">To'lagan</h1> : <h1 className="text-red-700 font-semibold">Qarzdor</h1>}</h1>
+                        <div className="flex flex-col items-center">
+                          <h1>Izoh</h1>
+                          <h1>{item?.comment || 'Izoh qoldirilmagan'} </h1>
                         </div>
                       </div>
                     </div>
@@ -78,7 +75,7 @@ function StduntsPerDebtsCom() {
   );
 }
 
-export default React.memo(StduntsPerDebtsCom);
+export default React.memo(ParentPayCom);
 
 
 
