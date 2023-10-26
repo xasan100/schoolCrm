@@ -155,7 +155,7 @@ function AddIncome() {
                   <option value="0">Hech Qanday</option>
                   {data?.map((student) => (
                     <option key={student.user.id} value={student.user.id}>
-                      {student.user.first_name} &space;
+                      {student.user.first_name} &nbsp;
                       {student.user.last_name}
                     </option>
                   ))}

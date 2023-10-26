@@ -2,8 +2,8 @@ import React from "react";
 import EmptyBox from "../../EmptyBox/EmptyBox.jsx";
 import { FaUserTie } from "react-icons/fa";
 // import View from "./View.jsx";
-import { useGetStudentAttendanceQuery } from "../../../redux/slice/student_profile/StaffSlice.js";
 import Loader from "../../Loader/Loader.jsx";
+import { useGetParentAttendanceQuery } from "../../../redux/slice/parent_profile/Parent_Profile.js";
 
 const ParentItem = ({ parent, index }) => {
   return (
@@ -31,8 +31,15 @@ const ParentItem = ({ parent, index }) => {
         </div>
 
         <div className="min-w-0 flex-auto">
-          <p className="text-sm font-semibold leading-6 text-gray-900">
-            {parent?.attendance_type}
+          <p className="text-sm font-semibold leading-6">
+            <span className={
+              parent?.attendance_type === 'SABABSIZ' ? 'text-red-700 ' :
+                parent?.attendance_type === 'KELGAN' ? 'text-green-500' :
+                  parent?.attendance_type === 'SABABLI' ? 'text-orange-500' :
+                    'text-gray-900'
+            }>
+              {parent?.attendance_type}
+            </span>
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
             {parent?.date || "Vaqti"}
@@ -46,7 +53,7 @@ const ParentItem = ({ parent, index }) => {
 };
 
 function ParentPerTableComponent() {
-  const { data, isLoading } = useGetStudentAttendanceQuery();
+  const { data, isLoading } = useGetParentAttendanceQuery();
   return (
     <div className="h-ful gap-3 col-span-12">
       <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start overflow-hidden">

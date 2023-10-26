@@ -4,6 +4,7 @@ import { PiChatsCircleDuotone, PiStudent } from "react-icons/pi";
 import { BsCalendarDate, BsCoin } from "react-icons/bs";
 import ParentProfileCom from "../parent_per/ParentProfile.jsx";
 
+import ParentPerDebtsCom from "../parentPay/parentTable.jsx"
 const tabs = [
   {
     id: "profile",
@@ -23,7 +24,7 @@ const tabs = [
     icon: PiChatsCircleDuotone,
     content: "Xabarlar",
   },
-  { id: "payment", label: "To'lovlar", icon: BsCoin, content: "To'lovlar" },
+  { id: "payment", label: "To'lovlar", icon: BsCoin, component: ParentPerDebtsCom },
 ];
 
 function PersonalTab() {

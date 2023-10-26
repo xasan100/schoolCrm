@@ -19,7 +19,7 @@ const Sigin = () => {
     try {
       // POST so'rovini jo'natish
       const response = await axios.post(
-        "http://192.168.1.68:8000/api/v1/token/",
+        "https://alcrm.pythonanywhere.com/api/v1/token/",
         state
       );
       if (response && response.data.access) {
@@ -28,7 +28,7 @@ const Sigin = () => {
 
         // GET so'rovini jo'natish
         const profileResponse = await axios.get(
-          "http://192.168.1.68:8000/api/v1/users/me/",
+          "https://alcrm.pythonanywhere.com/api/v1/users/me/",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (profileResponse && profileResponse.data) {

@@ -1,22 +1,27 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { api } from "../../../api/Api.jsx";
 
-export const StudentProfileApi = createApi({
+export const ParentProfileApi = createApi({
   baseQuery: api,
   endpoints: (build) => ({
-    getStudentAttendance: build.query({
-      query: () => "students/get_student_attendances",
+    getParentAttendance: build.query({
+      query: () => "parents/get_children_attendances/",
     }),
-    getStudentsDebts: build.query({
-      query: () => "students/student_debts/",
+    getParentChildren: build.query({
+      query: () => "parents/get_children_list/",
     }),
-    getStudentsPays: build.query({
-      query: () => "students/student_pays/",
+    getParentDebts: build.query({
+      query: () => "parents/children_debts/",
+    }),
+    getParentPays: build.query({
+      query: () => "parents/children_pays/",
     }),
   }),
 });
 
 export const {
-  useGetStudentAttendanceQuery,
-  useGetStudentsDebtsQuery,
-  useGetStudentsPaysQuery } = StudentProfileApi;
+  useGetParentAttendanceQuery,
+  useGetParentChildrenQuery,
+  useGetParentDebtsQuery,
+  useGetParentPaysQuery,
+} = ParentProfileApi;
