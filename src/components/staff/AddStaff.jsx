@@ -44,7 +44,7 @@ function AddStaff() {
 
   const addData = async () => {
     const formData = new FormData();
-    formData.append('user.user.username', number);
+    formData.append('user.username', number);
     formData.append('user.password', inputValue.password);
     formData.append('user.user.first_name', inputValue.firstName);
     formData.append('user.user.last_name', inputValue.lastName);

@@ -146,7 +146,7 @@ export default function UpdateTeacher({ object }) {
               id="first-name"
               name="user.first_name"
               type="text"
-              value={inputValue.user.first_name}
+              value={inputValue?.user?.first_name}
               autoComplete="first_name"
               handleChange={handleChange}
             />
@@ -155,7 +155,7 @@ export default function UpdateTeacher({ object }) {
               id="last-name"
               name="user.last_name"
               type="text"
-              value={inputValue.user.last_name}
+              value={inputValue?.user?.last_name}
               autoComplete="last-name"
               handleChange={handleChange}
             />
@@ -164,7 +164,7 @@ export default function UpdateTeacher({ object }) {
               id="middle-name"
               name="user.middle_name"
               type="text"
-              value={inputValue.user.middle_name}
+              value={inputValue?.user?.middle_name}
               autoComplete="middle-name"
               handleChange={handleChange}
             />
@@ -178,15 +178,15 @@ export default function UpdateTeacher({ object }) {
               <div className="mt-2">
                 <CustomInput
                   placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
-                  maxLength={13}
+                  maxLength={17}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   onChange={(e) => handleUsernameChange(e)}
-                  value={inputValue.user.username}
+                  value={inputValue?.user?.username}
                 />
               </div>
-              {error.username && (
+              {error?.username && (
                 <p className="text-red-600 absolute text-[12px] -bottom-3">
-                  {error.username}
+                  {error?.username}
                 </p>
               )}
             </div>
@@ -353,22 +353,22 @@ export default function UpdateTeacher({ object }) {
                   onChange={(e) =>
                     setInputValue({
                       ...inputValue,
-                      sciences: e.map((item) => item.value),
+                      sciences: e?.map((item) => item?.value),
                     })
                   }
                   defaultValue={
                     isLoading
                       ? []
                       : science
-                          .filter((item) => object.sciences.includes(item.id))
-                          .map((fan) => {
+                          ?.filter((item) => object.sciences.includes(item.id))
+                          ?.map((fan) => {
                             return { value: fan.id, label: fan.title };
                           })
                   }
                   options={
                     isLoading
                       ? []
-                      : science.map((item) => {
+                      : science?.map((item) => {
                           return { value: item.id, label: item.title };
                         })
                   }

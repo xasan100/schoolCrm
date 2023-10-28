@@ -22,7 +22,7 @@ function ParentPayCom() {
         <select onChange={(e) => setSelect({ ...select, userName: e.target.value })}>
           <option value="">Farzadlari</option>
           {profile?.children_dict?.map((value) => {
-            return <option key={value.id} value={value?.user?.username}>{value?.user.first_name}</option>
+            return <option key={value.id} value={value?.user?.username}>{value?.user?.first_name}</option>
 
           })}
             </select>
@@ -36,18 +36,18 @@ function ParentPayCom() {
             {
               isLoading ? 'Loading...' :
                 data?.filter(item => {
-                  const isDebtorMatch = (select?.debtor === 'true' ? item.paid : select?.debtor === 'false' ? !item.paid : true);
+                  const isDebtorMatch = (select?.debtor === 'true' ? item?.paid : select?.debtor === 'false' ? !item.paid : true);
                   return isDebtorMatch;
                 })
-                  .filter(item => select?.userName ? item.student.user.username === select?.userName : true)
-                  .map((item, index) => (
+                  ?.filter(item => select?.userName ? item?.student?.user?.username === select?.userName : true)
+                  ?.map((item, index) => (
                     <div key={index} className="flex   justify-start gap-5 items-center">
                       <div className="flex flex-col">
                         <div className="flex justify-center">
-                          <h1 className="">{item.student.user.first_name}</h1>
+                          <h1 className="">{item?.student?.user?.first_name}</h1>
                         </div>
                         <div>
-                          <img className="shadow-2xl rounded-full" width='100px' height='100px' src={item.student.user.image} alt={item.student.user.first_name || <FaUserTie className="text-3xl text-primary" />} />
+                          <img className="shadow-2xl rounded-full" width='100px' height='100px' src={item?.student?.user.image} alt={item?.student?.user?.first_name || <FaUserTie className="text-3xl text-primary" />} />
                         </div>
                       </div>
 

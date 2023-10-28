@@ -156,7 +156,7 @@ export default function SecondSidebar() {
             </button>
           </div>
           <ul className={`px-3 mt-16 overflow-y-scroll select-none `}>
-            {filterMenu.map((link) => (
+            {filterMenu.filter((menu) => menu.private).map((link) => (
               <SidebarItem
                 key={link.id}
                 link={link}

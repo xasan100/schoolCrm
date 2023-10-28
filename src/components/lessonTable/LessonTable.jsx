@@ -102,7 +102,7 @@ export default function LessonTable() {
         <div className="col-span-11  divide-x-2 divide-gray-300 border-2 ">
           <div className="grid grid-cols-6 gap-4 p-1" >
             {table?.map((item, i) => (
-              <div key={i} className="h-[40px]  w-[150px] p-2 bg-yellow-400 rounded-md text-white flex items-center justify-center" >
+              <div key={i} className="h-[40px]  w-[160px] p-2 bg-yellow-400 rounded-md text-white flex items-center justify-center" >
                 {item?.day}
               </div>
             ))}
