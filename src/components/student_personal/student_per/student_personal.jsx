@@ -3,9 +3,7 @@ import { FaUserTie } from "react-icons/fa";
 import { useTheme } from "../../context/index.jsx";
 
 export default function StudentProfileCom() {
-
     const { profile: object } = useTheme();
-    console.log(object, 'object');
     return (
         <div>
 

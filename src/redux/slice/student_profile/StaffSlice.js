@@ -5,7 +5,7 @@ export const StudentProfileApi = createApi({
   baseQuery: api,
   endpoints: (build) => ({
     getStudentAttendance: build.query({
-      query: () => "students/get_student_attendances",
+      query: () => "students/get_student_attendances/",
     }),
     getStudentsDebts: build.query({
       query: () => "students/student_debts/",

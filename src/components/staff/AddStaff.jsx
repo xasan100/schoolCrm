@@ -47,7 +47,7 @@ function AddStaff() {
     formData.append('user.username', number);
     formData.append('user.password', inputValue.password);
     formData.append('user.user.first_name', inputValue.firstName);
-    formData.append('user.user.last_name', inputValue.lastName);
+    formData.append('user.last_name', inputValue.lastName);
     formData.append('user.middle_name', inputValue.middleName);
     formData.append('position', inputValue.position);
     formData.append('salary', inputValue.salary);

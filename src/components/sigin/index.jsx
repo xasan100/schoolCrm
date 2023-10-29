@@ -6,15 +6,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context";
 import CustomInput from "react-phone-number-input/input";
+import { toast } from "react-toastify";
 
 const Sigin = () => {
   const { setProfile } = useContext(ThemeContext);
   const [state, setState] = useState({ username: "", password: "" });
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = async () => {
-    setLoading(true);
 
     try {
       // POST so'rovini jo'natish
@@ -37,14 +36,21 @@ const Sigin = () => {
             "profile",
             JSON.stringify(profileResponse.data)
           );
-        }
 
-        navigate("/");
-        window.location.reload();
+          navigate("/");
+          window.location.reload();
+          toast.success("Xush kelibsiz");
+        }
       }
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error("Kirishda xatolik Foydalanuvchi yoki Parol xato");
+      } else {
+        toast.error("Tizim xatosi");
+      }
     }
-  };
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 ">
@@ -87,14 +93,7 @@ const Sigin = () => {
                 <button
                   onClick={() => handleSubmit()}
                   className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                  disabled={loading} // Disable the button while loading
-                >
-                  {loading ? (
-                    <div >
-                      Loading... 
-                    </div>
-                  ) : (
-                    <>
+  >
                       <svg
                         className="w-6 h-6 -ml-2"
                         fill="none"
@@ -108,8 +107,6 @@ const Sigin = () => {
                         <path d="M20 8v6M23 11h-6" />
                       </svg>
                       <span>Kirish</span>
-                    </>
-                  )}
                 </button>
               </div>
             </div>

@@ -68,7 +68,7 @@ function StduntsPerDebtsCom() {
                           <h1 >{item?.paid ? <h1 className="text-green-600 font-semibold">To'lagan</h1> : <h1 className="text-red-700 font-semibold">Qarzdor</h1>}</h1>
                         </div>
                       </div>
-                    </div>
+                    </div> 
                   ))}
           </div>
         </fieldset>

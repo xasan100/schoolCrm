@@ -1,7 +1,6 @@
 import React, { } from "react";
 import EmptyBox from "../../EmptyBox/EmptyBox.jsx";
 import { FaUserTie } from "react-icons/fa";
-// import View from "./View.jsx";
 import { useGetStudentAttendanceQuery } from "../../../redux/slice/student_profile/StaffSlice.js";
 import Loader from "../../Loader/Loader.jsx";
 
@@ -12,9 +11,9 @@ const TeacherItem = ({ teacher, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {teacher?.user?.image && teacher?.user.image !== "" ? (
+        {teacher?.user?.image && teacher?.user?.image !== "" ? (
           <img
-            src={teacher?.user_object.image}
+            src={teacher?.user_object?.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -66,7 +65,7 @@ function StduntsPerTableComponent() {
         ) : data?.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
             {data?.map((teacher, index) => (
-              <TeacherItem teacher={teacher} index={index} key={teacher.id} />
+              <TeacherItem teacher={teacher} index={index} key={teacher?.id} />
             ))}
           </ul>
         ) : (
