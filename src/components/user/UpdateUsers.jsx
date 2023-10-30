@@ -7,23 +7,21 @@ import { useUpdateUserMutation } from "../../redux/slice/user/user.js";
 import Loader from "../Loader/Loader.jsx";
 import { useGetTypeQuery } from "../../redux/slice/user/typeAdmin.js";
 import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
-import { useEffect } from "react";
+import ImageUpload from "../ImageUpload/ImageUpload.jsx";
+import { MdOutlineInsertPhoto } from "react-icons/md";
 
 export default function UpdateStudent({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
   const [checkedIds, setCheckedIds] = useState([]);
-  const [updateTeacher, { isLoading,  }] = useUpdateUserMutation();
+  const [updateTeacher, { isLoading, }] = useUpdateUserMutation();
   const { data } = useGetTypeQuery()
   const { data: permitiondata } = useGetPermitionQuery()
   const [types, setTypes] = useState()
 
+  const TypesName = types?.match(/[A-z]/g)?.join('');
 
 
-  useEffect(() => {
-    if (types === 4) setTypes('Admin')
-
-  }, [types])
   const handleCheckboxChange = (id, isChecked) => {
     if (isChecked) {
       setCheckedIds(prevIds => [...prevIds, id]);
@@ -34,13 +32,15 @@ export default function UpdateStudent({ object }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('types', inputValue?.types);
+    formData.append('types', types?.match(/\d+/g)?.join(''))
     formData.append('user.username', inputValue?.user.username);
     formData.append('user.password', inputValue?.password);
     formData.append('user.first_name', inputValue?.user.first_name);
     formData.append('user.last_name', inputValue?.user.last_name);
     formData.append('salary', inputValue?.salary);
     formData.append('id', inputValue?.id);
+    formData.append('user.middle_name', inputValue.middleName);
+    formData.append('user.image', inputValue.img);
     if (checkedIds && Array.isArray(checkedIds)) {
       checkedIds.forEach((id) => {
         formData.append('permissions', id);
@@ -75,9 +75,9 @@ export default function UpdateStudent({ object }) {
         <Modal
           loader={isLoading}
           closeModal={onClose} addFunc={handleSubmit}>
-          <div className="grid  grid-cols-2    ">
-            <div className="grid gap-5 grid-cols-3">
-              <div className="grid gap-2">
+          <div className="grid  grid-cols-2  gap-2 ">
+            <div className="grid gap-3 grid-cols-2 items-center">
+              <div className="grid gap-2 items-center">
                 <div>
                   <span>Tanlash</span>
                   <select
@@ -88,9 +88,7 @@ export default function UpdateStudent({ object }) {
                     <option value="Hech biri">Hech biri</option>
                     {isLoading ? <Loader /> : data?.map((val) => (
                       <option
-                        value={val.id}> {val.title}</option>
-
-
+                        value={`${val?.title} ${val?.id}`}> {val?.title}</option>
                     ))}
                   </select>
                 </div>
@@ -100,9 +98,6 @@ export default function UpdateStudent({ object }) {
                   <CustomInput
                     maxLength={17}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    // onChange={(e) =>
-                    //   setInputValue({ ...inputValue, username: e })
-                    // }
                     value={inputValue?.user.username}
                     onChange={(e) =>
                       setInputValue(prevState => ({
@@ -190,13 +185,45 @@ export default function UpdateStudent({ object }) {
                   />
                 </div>
               </div>
-
             </div>
+
+            <div className="col-span-1 row-span-1 relative">
+              <p>Otasni Ismi</p>
+              <input
+                id="salary"
+                name="user.salary"
+                type="text"
+                autoComplete="salary"
+                required
+                value={inputValue?.user.middle_name}
+                onChange={(e) =>
+                  setInputValue(prevState => ({
+                    ...prevState,
+                    user: {
+                      ...prevState.user,
+                      middle_name: e.target.value
+                    }
+                  }))
+                }
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+              <ImageUpload
+                title={"IMG"}
+                iconName={<MdOutlineInsertPhoto className="text-5xl" />}
+                iconTitle={"Rasmni Yuklash"}
+                fileType={"PNG, JPG, JPEG 5mb gacha"}
+                LabelFor={"img"}
+                setInputValue={setInputValue}
+                inputValue={inputValue}
+              />
+            </div>
+
+
             <div className="grid gap-5 grid-cols-2">
               {
-                types === 'Admin' ? permitiondata?.map((val) => {
+                TypesName === 'Admin' ? permitiondata?.map((val) => {
                   return (
-                    <div className="flex items-center mb-4" key={val.id}>
+                    <div className="flex items-center mb-4" key= {val.id}>
                       <input
                         id={val.title}
                         type="checkbox"

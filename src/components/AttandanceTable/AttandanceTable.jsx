@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useGetAttendanceQuery } from "../../redux/slice/attandance/Attendance.js";
 import Addattandance from "./Addattandance.jsx";
+import EmptyBox from "../EmptyBox/EmptyBox.jsx";
 
 function AttandanceTableComponent() {
   const { data, isLoading } = useGetAttendanceQuery();
@@ -41,7 +42,7 @@ function AttandanceTableComponent() {
     }
     setFilteredData(res);
   };
-
+  console.log(filteredUsers,'filteredUsers');
 
   return (
     <div className='h-ful gap-3 col-span-12'>
@@ -120,40 +121,43 @@ function AttandanceTableComponent() {
         <ul className='divide-y-reverse overflow-y-auto h-[68vh] divide-gray-100 border rounded-lg overflow-hidden col-span-12'>
           {isLoading ? (
             <h1>Loading...</h1>
-          ) : (
-              filteredUsers?.map((users, index) => (
-              <li className='flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200'>
-                <div className='flex min-w-0 gap-x-4'>
-                  <h1>{index + 1}.</h1>
-                  <img
-                    className='h-12 w-12 flex-none rounded-full border'
-                    src={
-                      users?.user_dict?.image ||
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG6a6KfKK66Jy1eCuDau7yp2rb5dIfGvl45g&usqp=CAU"
-                    }
-                    alt='teacher_image'
-                  />
-                  <div className='min-w-0 flex-auto'>
-                    <p className='text-sm font-semibold leading-6 text-gray-900'>
-                      {users?.user_object?.first_name}
-                    </p>
-                    <p className='mt-1 truncate text-xs leading-5 text-gray-500'>
-                      {users?.user_object?.last_name}
-                    </p>
-                  </div>
-                  {/* <p>{users?.user_object?.type_user}</p> */}
-                  <div>
-                    <p
-                      className={` text-white py-1.5 rounded-md shadow-sm border px-2 cursor-pointer   ${users?.attendance_type === "KELGAN" && "bg-custom-green"
-                        }  ${users?.attendance_type === "SABABLI" && "bg-yellow-300"
-                        }  ${users?.attendance_type === "SABABSIZ" && "bg-red-400"
-                        } `}>
-                      {users?.attendance_type}
-                    </p>
-                  </div>
-                </div>
-                <div className='flex gap-2 items-center'>
-                  {/* <button
+          ) :
+
+            (
+              filteredUsers?.length > 0 ?
+                filteredUsers?.map((users, index) => (
+                  <li className='flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200'>
+                    <div className='flex min-w-0 gap-x-4'>
+                      <h1>{index + 1}.</h1>
+                      <img
+                        className='h-12 w-12 flex-none rounded-full border'
+                        src={
+                          users?.user_dict?.image ||
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG6a6KfKK66Jy1eCuDau7yp2rb5dIfGvl45g&usqp=CAU"
+                        }
+                        alt='teacher_image'
+                      />
+                      <div className='min-w-0 flex-auto'>
+                        <p className='text-sm font-semibold leading-6 text-gray-900'>
+                          {users?.user_object?.first_name}
+                        </p>
+                        <p className='mt-1 truncate text-xs leading-5 text-gray-500'>
+                          {users?.user_object?.last_name}
+                        </p>
+                      </div>
+                      {/* <p>{users?.user_object?.type_user}</p> */}
+                      <div>
+                        <p
+                          className={` text-white py-1.5 rounded-md shadow-sm border px-2 cursor-pointer   ${users?.attendance_type === "KELGAN" && "bg-custom-green"
+                            }  ${users?.attendance_type === "SABABLI" && "bg-yellow-300"
+                            }  ${users?.attendance_type === "SABABSIZ" && "bg-red-400"
+                            } `}>
+                          {users?.attendance_type}
+                        </p>
+                      </div>
+                    </div>
+                    <div className='flex gap-2 items-center'>
+                      {/* <button
                     type='button'
                     className='inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'>
                     <AiOutlineEye
@@ -162,10 +166,12 @@ function AttandanceTableComponent() {
                     />
                     Ko'rish
                   </button> */}
-                </div>
-              </li>
-            ))
-          )}
+                    </div>
+                  </li>
+                )) : <EmptyBox />
+            )
+
+          }
         </ul>
       </div>
     </div>

@@ -8,7 +8,8 @@ import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
 import CustomInput from "react-phone-number-input/input";
 import { useCreateUserMutation } from "../../redux/slice/user/user.js";
 import { debounce } from "lodash";
-import { api } from "../../api/Api.jsx";
+import ImageUpload from "../ImageUpload/ImageUpload.jsx";
+import { MdOutlineInsertPhoto } from "react-icons/md";
 
 
 export function AddStudent() {
@@ -27,18 +28,20 @@ export function AddStudent() {
     first_name: '',
     last_name: '',
     salary: null,
+    img: '',
+    middleName: '',
+
 
   },
   );
   const TypesName = types?.match(/[A-z]/g)?.join('');
-  useEffect(() => {
-    if (types === 4) setTypes('Admin')
-  }, [types])
+
   // get
   const { data } = useGetTypeQuery()
-  const [createUser, { isLoading  }] = useCreateUserMutation();
+  const [createUser, { isLoading }] = useCreateUserMutation();
   const { data: permitiondata } = useGetPermitionQuery()
-
+  console.log(data, 'data');
+  console.log(permitiondata, 'permitiondata');
   const handleCheckboxChange = (id, isChecked) => {
     if (isChecked) {
       setCheckedIds(prevIds => [...prevIds, id]);
@@ -56,7 +59,9 @@ export function AddStudent() {
     formData.append('user.last_name', inputValue?.last_name);
     formData.append('salary', inputValue?.salary);
     formData.append('types', types?.match(/\d+/g)?.join(''))
-    // formData.append('.userid', inputValue?.id);
+    formData.append('user.middle_name', inputValue.middleName);
+    formData.append('user.image', inputValue.img);
+
     if (checkedIds && Array.isArray(checkedIds)) {
       checkedIds.forEach((id) => {
         formData.append('permissions', id);
@@ -76,7 +81,7 @@ export function AddStudent() {
     setOpen(false);
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${window.location.protocol}//${window.location.host}:8000/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`https://alcrm.pythonanywhere.com/api/v1/users/check_username_exists/?username=${number}`);
     const data = await response.json();
     if (data.exists) {
       setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })
@@ -142,27 +147,28 @@ export function AddStudent() {
                     ))}
                   </select>
                 </div>
+                <div className="col-span-1 row-span-1 relative">
+                  <label
+                    htmlFor="first-name"
+                    className="block text-sm font-medium leading-6 text-gray-900 w-72"
+                  >
+                    Telfon Raqam
+                  </label>
+                  <div className="mt-2" >
+                    <CustomInput
+                      placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
+                      maxLength={17}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      onChange={(e) => setNumber(e)}
+                      value={number} />
 
-             <div>
-              <label
-                htmlFor="username"
-                    className="block  text-sm font-medium leading-6 text-gray-900 w-72"
-              >
-                Foydalanuvchi nomi
-              </label>
-                <CustomInput
-                  placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
-                  maxLength={17}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) => setNumber(e)}
-                  value={number}
-                />
-              </div>
-              {error.username && (
-                <p className="text-red-600  absolute text-[12px] top-[100px]  text-xs">
-                  {error.username.length >= 13 ? error.username : ''}
-                </p>
-              )}
+                  </div>
+                  {error.username && (
+                    <p className="text-red-600  absolute text-[12px] -bottom-3  text-xs">
+                      {error.username.length >= 13 ? error.username : ''}
+                    </p>
+                  )}
+                </div>
                 <div className="col-span-1 row-span-1 relative" >
                   <label
                     htmlFor="password"
@@ -208,6 +214,7 @@ export function AddStudent() {
                   )}
                 </div>
               </div>
+
               <div className="grid gap-3">
                 <div className="col-span-1 row-span-1 relative">
                   <p>Oylik Maosh</p>
@@ -261,8 +268,33 @@ export function AddStudent() {
                     className="block  w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
+
               </div>
 
+              <div className="col-span-1 row-span-1 relative">
+                <p>Otasni Ismi</p>
+                <input
+                  id="salary"
+                  name="user.salary"
+                  type="text"
+                  autoComplete="salary"
+                  required
+                  onChange={(e) =>
+                    setInputValue({ ...inputValue, middleName: e.target.value })
+                  }
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+
+              <ImageUpload
+                title={"IMG"}
+                iconName={<MdOutlineInsertPhoto className="text-5xl" />}
+                iconTitle={"Rasmni Yuklash"}
+                fileType={"PNG, JPG, JPEG 5mb gacha"}
+                LabelFor={"img"}
+                setInputValue={setInputValue}
+                inputValue={inputValue}
+              />
             </div>
             <div className="grid gap-5 grid-cols-2 my-[40px 0px]">
               {

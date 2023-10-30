@@ -3,6 +3,7 @@ import ExselLessonCreate from "./LessonExsel.jsx";
 import { useGetLessonTableQuery, useGetLessonTimeQuery } from "../../redux/slice/lessonTable/LessonTableSlice.js";
 import Loader from "../Loader/Loader.jsx";
 import { BeatLoader } from "react-spinners";
+import EmptyBox from "../EmptyBox/EmptyBox.jsx";
 
 
 
@@ -111,6 +112,7 @@ export default function LessonTable() {
             {isLoading ? (
               <h1>Loading...</h1>
             ) : day ? (
+
               day?.map((item, i) => (
                 <div
                   key={i}
@@ -121,17 +123,18 @@ export default function LessonTable() {
                 </div>
               ))
             ) : data ? (
-              data?.slice(0, 1)?.map((v) =>
-                v?.lessons?.map((e, i) => (
-                  <div
-                    key={i}
-                    className="cursor-pointer h-[100px] w-[160px] p-2 bg-primary hover:bg-indigo-500 rounded-md text-white flex flex-col justify-around ite "
-                  >
-                    <p className="text-[12px]">O': {e?.teacher || `O'qtuvchi Yo'q`}</p>
-                    <p className="text-[14px]">F: {e?.fan || `Fan Yo'q`}</p>
-                  </div>
-                ))
-              )
+              data.length > 0 ?
+                data?.slice(0, 1)?.map((v) =>
+                  v?.lessons?.map((e, i) => (
+                    <div
+                      key={i}
+                      className="cursor-pointer h-[100px] w-[160px] p-2 bg-primary hover:bg-indigo-500 rounded-md text-white flex flex-col justify-around ite "
+                    >
+                      <p className="text-[12px]">O': {e?.teacher || `O'qtuvchi Yo'q`}</p>
+                      <p className="text-[14px]">F: {e?.fan || `Fan Yo'q`}</p>
+                    </div>
+                  ))
+                ) : <EmptyBox />
             ) : null}
           </div>
 

@@ -89,7 +89,7 @@ function AddStaff() {
     }
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${window.location.protocol}//${window.location.host}:8000/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`https://alcrm.pythonanywhere.com/api/v1/users/check_username_exists/?username=${number}`);
     
     const data = await response.json();
     if (data.exists) {

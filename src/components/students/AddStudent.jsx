@@ -9,7 +9,6 @@ import { useCreateStudentMutation } from "../../redux/slice/students/students.js
 import { toast } from "react-toastify";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 import { debounce } from "lodash";
-import { api } from "../../api/Api.jsx";
 
 export function AddStudent() {
   const [createStudent, { isLoading }] = useCreateStudentMutation();
@@ -100,7 +99,7 @@ export function AddStudent() {
     }
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${window.location.protocol}//${window.location.host}:8000/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`https://alcrm.pythonanywhere.com/api/v1/users/check_username_exists/?username=${number}`);
     const data = await response.json();
     if (data.exists) {
       setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })
@@ -156,7 +155,6 @@ export function AddStudent() {
                   {error.username.length >= 13 ? error.username : ''}
                 </p>
               )}
-
             </div>
             <div className="col-span-1 row-span-1 relative" >
               <label
