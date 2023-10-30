@@ -10,6 +10,9 @@ import { toast } from "react-toastify";
 import { api } from "../../api/Api.jsx";
 
 const Sigin = () => {
+
+  console.log(api,'api');
+
   const { setProfile } = useContext(ThemeContext);
   const [state, setState] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +22,7 @@ const Sigin = () => {
     try {
       // POST so'rovini jo'natish
       const response = await axios.post(
-          `${api}token/`,
+        `${window.location.protocol}//${window.location.host}:8000/api/v1/token/`,
         state
       );
       if (response && response.data.access) {
@@ -28,7 +31,7 @@ const Sigin = () => {
 
         // GET so'rovini jo'natish
         const profileResponse = await axios.get(
-          `${api}users/me/`,
+          `${window.location.protocol}//${window.location.host}:8000/api/v1/users/me/`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (profileResponse && profileResponse.data) {
@@ -94,20 +97,20 @@ const Sigin = () => {
                 <button
                   onClick={() => handleSubmit()}
                   className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-  >
-                      <svg
-                        className="w-6 h-6 -ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                        <circle cx="8.5" cy="7" r="4" />
-                        <path d="M20 8v6M23 11h-6" />
-                      </svg>
-                      <span>Kirish</span>
+                >
+                  <svg
+                    className="w-6 h-6 -ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                    <circle cx="8.5" cy="7" r="4" />
+                    <path d="M20 8v6M23 11h-6" />
+                  </svg>
+                  <span>Kirish</span>
                 </button>
               </div>
             </div>
