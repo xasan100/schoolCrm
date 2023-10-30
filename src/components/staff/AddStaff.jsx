@@ -10,6 +10,7 @@ import { useCreateStaffMutation } from "../../redux/slice/staff/StaffSlice.js";
 import { debounce } from "lodash";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import ImageUpload from "../ImageUpload/ImageUpload.jsx";
+import { api } from "../../api/Api.jsx";
 
 
 
@@ -88,7 +89,7 @@ function AddStaff() {
     }
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`https://alcrm.pythonanywhere.com/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`${api}users/check_username_exists/?username=${number}`);
     
     const data = await response.json();
     if (data.exists) {

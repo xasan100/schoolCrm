@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context";
 import CustomInput from "react-phone-number-input/input";
 import { toast } from "react-toastify";
+import { api } from "../../api/Api.jsx";
 
 const Sigin = () => {
   const { setProfile } = useContext(ThemeContext);
@@ -18,7 +19,7 @@ const Sigin = () => {
     try {
       // POST so'rovini jo'natish
       const response = await axios.post(
-        "https://alcrm.pythonanywhere.com/api/v1/token/",
+          `${api}token/`,
         state
       );
       if (response && response.data.access) {
@@ -27,7 +28,7 @@ const Sigin = () => {
 
         // GET so'rovini jo'natish
         const profileResponse = await axios.get(
-          "https://alcrm.pythonanywhere.com/api/v1/users/me/",
+          `${api}users/me/`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (profileResponse && profileResponse.data) {

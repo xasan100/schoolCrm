@@ -8,6 +8,7 @@ import { useGetPermitionQuery } from "../../redux/slice/user/permitio.js";
 import CustomInput from "react-phone-number-input/input";
 import { useCreateUserMutation } from "../../redux/slice/user/user.js";
 import { debounce } from "lodash";
+import { api } from "../../api/Api.jsx";
 
 
 export function AddStudent() {
@@ -18,7 +19,6 @@ export function AddStudent() {
   const [error, setError] = useState({ sallery: "", username: "", password: '' });
   const [types, setTypes] = useState()
   const [showPassword, setShowPassword] = useState(false);
-
 
   const [inputValue, setInputValue] = useState({
     types: '',
@@ -31,7 +31,6 @@ export function AddStudent() {
   },
   );
   const TypesName = types?.match(/[A-z]/g)?.join('');
-  console.log(TypesName,'TypesName');
   useEffect(() => {
     if (types === 4) setTypes('Admin')
   }, [types])
@@ -77,7 +76,7 @@ export function AddStudent() {
     setOpen(false);
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`https://alcrm.pythonanywhere.com/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`${api}users/check_username_exists/?username=${number}`);
     const data = await response.json();
     if (data.exists) {
       setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })
@@ -160,7 +159,7 @@ export function AddStudent() {
                 />
               </div>
               {error.username && (
-                <p className="text-red-600  absolute text-[12px] -bottom-3  text-xs">
+                <p className="text-red-600  absolute text-[12px] top-[100px]  text-xs">
                   {error.username.length >= 13 ? error.username : ''}
                 </p>
               )}
