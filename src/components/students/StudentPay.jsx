@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { MdPayment } from "react-icons/md";
 
 export function StudentPay({ ID }) {
+
+    console.log(ID,'ID');
     const [open, setOpen] = useState(false); // Fixed the typo here
     const [createStudent, { isLoading, isSuccess }] = usePaymentStudentMutation();
 
@@ -17,8 +19,11 @@ export function StudentPay({ ID }) {
 
     const addData = async (e) => {
         const formData = new FormData();
-        formData.append("paid", inputValue?.payment);
+        formData.append("amount", inputValue?.payment);
         formData.append("student", ID);
+        formData.append("type", 'EACH_PAY');
+
+        
         try {
             await createStudent(formData).unwrap();
             toast.success(`O'quvchi To'lov qo'shildi`);
@@ -38,7 +43,9 @@ export function StudentPay({ ID }) {
             <button
                 onClick={() => setOpen(true)}
                 type='button'
-                className='inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
+                className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-400"
+            
+            >
                 <MdPayment className='-ml-0.5 mr-1.5 text-xl' aria-hidden='true' />
                 To'lov
             </button>

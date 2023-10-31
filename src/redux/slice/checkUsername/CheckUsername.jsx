@@ -10,7 +10,11 @@ export const CheckUserName = createApi({
       query: (username) => `users/check_username_exists/?username=${username}`,
       providesTags: ["AllUserNames"],
     }),
+    getAllActiveUser: build.query({
+      query: (id) => `users/${id}/change_active_to_passive/`,
+      providesTags: ["getAllActiveUser"],
+    }),
   }),
 });
 
-export const { useGetAllUserNameQuery } = CheckUserName;
+export const { useGetAllUserNameQuery, useGetAllActiveUserQuery } = CheckUserName;

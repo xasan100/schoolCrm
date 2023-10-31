@@ -7,6 +7,7 @@ import AddStudent from "./AddStudent.jsx"
 import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
 import View from "./View.jsx";
 import UpdateStudent from "./UpdateStudent.jsx";
+import StudentPay from "./StudentPay.jsx";
 
 
 const TeacherItem = ({ teacher, index }) => {
@@ -34,9 +35,25 @@ const TeacherItem = ({ teacher, index }) => {
             {teacher?.user?.last_name}
           </p>
         </div>
+        {/* <div className="flex flex-col gap-3 items-center">
+          <label className="cursor-pointer" htmlFor={teacher.id}>
+            {skip ? (
+              <p className="rounded-md cursor-pointer text-custom-green">Status</p>
+            ) : (
+              <p className="rounded-md cursor-pointer text-red-600">Status</p>
+            )}
+          </label>
+          <input
+            id={teacher.id}
+            type="checkbox"
+            checked={skip}
+            onChange={handleCheckboxChange}
+          />
+        </div> */}
       </div>
       <div className="flex gap-2 items-center">
         <View object={teacher} />
+        <StudentPay ID={teacher?.id} />
         <UpdateStudent object={teacher} />
         <DeleteStudent ID={teacher?.id} />
       </div>
@@ -49,7 +66,6 @@ function TeachersTableComponent() {
   const { data, isLoading } = useGetStudentsQuery();
 
   const filteredTeachers = useMemo(() => {
-    // Computing the filtered teachers list
     if (searchTerm) {
       return data?.filter(
         (teacher) =>
@@ -125,4 +141,4 @@ function TeachersTableComponent() {
   );
 }
 
-export default React.memo(TeachersTableComponent);
+export default TeachersTableComponent;

@@ -3,11 +3,13 @@ import { BsTrash } from "react-icons/bs";
 import Modal from "../../generic/Modal";
 import { toast } from "react-toastify";
 import { useDeleteStudentsMutation } from "../../redux/slice/students/students.js";
+import { useGetAllActiveUserQuery } from "../../redux/slice/checkUsername/CheckUsername.jsx";
 
-export default function DeleteStudent({ ID }) {
+export default function DeleteStudent({ ID, }) {
     const [isOpen, setIsOpen] = useState(false);
     const closeModal = () => setIsOpen(!isOpen);
     const [deleteTeacher, { isLoading }] = useDeleteStudentsMutation();
+
     const handleDelete = async (id) => {
         try {
             await deleteTeacher({ id });
@@ -17,6 +19,7 @@ export default function DeleteStudent({ ID }) {
             toast.error("O'quvchi o'chirishda xatolik:", err);
         }
     };
+
     return (
         <div>
             <button

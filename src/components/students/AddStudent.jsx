@@ -10,6 +10,27 @@ import { toast } from "react-toastify";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 import { debounce } from "lodash";
 
+
+
+const DISCOUNT_TYPE = [
+  {
+    name: "GRANT_FULL",
+    title: "Yillik Chegirma"
+  },
+  {
+    name: "GRANT_MONTH",
+    title: "Ikki Oylik Chegirma"
+  },
+  {
+    name: "EMPLOYER_CHILDREN",
+    title: "Xodimlarning Farzandlarini Chegirmasi",
+  },
+  {
+    name: "FAMILY_CHILDREN",
+    title: "Oilaviy Chegirma "
+  }
+]
+
 export function AddStudent() {
   const [createStudent, { isLoading }] = useCreateStudentMutation();
   const { data: dataClas } = useGetStudentsClassQuery();
@@ -34,10 +55,12 @@ export function AddStudent() {
     school_tab: "",
     img: "",
     deleteId: "",
+    discount_type: "",
   });
+  console.log(inputValue, 'inputValuee');
   const addData = async () => {
     const formData = new FormData();
-    formData.append('user.username',number);
+    formData.append('user.username', number);
     formData.append('user.password', inputValue.password);
     formData.append('user.first_name', inputValue.firstName);
     formData.append('user.last_name', inputValue.lastName);
@@ -49,6 +72,8 @@ export function AddStudent() {
     formData.append('id_card_parents', inputValue.id_card_parents);
     formData.append('school_tab', inputValue.school_tab);
     formData.append('picture_3x4', inputValue.picture_3x4);
+    formData.append('discount_type', inputValue.discount_type);
+
     try {
       await createStudent(formData).unwrap();
       toast.success(`O'quvchi ${inputValue.firstName} qo'shildi`);
@@ -145,7 +170,7 @@ export function AddStudent() {
                   placeholder="Telfon raqamingiz kiriting qayta takrorlanmagan"
                   maxLength={17}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  
+
                   onChange={(e) => setNumber(e)}
                   value={number} />
 
@@ -285,7 +310,7 @@ export function AddStudent() {
               </div>
             </div>
             <ImageUpload
-              title={"IMG"}
+              title={"Rasmingiz 3x4"}
               iconName={<MdOutlineInsertPhoto className="text-5xl" />}
               iconTitle={"Rasmni Yuklash"}
               fileType={"PNG, JPG, JPEG 5mb gacha"}
@@ -354,6 +379,25 @@ export function AddStudent() {
                   dataClas?.map((val) => {
                     return (
                       <option value={val.id}>{val.title}</option>
+                    )
+                  })
+                }
+              </select>
+            </div>
+            <div className="mt-2">
+              <label htmlFor="">Chegirmalar</label>
+              <select
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                onChange={(e) =>
+                  setInputValue({
+                    ...inputValue,
+                    discount_type: e.target.value,
+                  })
+                }
+              >{
+                  DISCOUNT_TYPE?.map((val) => {
+                    return (
+                      <option value={val?.name}>{val?.title}</option>
                     )
                   })
                 }

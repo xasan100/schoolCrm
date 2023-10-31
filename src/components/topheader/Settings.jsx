@@ -13,7 +13,7 @@ export default function Settings({ open }) {
     end_date: "",
     study_price: "",
     hostel_price: "",
-    img: "",
+    imgs: "",
   });
   const addData = async () => {
     const formData = new FormData();
@@ -110,7 +110,7 @@ export default function Settings({ open }) {
             iconName={<MdOutlineInsertPhoto className="text-5xl" />}
             iconTitle={"Rasmni Yuklash"}
             fileType={"PNG, JPG, JPEG 5mb gacha"}
-            LabelFor={"img"}
+            LabelFor={"imgs"}
             setInputValue={setInputValue}
             inputValue={inputValue}
           />

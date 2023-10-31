@@ -29,7 +29,7 @@ export const StudentsCrud = createApi({
         }),
         paymentStudent: build.mutation({
             query: (body) => ({
-                url: 'students/add_student_with_excel/',
+                url: 'incomes/',
                 method: 'POST',
                 body,
             }),
