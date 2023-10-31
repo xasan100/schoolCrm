@@ -50,7 +50,7 @@ export default function ViewStaff({ object }) {
                     <strong>Foydalanuvchi nomi:</strong> {object.user.username}
                   </p>
                   <p>
-                    <strong>Maosh:</strong> {object.user.salary}
+                    <strong>Maosh:</strong> {object.salary}
                   </p>
                 </div>
               </div>

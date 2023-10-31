@@ -25,7 +25,6 @@ export function StudentPay({ ID }) {
             setOpen(false);
         } catch (error) {
             toast.error("O'qiuvchi To'lov qo'shilmadi");
-            console.error("Failed to add student:", error);
         }
     };
 

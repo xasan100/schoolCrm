@@ -1,5 +1,5 @@
 /** @format */
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetAttendanceQuery } from "../../redux/slice/attandance/Attendance.js";
 import Addattandance from "./Addattandance.jsx";
 import EmptyBox from "../EmptyBox/EmptyBox.jsx";
@@ -42,7 +42,6 @@ function AttandanceTableComponent() {
     }
     setFilteredData(res);
   };
-  console.log(filteredUsers,'filteredUsers');
 
   return (
     <div className='h-ful gap-3 col-span-12'>

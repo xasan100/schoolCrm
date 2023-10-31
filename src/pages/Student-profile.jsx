@@ -1,10 +1,11 @@
 import React from 'react'
 import StudenTab from '../components/student_personal/student_tab/index.jsx'
 
+
 export const StudentProfilePage  = () => {
   return (
     <div>
-      <StudenTab />
+      <StudenTab/>
     </div>
   )
 }

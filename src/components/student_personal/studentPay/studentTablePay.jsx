@@ -1,7 +1,7 @@
 import React, { } from "react";
 import EmptyBox from "../../EmptyBox/EmptyBox.jsx";
 import { FaUserTie } from "react-icons/fa";
-import { useGetStudentsPaysQuery } from "../../../redux/slice/student_profile/StaffSlice.js";
+import { useGetStudentPaysQuery, useGetStudentsPaysQuery } from "../../../redux/slice/student_profile/Student_Profile.js";
 import Loader from "../../Loader/Loader.jsx";
 
 
@@ -48,9 +48,7 @@ const TeacherItem = ({ teacher, index }) => {
 };
 
 function StduntsTablePayComponent() {
-  // const { data, isLoading } = useGetStudentAttendanceQuery();
-  const { data, isLoading } = useGetStudentsPaysQuery();
-  console.log(data, 'data');
+  const { data, isLoading } = useGetStudentPaysQuery();
   return (
     <div className="h-ful gap-3 col-span-12">
       <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[55vh] items-start overflow-hidden">

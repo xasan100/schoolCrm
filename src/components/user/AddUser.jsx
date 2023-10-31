@@ -40,8 +40,6 @@ export function AddStudent() {
   const { data } = useGetTypeQuery()
   const [createUser, { isLoading }] = useCreateUserMutation();
   const { data: permitiondata } = useGetPermitionQuery()
-  console.log(data, 'data');
-  console.log(permitiondata, 'permitiondata');
   const handleCheckboxChange = (id, isChecked) => {
     if (isChecked) {
       setCheckedIds(prevIds => [...prevIds, id]);

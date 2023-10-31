@@ -2,7 +2,7 @@ import React, { } from "react";
 import EmptyBox from "../../EmptyBox/EmptyBox.jsx";
 import { FaUserTie } from "react-icons/fa";
 // import View from "./View.jsx";
-import { useGetStudentsDebtsQuery } from "../../../redux/slice/student_profile/StaffSlice.js";
+import { useGetStudentDebtsQuery, useGetStudentsDebtsQuery } from "../../../redux/slice/student_profile/Student_Profile.js";
 import Loader from "../../Loader/Loader.jsx";
 import View from "./View.jsx";
 
@@ -58,7 +58,7 @@ const TeacherItem = ({ teacher, index }) => {
 };
 
 function StduntsPerDebtsCom() {
-  const { data, isLoading } = useGetStudentsDebtsQuery();
+  const { data, isLoading } = useGetStudentDebtsQuery();
   return (
     <div className="h-ful gap-3 col-span-12">
       <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start overflow-hidden">

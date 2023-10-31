@@ -35,7 +35,6 @@ function AddStaff() {
 
 
 
-
   const onClose = () => {
     setOpen(false);
     setError({ sallery: "", username: "", password: '' });
@@ -47,7 +46,7 @@ function AddStaff() {
     const formData = new FormData();
     formData.append('user.username', number);
     formData.append('user.password', inputValue.password);
-    formData.append('user.user.first_name', inputValue.firstName);
+    formData.append('user.first_name', inputValue.firstName);
     formData.append('user.last_name', inputValue.lastName);
     formData.append('user.middle_name', inputValue.middleName);
     formData.append('position', inputValue.position);
@@ -220,7 +219,6 @@ function AddStaff() {
             </div>
             <div className="col-span-1 row-span-1 relative">
               <p>Oylik Maosh</p>
-
               <input
                 id="salary"
                 name="user.salary"

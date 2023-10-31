@@ -52,7 +52,12 @@ const Sigin = () => {
       }
     }
   }
-
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      
+      handleSubmit();
+    }
+  }
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 ">
@@ -73,6 +78,7 @@ const Sigin = () => {
                   onChange={(e) =>
                     setState({ ...state, username: e })} />
                 <input
+                  onKeyDown={(e) => handleEnter(e)}
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                   autoComplete="current-password"
                   placeholder="Parol"

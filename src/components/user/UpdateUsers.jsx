@@ -21,7 +21,6 @@ export default function UpdateStudent({ object }) {
 
   const TypesName = types?.match(/[A-z]/g)?.join('');
 
-
   const handleCheckboxChange = (id, isChecked) => {
     if (isChecked) {
       setCheckedIds(prevIds => [...prevIds, id]);
