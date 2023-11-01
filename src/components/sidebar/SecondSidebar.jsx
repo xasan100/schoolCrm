@@ -20,11 +20,10 @@ export function SidebarItem({
       onClick={() => navigate(link.path)}
       className={`my-1 p-1
       font-medium rounded-md cursor-pointer
-      ${
-        active === link.id
+      ${active === link.id
           ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
           : "hover:bg-indigo-50 text-gray-600"
-      }
+        }
     `}
     >
       <div
@@ -38,9 +37,8 @@ export function SidebarItem({
       >
         {link.icon}
         <span
-          className={`overflow-hidden transition-all ${
-            expanded ? "w-52 ml-3" : "w-0"
-          }`}
+          className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"
+            }`}
         >
           {link.title}
         </span>
@@ -74,11 +72,10 @@ export function SidebarItem({
               }}
               className={`py-1 px-4
   font-medium rounded-md cursor-pointer select-none
-  ${
-    active === sub.id
-      ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
-      : "hover:bg-indigo-50 text-gray-600"
-  }
+  ${active === sub.id
+                  ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
+                  : "hover:bg-indigo-50 text-gray-600"
+                }
 `}
             >
               {sub.title}
@@ -133,20 +130,23 @@ export default function SecondSidebar() {
     document.body.className = day ? "light-mode" : "dark-mode";
   }, [day]);
 
+  const { profile: object } = useTheme();
+  const logOut = (keys) => {
+    keys.forEach((key) => sessionStorage.removeItem(key));
+    navigate("/login");
+  };
   return (
     <aside className="h-screen shadow-xl">
       <nav
-        className={`h-full flex flex-col justify-between ${
-          day ? "light-mode" : "dark-mode"
-        }`}
+        className={`h-full flex flex-col justify-between ${day ? "light-mode" : "dark-mode"
+          }`}
       >
         <div className="pb-2 flex justify-between items-center flex-col overflow-hidden scrollbar-hide">
           <div className="p-3 flex justify-between items-center w-full">
             <img
               src={Logo}
-              className={`overflow-hidden transition-all ${
-                expanded ? "w-52" : "w-0"
-              }`}
+              className={`overflow-hidden transition-all ${expanded ? "w-52" : "w-0"
+                }`}
               alt=""
             />
             <button
@@ -175,7 +175,7 @@ export default function SecondSidebar() {
         {typeUser === "admin" ? (
           <div className="border-t flex p-3 mt-20">
             <img
-              src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
+              src={object?.user?.image || object.user.first_name.join('').split('')[0]}
               alt=""
               className="w-10 h-10 rounded-md"
             />
@@ -186,10 +186,17 @@ export default function SecondSidebar() {
           `}
             >
               <div className="leading-4">
-                <h4 className="font-semibold">John Doe</h4>
-                <span className="text-xs text-gray-600">johndoe@gmail.com</span>
+                <h4 className="font-semibold">{object.user
+                  .first_name || "Yo'q"}</h4>
+                <span className="text-xs text-gray-600">{object.user.username}</span>
               </div>
-              <IoMdMore size={20} />
+              <button
+                onClick={() => logOut(["token", "profile"])}
+                className="text-white py-2 px-3 uppercase rounded-lg bg-red-500 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+              >
+                Chiqish
+              </button>
+              {/* < size={20} /> */}
             </div>
           </div>
         ) : (

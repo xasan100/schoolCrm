@@ -308,10 +308,17 @@ export default function UpdateTeacher({ object }) {
             <FileUpload
               title={"Shaxsiy Rasmingiz"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"user.image"}
+              LabelFor={"user?.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
-              acceptedFormats={[".png", ".jpeg", ".jpg"]}
+              acceptedFormats={[
+                ".png",
+                ".jpeg",
+                ".jpg",
+                ".doc",
+                ".pdf",
+                ".docx",
+              ]}
             />
             <InputField
               label="Manzil"
@@ -360,17 +367,17 @@ export default function UpdateTeacher({ object }) {
                     isLoading
                       ? []
                       : science
-                          ?.filter((item) => object.sciences.includes(item.id))
-                          ?.map((fan) => {
-                            return { value: fan.id, label: fan.title };
-                          })
+                        ?.filter((item) => object.sciences.includes(item.id))
+                        ?.map((fan) => {
+                          return { value: fan.id, label: fan.title };
+                        })
                   }
                   options={
                     isLoading
                       ? []
                       : science?.map((item) => {
-                          return { value: item.id, label: item.title };
-                        })
+                        return { value: item.id, label: item.title };
+                      })
                   }
                 />
               </div>

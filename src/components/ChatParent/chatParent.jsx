@@ -14,7 +14,7 @@ function ChatCom() {
   } = useGetChatQuery();
   const { data: parentsData, isLoading: parentsIsLoading } =
     useGetParentsQuery();
-  const [createChat, { isSuccess, isLoading: createChatIsLoading }] =
+  const [createChat, {  createChatIsLoading }] =
     useCreateChatMutation();
   const [inputValue, setInputValue] = useState({
     message: "",
@@ -35,7 +35,7 @@ function ChatCom() {
       await createChat(inputValue).unwrap();
       refetch();
     } catch (error) {
-      console.error("Xatolik yuz berdi:", error);
+      
     }
     setInputValue({ ...inputValue, message: "" });
   };

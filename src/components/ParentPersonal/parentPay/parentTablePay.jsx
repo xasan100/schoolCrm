@@ -6,7 +6,6 @@ import { useTheme } from "../../context/index.jsx";
 function ParentPayCom() {
   const { data, isLoading } = useGetParentPaysQuery();
   const { profile } = useTheme()
-  console.log(isLoading, 'isLoading');
   const [select, setSelect] = useState(
     {
       debtor: '',

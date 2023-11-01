@@ -30,17 +30,23 @@ export default function Modal({
     }
 
     return (
-      <button
-        onClick={addFunc}
-        disabled={isDisabled}
-        className="disabled:bg-gray-300 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
-      >
-        {!loader ? (
-          buttonText
-        ) : (
-          <ButtonLoader Color="white" Size={20} extraClass="h-6" />
-        )}
-      </button>
+      <div className="flex gap-4">
+        {/* <button
+          className="disabled:bg-gray-300 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center">
+          Faol
+        </button> */}
+        <button
+          onClick={addFunc}
+          disabled={isDisabled}
+          className="disabled:bg-gray-300 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
+        >
+          {!loader ? (
+            buttonText
+          ) : (
+            <ButtonLoader Color="white" Size={20} extraClass="h-6" />
+          )}
+        </button>
+      </div>
     );
   };
 

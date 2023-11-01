@@ -18,7 +18,6 @@ function UpdateStaff({ object }) {
   const { data } = useGetTeachersQuery();
   const [error, setError] = useState({ sallery: "", username: "" });
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  console.log(object,'object');
   useEffect(() => {
     if (hasSubmitted) {
       if (isSuccess) {
@@ -29,7 +28,6 @@ function UpdateStaff({ object }) {
       }
     }
   }, [isSuccess, isLoading, hasSubmitted]);
-
   // Inputdagi qiymatni olganda raqam yoki raqam emasligini tekshirish uchun qo'shimcha funksiya
   const updateNestedValue = (obj, keys, value) => {
     const newObj = { ...obj };
