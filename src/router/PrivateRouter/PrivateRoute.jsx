@@ -19,9 +19,6 @@ const pathValues = [
   "/staffs",
   "/users",
   "/chat-parent",
-  "/student-profile",
-  "/parent-profile",
-  "/teacher-profile",
 ];
 
 const teacherPath = ["/teacher-profile"];

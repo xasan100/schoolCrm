@@ -1,16 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { PiChatsCircleDuotone, PiStudent } from "react-icons/pi";
 import { BsCalendarDate, BsCoin, BsJournalText } from "react-icons/bs";
 import { AiOutlineHome } from "react-icons/ai";
 import TeachersProfile from "../components/teacherProfile/TeachersProfile.jsx";
-import { ThemeContext } from "../components/context/index.jsx";
+import Tasks from "../components/teacherProfile/tasks/TeacherTasks.jsx";
+import TeachersSalary from "../components/teacherProfile/TeachersSalary.jsx";
 
 function TeacherTab() {
   const [activeTab, setActiveTab] = useState("profile");
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  const { profile } = useContext(ThemeContext);
   let activeContent;
   switch (activeTab) {
     case "profile":
@@ -20,10 +20,10 @@ function TeacherTab() {
       //   activeContent = <StduntsPerTableComponent />;
       break;
     case "vazifalari":
-      activeContent = "Vazifalari";
+      activeContent = <Tasks />;
       break;
-    case "Maoshlar tarixi":
-      //   activeContent = <StduntsPerDebtsCom />;
+    case "salary":
+      activeContent = <TeachersSalary />;
       break;
     case "Xabarlar":
       //   activeContent = <StduntsPerDebtsCom />;
@@ -36,7 +36,6 @@ function TeacherTab() {
   }
   // const { data, isLoading } = useGetStudentAttendaceQuery();
   // console.log(data,'data');
-  console.log(profile);
   return (
     <div className="w-full max-w-screen-lg mx-auto p-4 h-[88vh] overflow-auto">
       <div className="flex border-b border-gray-200">
