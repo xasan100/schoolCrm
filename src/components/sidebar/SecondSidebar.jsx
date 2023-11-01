@@ -104,10 +104,11 @@ export default function SecondSidebar() {
   };
 
   const typeUser = profile?.user?.type_user;
+  const notLink = ["/teacher-profile", "/parent-profile", "/student-profile"];
 
   useEffect(() => {
     const pathMap = {
-      admin: menuItems,
+      admin: menuItems.filter((e) => !notLink.includes(e.path)),
       teacher: menuItems.filter((e) => e.path === "/teacher-profile"),
       parent: menuItems.filter((e) => e.path === "/parent-profile"),
       student: menuItems.filter((e) => e.path === "/student-profile"),
@@ -156,7 +157,7 @@ export default function SecondSidebar() {
             </button>
           </div>
           <ul className={`px-3 mt-16 overflow-y-scroll select-none `}>
-            {filterMenu.filter((menu) => menu.private).map((link) => (
+            {filterMenu.map((link) => (
               <SidebarItem
                 key={link.id}
                 link={link}

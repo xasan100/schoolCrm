@@ -11,181 +11,64 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useGetChartQuery } from "../../redux/slice/chart/chart";
 
 export default function Chart() {
-  const months = [
-    "Yanvar",
-    "Fevral",
-    "Mart",
-    "Aprel",
-    "May",
-    "Iyun",
-    "Iyul",
-    "Avgust",
-    "Sentyabr",
-    "Oktyabr",
-    "Noyabr",
-    "Dekabr",
-  ];
-  const year = [
-    "2023",
-    "2024",
-    "2025",
-    "2026",
-    "2027",
-    "2028",
-    "2029",
-    "2030",
-    "2031",
-    "2032",
-    "2033",
-    "2034",
-  ];
-  const data = [
-    {
-      name: "2023",
-      kirim: 7231,
-      chiqim: 1523,
-      months: [
-        {
-          name: "january",
-          kirim: 3210,
-          chiqim: 5432,
-          days: [
-            { name: "1", kirim: 123, chiqim: 543 },
-            { name: "2", kirim: 234, chiqim: 654 },
-            { name: "3", kirim: 123, chiqim: 543 },
-            { name: "4", kirim: 234, chiqim: 654 },
-            { name: "5", kirim: 123, chiqim: 543 },
-            { name: "6", kirim: 234, chiqim: 654 },
-            { name: "7", kirim: 123, chiqim: 543 },
-            { name: "8", kirim: 234, chiqim: 654 },
-          ],
-        },
-        {
-          name: "fevral",
-          kirim: 4321,
-          chiqim: 6543,
-          days: [
-            { name: "1", kirim: 345, chiqim: 765 },
-            { name: "2", kirim: 456, chiqim: 876 },
-          ],
-        },
-        {
-          name: "mart",
-          kirim: 5432,
-          chiqim: 7654,
-          days: [
-            { name: "1", kirim: 567, chiqim: 987 },
-            { name: "2", kirim: 678, chiqim: 1098 },
-          ],
-        },
-      ],
-    },
-    {
-      name: "2024",
-      kirim: 7231,
-      chiqim: 1523,
-      months: [
-        {
-          name: "january",
-          kirim: 3210,
-          chiqim: 5432,
-          days: [
-            { name: "1", kirim: 123, chiqim: 543 },
-            { name: "2", kirim: 234, chiqim: 654 },
-            { name: "3", kirim: 123, chiqim: 543 },
-            { name: "4", kirim: 234, chiqim: 654 },
-            { name: "5", kirim: 123, chiqim: 543 },
-            { name: "6", kirim: 234, chiqim: 654 },
-            { name: "7", kirim: 123, chiqim: 543 },
-            { name: "8", kirim: 234, chiqim: 654 },
-          ],
-        },
-        {
-          name: "fevral",
-          kirim: 4321,
-          chiqim: 6543,
-          days: [
-            { name: "1", kirim: 345, chiqim: 765 },
-            { name: "2", kirim: 456, chiqim: 876 },
-          ],
-        },
-        {
-          name: "mart",
-          kirim: 5432,
-          chiqim: 7654,
-          days: [
-            { name: "1", kirim: 567, chiqim: 987 },
-            { name: "2", kirim: 678, chiqim: 1098 },
-          ],
-        },
-      ],
-    },
-  ];
+  const { data } = useGetChartQuery();
 
-  const [selectedYear, setSelectedYear] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState(null);
-  const [changeMonths, setChangeMonths] = useState([]);
-  const [days, setDays] = useState([]);
+  const [year, setYear] = useState("2023");
+  const [month, setMonth] = useState("");
+  const [chart, setChart] = useState([]);
 
-  useEffect(() => {
-    if (selectedYear) {
-      setChangeMonths(selectedYear.months);
+  const changeData = (e) => {
+    const { name, value } = e.target;
+    if (name === "years") {
+      const selectedYear = data?.find((item) => item.name.toString() === value);
+      setChart(selectedYear?.months);
+    } else if (name === "months") {
+      const selectedMonth = data
+        ?.find((item) => item.name.toString() === year)
+        .months?.find((item) => item.name.toString() === value);
+      setChart(selectedMonth?.days[0]);
     }
-  }, [selectedYear]);
-
-  useEffect(() => {
-    if (selectedMonth) {
-      setDays(selectedMonth.days);
-    }
-  }, [selectedMonth]);
-
-  const handleYearChange = (e) => {
-    const year = data.find((y) => y.name === e.target.value);
-    setSelectedYear(year);
-    setSelectedMonth(null);
-    setDays([]);
   };
 
-  const handleMonthChange = (e) => {
-    const month = data.months.find((m) => m.name === e.target.value);
-    setSelectedMonth(month);
-  };
-  //882315771
+  console.log(chart);
+
   return (
     <div className="h-[60vh]  col-span-11">
-      <div>
-      </div>
+      <div></div>
       <div className="flex justify-end gap-3">
         <select
-          onChange={(e) => handleMonthChange(e)}
-          id="gender"
-          name="gender"
+          onChange={(e) => changeData(e)}
+          id="month"
+          name="months"
           className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500"
         >
-          {months.map((e, i) => (
-            <option key={i} value={e}>
-              {e}
-            </option>
-          ))}
+          {data
+            ?.find((item) => item.name.toString() === year)
+            ?.months.map((item) => (
+              <option key={item.name} value={item.name}>
+                {item.name}
+              </option>
+            ))}
         </select>
         <select
-          onChange={(e) => handleYearChange(e)}
-          id="gender"
-          name="gender"
+          onChange={(e) => changeData(e)}
+          id="year"
+          name="years"
           className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500"
         >
-          {year.map((e, i) => (
-            <option key={i} value={e}>
-              {e}
+          {data?.map((item) => (
+            <option key={item.name} value={item.name}>
+              {item.name}
             </option>
           ))}
         </select>
       </div>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          data={data[0].months[0].days}
+          data={chart}
           margin={{
             top: 5,
             right: 0,

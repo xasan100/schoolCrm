@@ -1,13 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import { BsArrowDownCircle } from "react-icons/bs";
-import { useGetIncomesQuery } from "../../redux/slice/income/IncomeCrud";
-import DeleteIncome from "./DeleteIncome";
-import AddIncome from "./AddIncome";
-import UpdateIncome from "./UpdateIncome";
+import { useGetTeachersSalaryQuery } from "../../redux/slice/teachers/TeachersSlice";
+import { ThemeContext } from "../context";
 
-const IncomeTable = ({ income, index }) => {
+const SalaryTable = ({ salary, index }) => {
   const formatNumber = (value) => {
     const numberChange = new Intl.NumberFormat().format(value);
     return numberChange;
@@ -21,41 +19,40 @@ const IncomeTable = ({ income, index }) => {
         </div>
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-500 flex items-center gap-2">
-            <span>{income?.student?.user?.first_name}</span>
-            <span>{income?.student?.user?.last_name}</span>
+            <span>{salary?.user_dict.first_name}</span>
+            <span>{salary?.user_dict.last_name}</span>
           </p>
           <p className="mt-1 truncate text-sm leading-5 text-black font-bold">
-            {formatNumber(income?.amount)}
+            {formatNumber(salary?.amount)}
           </p>
         </div>
-        <div>{income.comment}</div>
+        <div>{salary.comment}</div>
       </div>
-      <div className="flex gap-2 items-center">
-        <UpdateIncome object={income} />
-        <DeleteIncome ID={income?.id} />
-      </div>
+      <div className="flex gap-2 items-center"></div>
     </li>
   );
 };
 
-function TeachersTableComponent() {
+function TeachersSalary() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading } = useGetIncomesQuery();
+  const { profile } = useContext(ThemeContext);
+  const ID = profile.id;
+  const { data, isLoading } = useGetTeachersSalaryQuery(ID);
 
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
       return data.filter(
-        (income) =>
-          income?.student?.user?.first_name
+        (slaray) =>
+          slaray?.user_dict.first_name
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
-          income?.student?.user?.last_name
+          slaray?.user_dict.last_name
             .toLowerCase()
-            .includes(searchTerm?.toLowerCase()) ||
-          income?.student?.user?.middle_name
+            .includes(searchTerm.toLowerCase()) ||
+          slaray?.user_dict.middle_name
             .toLowerCase()
-            .includes(searchTerm?.toLowerCase())
+            .includes(searchTerm.toLowerCase())
       );
     } else {
       return data;
@@ -102,7 +99,6 @@ function TeachersTableComponent() {
               />
             </div>
           </div>
-          <AddIncome />
         </div>
         {isLoading ? (
           <Loader
@@ -111,8 +107,8 @@ function TeachersTableComponent() {
           />
         ) : filteredTeachers.length > 0 ? (
           <ul className="overflow-y-scroll h-[68vh] divide-gray-300 divide-y-2 border rounded-lg col-span-12">
-            {filteredTeachers.map((income, index) => (
-              <IncomeTable income={income} index={index} key={income?.id} />
+            {filteredTeachers.map((salary, index) => (
+              <SalaryTable salary={salary} index={index} key={salary.id} />
             ))}
           </ul>
         ) : (
@@ -123,4 +119,4 @@ function TeachersTableComponent() {
   );
 }
 
-export default React.memo(TeachersTableComponent);
+export default React.memo(TeachersSalary);

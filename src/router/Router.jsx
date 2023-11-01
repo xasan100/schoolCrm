@@ -12,7 +12,8 @@ export default function Router() {
       <Routes>
         <Route path="/login" element={<Sigin />} />
         <Route element={<Layout />}>
-          {menuItems?.flatMap((menu) => [
+          {menuItems
+            ?.flatMap((menu) => [
               {
                 id: menu.id,
                 path: menu.path,
@@ -27,15 +28,15 @@ export default function Router() {
               })) || []),
             ])
             .map((item) => (
-              <>
-                  <Route
-                    key={item.id}
-                    path={item.path}
-                    element={
-                      <PrivateRoute path={item.path}>{item.element}</PrivateRoute>
-                    }
-                  />
-              </>
+              <Route
+                key={item.id}
+                path={item.path}
+                element={
+                  <PrivateRoute key={item.id} path={item.path}>
+                    {item.element}
+                  </PrivateRoute>
+                }
+              />
             ))}
         </Route>
         <Route path="*" element={<Error />} />
