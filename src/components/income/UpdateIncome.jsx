@@ -10,11 +10,11 @@ import { LuEdit2 } from "react-icons/lu";
 function UpdateIncome({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState({
-    id: object.id,
-    amount: object.amount,
-    comment: object.comment,
-    student: object.student.id,
-    type: object.type,
+    id: object?.id,
+    amount: object?.amount,
+    comment: object?.comment,
+    student: object?.student?.id,
+    type: object?.type,
   });
   const [updateIncome, { isLoading, isSuccess }] = useUpdateIncomeMutation();
   const { data } = useGetStudentsQuery();
@@ -115,7 +115,7 @@ function UpdateIncome({ object }) {
               </label>
               <div className="mt-1.5">
                 <select
-                  defaultValue={object.student.id}
+                  defaultValue={object?.student?.id}
                   onChange={handleChange}
                   name="student"
                   id="student"
@@ -123,9 +123,9 @@ function UpdateIncome({ object }) {
                 >
                   <option value="0">Hech Qanday</option>
                   {data?.map((student) => (
-                    <option key={student.user.id} value={student.user.id}>
-                      {student.user.first_name} &space;
-                      {student.user.last_name}
+                    <option key={student?.user?.id} value={student?.user?.id}>
+                      {student?.user.first_name} &nbsp;
+                      {student?.user?.last_name}
                     </option>
                   ))}
                 </select>

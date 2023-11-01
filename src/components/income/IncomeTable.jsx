@@ -32,7 +32,7 @@ const IncomeTable = ({ income, index }) => {
       </div>
       <div className="flex gap-2 items-center">
         <UpdateIncome object={income} />
-        <DeleteIncome ID={income?.id} />
+        <DeleteIncome ID={income?.id } />
       </div>
     </li>
   );
@@ -45,14 +45,14 @@ function TeachersTableComponent() {
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
-      return data.filter(
+      return data?.filter(
         (income) =>
           income?.student?.user?.first_name
             .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          income?.student?.user?.last_name
-            .toLowerCase()
             .includes(searchTerm?.toLowerCase()) ||
+          income?.student?.user?.last_name
+            ?.toLowerCase()
+            ?.includes(searchTerm?.toLowerCase()) ||
           income?.student?.user?.middle_name
             .toLowerCase()
             .includes(searchTerm?.toLowerCase())
@@ -112,7 +112,7 @@ function TeachersTableComponent() {
         ) : filteredTeachers.length > 0 ? (
           <ul className="overflow-y-scroll h-[68vh] divide-gray-300 divide-y-2 border rounded-lg col-span-12">
             {filteredTeachers.map((income, index) => (
-              <IncomeTable income={income} index={index} key={income?.id} />
+              <IncomeTable income={income} index={index} key={income?.id } />
             ))}
           </ul>
         ) : (

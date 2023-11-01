@@ -10,6 +10,8 @@ import { useUpdateStaffMutation } from "../../redux/slice/staff/StaffSlice";
 import { LuEdit2 } from "react-icons/lu";
 import FileUpload from "../FileUpload/FileUpload";
 import { memo } from "react";
+import ImageUpload from "../ImageUpload/ImageUpload.jsx";
+import { MdOutlineInsertPhoto } from "react-icons/md";
 
 function UpdateStaff({ object }) {
   const [opne, setOpen] = useState(false);
@@ -204,7 +206,7 @@ function UpdateStaff({ object }) {
                 </p>
               )}
             </div>
-            <InputField
+            {/* <InputField
               value={inputValue.user.password}
               label="Foydalanuvchi Paroli"
               id="password"
@@ -212,7 +214,7 @@ function UpdateStaff({ object }) {
               type="text"
               autoComplete="password"
               handleChange={handleChange}
-            />
+            /> */}
             <div className="col-span-1 row-span-1 relative">
               <label
                 htmlFor="salary"
@@ -238,14 +240,25 @@ function UpdateStaff({ object }) {
                 </p>
               )}
             </div>
-            <FileUpload
+            {/* <FileUpload
               title={"Rasmingiz"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
               LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
               acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
+            /> */}
+            <ImageUpload
+              title={"IMG"}
+              iconName={<MdOutlineInsertPhoto className="text-5xl" />}
+              iconTitle={"Rasmni Yuklash"}
+              fileType={"PNG, JPG, JPEG 5mb gacha"}
+              LabelFor={"img"}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
             />
+
+
             <InputField
               label="Lavozimi"
               id="position"

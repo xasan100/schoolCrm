@@ -56,7 +56,7 @@ function AddIncome() {
 
       if (typeof value === "object" && value !== null) {
         // null qiymatini "ob'ekt" sifatida hisoblamaslik uchun shart qo'shdim
-        if (Array.isArray(value) && value.length === 0) {
+        if (Array.isArray(value) && value?.length === 0) {
           return true;
         }
         if (isAnyFieldEmpty(value)) {
@@ -154,9 +154,9 @@ function AddIncome() {
                 >
                   <option value="0">Hech Qanday</option>
                   {data?.map((student) => (
-                    <option key={student.user.id} value={student.user.id}>
-                      {student.user.first_name} &nbsp;
-                      {student.user.last_name}
+                    <option key={student?.user?.id} value={student?.user?.id}>
+                      {student?.user?.first_name} &nbsp;
+                      {student?.user?.last_name}
                     </option>
                   ))}
                 </select>

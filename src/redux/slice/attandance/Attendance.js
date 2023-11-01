@@ -13,7 +13,7 @@ export const AttendanceCrud = createApi({
     createAttendance: build.mutation({
       query: (body) => ({
         url: 'attendances/',
-        method: 'PUT',
+        method: 'POST',
         body,
       }),
       invalidatesTags: ["Attendance"]

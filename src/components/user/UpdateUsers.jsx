@@ -38,7 +38,7 @@ export default function UpdateStudent({ object }) {
     formData.append('user.last_name', inputValue?.user.last_name);
     formData.append('salary', inputValue?.salary);
     formData.append('id', inputValue?.id);
-    formData.append('user.middle_name', inputValue.middleName);
+    formData.append('user.middle_name', inputValue.user.middle_name);
     formData.append('user.image', inputValue.img);
     if (checkedIds && Array.isArray(checkedIds)) {
       checkedIds.forEach((id) => {

@@ -10,7 +10,7 @@ const ParentItem = ({ parent, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {parent?.user?.image && parent?.user.image !== "" ? (
+        {parent?.user_object?.image && parent?.user.image !== "" ? (
           <img
             src={parent?.user_object.image}
             alt="Teacher"
@@ -65,9 +65,9 @@ function ParentPerTableComponent() {
           />
         ) : data?.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
-            {data?.map((parent, index) => (
+            {data.map(val => val?.map((parent, index) => (
               <ParentItem parent={parent} index={index} key={parent.id} />
-            ))}
+            )))}
           </ul>
         ) : (
           <EmptyBox />
