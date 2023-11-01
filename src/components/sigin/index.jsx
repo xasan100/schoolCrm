@@ -20,7 +20,7 @@ const Sigin = () => {
     try {
       // POST so'rovini jo'natish
       const response = await axios.post(
-        `https://alcrm.pythonanywhere.com/api/v1/token/`,
+        `${window.location.protocol}//${window.location.hostname}:8000/api/v1/token/`,
         state
       );
       if (response && response.data.access) {
@@ -29,7 +29,7 @@ const Sigin = () => {
 
         // GET so'rovini jo'natish
         const profileResponse = await axios.get(
-          `https://alcrm.pythonanywhere.com/api/v1/users/me/`,
+          `${window.location.protocol}//${window.location.hostname}:8000/api/v1/users/me/`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (profileResponse && profileResponse.data) {
