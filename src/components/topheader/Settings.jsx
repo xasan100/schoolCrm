@@ -21,7 +21,7 @@ export default function Settings({ open }) {
     formData.append('end_date', inputValue.end_date);
     formData.append('study_price', inputValue.study_price);
     formData.append('hostel_price', inputValue.hostel_price);
-    formData.append('image', inputValue.img);
+    formData.append('image', inputValue.imgs);
 
     try {
       await createCompany(formData).unwrap();
@@ -102,7 +102,7 @@ export default function Settings({ open }) {
           <input
             type="date"
             onChange={(e) => setInputValue({ ...inputValue, begin_date: e.target.value })}
-            value={inputValue.end_date || getCurrentDate()} // Hozirgi san'atni olish
+            value={inputValue.begin_date || getCurrentDate()} // Hozirgi san'atni olish
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
           <ImageUpload

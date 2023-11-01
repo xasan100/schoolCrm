@@ -8,6 +8,7 @@ import { useGetStudentsQuery } from "../../redux/slice/students/students.js";
 import View from "./View.jsx";
 import UpdateStudent from "./UpdateStudent.jsx";
 import StudentPay from "./StudentPay.jsx";
+import DebtesCom from "./Debtes.jsx";
 
 
 const TeacherItem = ({ teacher, index }) => {
@@ -55,6 +56,7 @@ const TeacherItem = ({ teacher, index }) => {
         <View object={teacher} />
         <StudentPay ID={teacher?.id} />
         <UpdateStudent object={teacher} />
+        <DebtesCom ID={teacher?.id} />
         <DeleteStudent ID={teacher?.id} />
       </div>
     </li>

@@ -8,9 +8,8 @@ import { MdPayment } from "react-icons/md";
 
 export function StudentPay({ ID }) {
 
-    console.log(ID,'ID');
     const [open, setOpen] = useState(false); // Fixed the typo here
-    const [createStudent, { isLoading, isSuccess }] = usePaymentStudentMutation();
+    const [createStudent, { isLoading }] = usePaymentStudentMutation();
 
     const [inputValue, setInputValue] = useState({
         payment: "",
