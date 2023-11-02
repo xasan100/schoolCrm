@@ -9,6 +9,8 @@ import { useCreateStudentMutation } from "../../redux/slice/students/students.js
 import { toast } from "react-toastify";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 import { debounce } from "lodash";
+import { apiUrl } from "../../api/Api.jsx";
+// const apiUrl = process.env.REACT_APP_API_URL;
 
 
 
@@ -123,7 +125,7 @@ export function AddStudent() {
     }
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${window.location.protocol}//${window.location.hostname}:8000/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`);
     const data = await response.json();
     if (data.exists) {
       setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })

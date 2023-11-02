@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context";
 import CustomInput from "react-phone-number-input/input";
 import { toast } from "react-toastify";
+import { apiUrl } from "../../api/Api.jsx";
+
 
 const Sigin = () => {
 
@@ -20,7 +22,7 @@ const Sigin = () => {
     try {
       // POST so'rovini jo'natish
       const response = await axios.post(
-        `${window.location.protocol}//${window.location.hostname}:8000/api/v1/token/`,
+        `${apiUrl}token/`,
         state
       );
       if (response && response.data.access) {
@@ -29,7 +31,7 @@ const Sigin = () => {
 
         // GET so'rovini jo'natish
         const profileResponse = await axios.get(
-          `${window.location.protocol}//${window.location.hostname}:8000/api/v1/users/me/`,
+          `${apiUrl}users/me/`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (profileResponse && profileResponse.data) {
@@ -54,7 +56,7 @@ const Sigin = () => {
   }
   const handleEnter = (e) => {
     if (e.key === 'Enter') {
-      
+
       handleSubmit();
     }
   }

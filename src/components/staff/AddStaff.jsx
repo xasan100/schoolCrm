@@ -10,7 +10,8 @@ import { useCreateStaffMutation } from "../../redux/slice/staff/StaffSlice.js";
 import { debounce } from "lodash";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import ImageUpload from "../ImageUpload/ImageUpload.jsx";
-import { api } from "../../api/Api.jsx";
+import { apiUrl } from "../../api/Api.jsx";
+
 
 
 
@@ -88,7 +89,7 @@ function AddStaff() {
     }
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${window.location.protocol}//${window.location.hostname}:8000/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`);
     
     const data = await response.json();
     if (data.exists) {

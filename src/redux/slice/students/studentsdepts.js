@@ -4,9 +4,8 @@ import { api } from "../../../api/Api.jsx";
 export const StudentDebts = createApi({
     reducerPath: 'StudentDebts',
     baseQuery: api,  // This is the base API configuration from your imported "Api.jsx".
-    tagTypes: ['StudentDebts'],
+    tagTypes: ['StudentDebtss'],
     endpoints: (build) => ({
-        // Define query endpoints for different types of data.
         getStudenDebts: build.query({
             query: (body) => `student_debts/?student=${body.id}`,
             providesTags: ['tagTypes'],
@@ -18,7 +17,7 @@ export const StudentDebts = createApi({
                 method: "PATCH",
                 body,
             }),
-            invalidatesTags: ["Students"],
+            invalidatesTags: ["tagTypes"],
         }),
     }),
 });

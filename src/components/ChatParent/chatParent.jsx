@@ -8,10 +8,7 @@ import ButtonLoader from "../Loader/ButtonLoader";
 
 function ChatCom() {
   const {
-    data: chatData,
-    isLoading: chatIsLoading,
-    refetch,
-  } = useGetChatQuery();
+    data: chatData, isLoading: chatIsLoading,refetch,} = useGetChatQuery();
   const { data: parentsData, isLoading: parentsIsLoading } =
     useGetParentsQuery();
   const [createChat, {  createChatIsLoading }] =

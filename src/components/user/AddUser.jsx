@@ -10,6 +10,8 @@ import { useCreateUserMutation } from "../../redux/slice/user/user.js";
 import { debounce } from "lodash";
 import ImageUpload from "../ImageUpload/ImageUpload.jsx";
 import { MdOutlineInsertPhoto } from "react-icons/md";
+import { apiUrl } from "../../api/Api.jsx";
+
 
 
 export function AddStudent() {
@@ -79,7 +81,7 @@ export function AddStudent() {
     setOpen(false);
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${window.location.protocol}//${window.location.hostname}:8000/api/v1/users/check_username_exists/?username=${number}`);
+    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`);
     const data = await response.json();
     if (data.exists) {
       setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })

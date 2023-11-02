@@ -4,7 +4,8 @@ import Modal from "../../generic/Modal";
 import { toast } from "react-toastify";
 import { useDeleteUserMutation } from "../../redux/slice/user/user.js";
 
-export default function DeleteUser({ ID ,}) {
+export default function DeleteUser({ ID, }) {
+
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(!isOpen);
   const [deleteUser, { isLoading }] = useDeleteUserMutation();
