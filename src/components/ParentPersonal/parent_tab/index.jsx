@@ -5,7 +5,8 @@ import { AiOutlineCalculator } from 'react-icons/ai';
 import { BsCalendarDate, BsCoin } from "react-icons/bs";
 import ParentProfileCom from "../parent_per/ParentProfile.jsx";
 import ParentPerDebtsCom from "../parentPay/parentTable.jsx";
-import ParentPayCom from "../parentPay/parentTablePay.jsx"
+import ParentPayCom from "../parentPay/parentTablePay.jsx";
+import ParentChatComponent from "../parentChat/index.jsx"
 const tabs = [
   {
     id: "profile",
@@ -23,7 +24,7 @@ const tabs = [
     id: "chat",
     label: "Xabarlar",
     icon: PiChatsCircleDuotone,
-    content: "Xabarlar",
+    component: ParentChatComponent,
   },
   {
     id: "Xisobotlar",
@@ -51,9 +52,8 @@ function PersonalTab() {
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            className={`flex items-center gap-2 mr-4 py-2 px-4 focus:outline-none ${
-              activeTab === tab.id ? "border-b-2 border-blue-600" : ""
-            }`}
+            className={`flex items-center gap-2 mr-4 py-2 px-4 focus:outline-none ${activeTab === tab.id ? "border-b-2 border-blue-600" : ""
+              }`}
             onClick={() => setActiveTab(tab.id)}
           >
             <tab.icon className="text-xl" /> {tab.label}
