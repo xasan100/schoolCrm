@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FaUserTie } from "react-icons/fa";
-import { useGetParentDebtsQuery } from "../../../redux/slice/parent_profile/Parent_Profile.js";
 import { useTheme } from "../../context/index.jsx";
+import { useGetStudentPaysQuery } from "../../../redux/slice/student_profile/Student_Profile.js";
 
-function ParentPerDebtsCom() {
-  const { data, isLoading } = useGetParentDebtsQuery();
+function StduntsPerDebtsCom() {
+  const { data, isLoading } = useGetStudentPaysQuery();
   const { profile } = useTheme()
   const [select, setSelect] = useState(
     {
@@ -12,26 +12,11 @@ function ParentPerDebtsCom() {
       userName: '',
     }
   )
-  
+
 
   return (
     <div>
-      <div className="flex justify-end gap-4">
-        <select onChange={(e) => setSelect({ ...select, debtor: e.target.value })}>
-          <option value=''>Hammasi</option>
-          <option value='true'>To'lanagan</option>
-          <option value='false'>To'lanmagan</option>
-        </select>
-        {
-          profile?.children_dict?.length >= 1 &&
-          <select onChange={(e) => setSelect({ ...select, userName: e.target.value })}>
-            <option value="">Farzadlari</option>
-            {profile?.children_dict?.map((value) => {
-              return <option key={value.id} value={value?.user?.username}>{value?.user?.first_name}</option>
-            })}
-          </select>
-        }
-      </div>
+
       <div>
         <fieldset className="border border-solid border-gray-300 p-3 h-full">
           <legend>Qarzdorlik</legend>
@@ -43,7 +28,7 @@ function ParentPerDebtsCom() {
                   const isDebtorMatch = (select?.debtor === 'true' ? item?.paid : select?.debtor === 'false' ? !item.paid : true);
                   return isDebtorMatch;
                 })
-                  ?.filter(item => select?.userName ? item.student?.user?.username === select?.userName : true)
+                  ?.filter(item => select?.userName ? item?.student?.user?.username === select?.userName : true)
                   ?.map((item, index) => (
                     <div key={index} className="flex   justify-start gap-5 items-center">
                       <div className="flex flex-col">
@@ -68,7 +53,7 @@ function ParentPerDebtsCom() {
                           <h1 >{item?.paid ? <h1 className="text-green-600 font-semibold">To'lagan</h1> : <h1 className="text-red-700 font-semibold">Qarzdor</h1>}</h1>
                         </div>
                       </div>
-                    </div> 
+                    </div>
                   ))}
           </div>
         </fieldset>
@@ -78,7 +63,7 @@ function ParentPerDebtsCom() {
   );
 }
 
-export default React.memo(ParentPerDebtsCom);
+export default React.memo(StduntsPerDebtsCom);
 
 
 

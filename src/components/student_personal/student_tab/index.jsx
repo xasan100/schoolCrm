@@ -1,30 +1,32 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import StudentPersonal from '../student_per/student_personal.jsx';
-import StduntsPerTableComponent from "../student_attendace/studentTable.jsx"
-import { PiStudent  } from 'react-icons/pi';
 import { BsCalendarDate, BsCoin } from 'react-icons/bs';
-import StduntsPerDebtsCom from "../studentPay/studentTable.jsx"
-import { AiOutlineHome } from 'react-icons/ai';
-
+import { AiOutlineCalculator, AiOutlineHome } from 'react-icons/ai';
+import StduntsPerDebtsCom from "../studentPersonalPay/studenDebts.jsx"
+import StudenPayCom from "../studentPersonalPay/studentTablePay.jsx"
+import StudentTableComponent from "../student_attendace/studentTable.jsx"
+import TaskCard from "../tasks/Tasks.jsx"
 function StudenTab() {
     const [activeTab, setActiveTab] = useState('profile');
     const handleTabClick = (tabId) => {
         setActiveTab(tabId);
     };
-
     let activeContent;
     switch (activeTab) {
         case 'profile':
             activeContent = <StudentPersonal />;
             break;
         case 'davomat':
-            activeContent = <StduntsPerTableComponent />;
+            activeContent = <StudentTableComponent/>;
             break;
         case 'vazifalari':
-            activeContent = 'Vazifalari';
+            activeContent = <TaskCard />;
+            break;
+        case 'Xisobotlar':
+            activeContent = <StudenPayCom/>;
             break;
         case 'tulovlar':
-            activeContent = <StduntsPerDebtsCom />;
+            activeContent = <StduntsPerDebtsCom/>;
             break;
         default:
             activeContent = null;
@@ -38,7 +40,7 @@ function StudenTab() {
                         }`}
                     onClick={() => handleTabClick('profile')}
                 >
-                    <p className='flex items-center gap-2'><PiStudent /> Profile</p>
+                    <p className='flex items-center gap-2'> Profile</p>
                 </button>
                 <button
                     className={`flex items-center gap-2 mr-4 py-2 px-4 focus:outline-none ${activeTab === 'davomat' ? 'border-b-2' : ''}`}
@@ -51,8 +53,16 @@ function StudenTab() {
                         }`}
                     onClick={() => handleTabClick('vazifalari')}
                 >
-                    <AiOutlineHome/>  Vazifalari
+                    <AiOutlineHome />  Vazifalari
                 </button>
+                <button
+                    className={`flex items-center gap-2 py-2 px-4 focus:outline-none ${activeTab === 'tulovlar' ? 'border-b-2' : ''
+                        }`}
+                    onClick={() => handleTabClick('Xisobotlar')}
+                >
+                    <AiOutlineCalculator /> Xisobotlar
+                </button>
+
                 <button
                     className={`flex items-center gap-2 py-2 px-4 focus:outline-none ${activeTab === 'tulovlar' ? 'border-b-2' : ''
                         }`}
