@@ -33,7 +33,6 @@ export default function Chart() {
     }
   };
 
-  console.log(chart);
 
   return (
     <div className="h-[60vh]  col-span-11">
