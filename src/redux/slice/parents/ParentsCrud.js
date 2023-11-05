@@ -10,6 +10,10 @@ export const ParentsCrud = createApi({
       query: () => "parents/",
       providesTags: ["Parents"],
     }),
+    getChildren: build.query({
+      query: () => "students/get_students_for_parent/",
+      providesTags: ["Parents"],
+    }),
     createParent: build.mutation({
       query: (body) => ({
         url: `parents/`,
@@ -38,6 +42,7 @@ export const ParentsCrud = createApi({
 });
 
 export const {
+  useGetChildrenQuery,
   useGetParentsQuery,
   useCreateParentMutation,
   useUpdateParentMutation,

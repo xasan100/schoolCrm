@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { FaUserTie } from "react-icons/fa";
-import {  useGetParentPaysQuery } from "../../../redux/slice/parent_profile/Parent_Profile.js";
 import { useTheme } from "../../context/index.jsx";
+import { useGetStudentPaysQuery } from "../../../redux/slice/student_profile/Student_Profile.js";
 
-function ParentPayCom() {
-  const { data, isLoading } = useGetParentPaysQuery();
+function StudenPayCom() {
+
+  const { data, isLoading } = useGetStudentPaysQuery();
   const { profile } = useTheme()
   const [select, setSelect] = useState(
     {
@@ -12,21 +13,9 @@ function ParentPayCom() {
       userName: '',
     }
   )
-
   return (
     <div>
-      <div className="flex justify-end gap-4">
-        {
-          profile?.children_dict.length >1 && 
-        <select onChange={(e) => setSelect({ ...select, userName: e.target.value })}>
-          <option value="">Farzadlari</option>
-          {profile?.children_dict?.map((value) => {
-            return <option key={value.id} value={value?.user?.username}>{value?.user?.first_name}</option>
 
-          })}
-            </select>
-        }
-      </div>
       <div>
         <fieldset className="border border-solid border-gray-300 p-3 h-full">
           <legend>To'lovlar</legend>
@@ -74,5 +63,5 @@ function ParentPayCom() {
   );
 }
 
-export default React.memo(ParentPayCom);
+export default React.memo(StudenPayCom);
 

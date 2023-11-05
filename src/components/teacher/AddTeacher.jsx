@@ -29,6 +29,7 @@ const INITIAL_STATE = {
     last_name: "",
     middle_name: "",
     image: "",
+
   },
   id_card: "",
   date_of_employment: "",
@@ -302,9 +303,8 @@ export default function AddTeacher() {
               />
               {error.password && (
                 <p
-                  className={`text-${
-                    inputValue.user.password.length < 8 ? "red" : "green"
-                  }-600 absolute text-[12px] -bottom-3`}
+                  className={`text-${inputValue.user.password.length < 8 ? "red" : "green"
+                    }-600 absolute text-[12px] -bottom-3`}
                 >
                   {error.password}
                 </p>
@@ -406,7 +406,7 @@ export default function AddTeacher() {
             <FileUpload
               title={"Shaxsiy Rasmingiz"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"user.image"}
+              LabelFor={"user?.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
               acceptedFormats={[".png", ".jpeg", ".jpg"]}
@@ -456,8 +456,8 @@ export default function AddTeacher() {
                     isLoading
                       ? []
                       : science.map((item) => {
-                          return { value: item.id, label: item.title };
-                        })
+                        return { value: item.id, label: item.title };
+                      })
                   }
                   noOptionsMessage={() => {
                     return <div>Ma'lumotlar yo'q</div>;
@@ -517,6 +517,7 @@ export default function AddTeacher() {
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
+                  <option value="">Hech biri</option>
                   <option value="TESOL">Tesol</option>
                   <option value="CELTA">Celta</option>
                   <option value="IELTS6">IELTS 6+</option>

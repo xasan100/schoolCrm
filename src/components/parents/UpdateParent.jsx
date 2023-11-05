@@ -9,7 +9,7 @@ import { memo } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useGetStudentsQuery } from "../../redux/slice/students/students";
-import { useUpdateParentMutation } from "../../redux/slice/parents/ParentsCrud";
+import { useGetChildrenQuery, useUpdateParentMutation } from "../../redux/slice/parents/ParentsCrud";
 import { useGetAllUserNameQuery } from "../../redux/slice/checkUsername/CheckUsername";
 import { LuEdit2 } from "react-icons/lu";
 
@@ -18,7 +18,7 @@ function UpdateParent({ object }) {
   const [inputValue, setInputValue] = useState(object);
   const [updateParent, { isLoading, isSuccess }] = useUpdateParentMutation();
   const [skip, setSkip] = useState(true);
-  const { data } = useGetStudentsQuery();
+  const { data } = useGetChildrenQuery();
   const { data: allUserName } = useGetAllUserNameQuery(
     inputValue.user.username,
     {

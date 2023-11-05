@@ -7,19 +7,10 @@ import EmptyBox from "../EmptyBox/EmptyBox.jsx";
 function AttandanceTableComponent() {
   const { data, isLoading } = useGetAttendanceQuery();
   const [type, setType] = useState("all");
+  const [select, setSelect] = useState("all");
+
   const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
-
-  useEffect(() => {
-    let typesToFilter = [type];
-    if (type === "employer") {
-      typesToFilter = ["employer", "tasischi", "admin"];
-    }
-    const result =
-      type === "all" ? data : data?.filter((user) => typesToFilter?.includes(user.user_object.type_user));
-    setFilteredData(result);
-  }, [type, data]);
 
   const filteredUsers = filteredData?.filter((users) => {
     const username = users?.user_object?.first_name?.toLowerCase();
@@ -33,15 +24,36 @@ function AttandanceTableComponent() {
     );
   });
 
-  const filter = (name) => {
-    let res;
-    if (name === "all") {
-      res = data;
-    } else {
-      res = data?.filter((val) => val?.attendance_type === name);
+
+  useEffect(() => {
+    let typesToFilter = [type];
+    if (type === "employer") {
+      typesToFilter = ["employer", "tasischi", "admin"];
     }
-    setFilteredData(res);
+    const result =
+      type === "all" ? data : data?.filter((user) => typesToFilter?.includes(user.user_object.type_user));
+    setFilteredData(result);
+    filter();
+  }, [type, data, select]);
+
+  const filter = () => {
+    if (select === "all") {
+      setFilteredData(data);
+    } else {
+      const filteredData = data.filter((val) => val.attendance_type === select);
+      setFilteredData(filteredData);
+    }
   };
+  useEffect(() => {
+    let typesToFilter = [type];
+    if (type === "employer") {
+      typesToFilter = ["employer", "tasischi", "admin"];
+    }
+    const result =
+      type === "all" ? data : data?.filter((user) => typesToFilter?.includes(user.user_object.type_user));
+    setFilteredData(result);
+  }, [type, data]);
+
 
   return (
     <div className='h-ful gap-3 col-span-12'>
@@ -78,30 +90,23 @@ function AttandanceTableComponent() {
               />
             </div>
           </div>
-          <div className='flex items-center gap-4'>
-            <div
-              onClick={() => filter("KELGAN")}
-              className='py-1.5 rounded-md shadow-sm border px-2 cursor-pointer  bg-custom-green'>
-              <p className='text-white'>Kelgan</p>
-            </div>
-            <div
-              onClick={() => filter("SABABLI")}
-              className='py-1.5 rounded-md shadow-sm border px-2 cursor-pointer bg-yellow-300'>
-              <p className='text-white'>Sababli</p>
-            </div>
-            <div
-              onClick={() => filter("SABABSIZ")}
-              className='py-1.5 rounded-md shadow-sm border px-2 cursor-pointer bg-red-400'>
-              <p className='text-white'>Sababsiz</p>
-            </div>
+          <select
+            onChange={(e) => {
+              setSelect(e.target.value);
+              filter();
+            }}
+            id="attendance-filter"
+            name="attendance-filter"
+            className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="all">Hammasi</option>
+            <option value="KELGAN">KELGAN</option>
+            <option value="SABABLI">SABABLI</option>
+            <option value="SABABSIZ">SABABSIZ</option>
+          </select>
 
-            <div
-              onClick={() => filter("all")}
-              // className="py-1.5 rounded-md shadow-sm border px-2 cursor-pointer text-gray-900"
-              className='inline-flex items-center  cursor-pointer rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
-              <p className='text-white'>Hammasi</p>
-            </div>
-          </div>
+
+
           <select
             onChange={(e) => setType(e.target.value)}
             id='gender'
@@ -111,7 +116,6 @@ function AttandanceTableComponent() {
             <option value='student'>O'quvchilar</option>
             <option value='employer'>Xodimlar</option>
           </select>
-
           <div>
             <Addattandance />
           </div>

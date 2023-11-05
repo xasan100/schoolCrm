@@ -5,10 +5,13 @@ import { useNavigate } from "react-router-dom";
 export default function ParentProfileCom() {
   const { profile: object } = useTheme();
   const navigate = useNavigate();
+
   const logOut = (keys) => {
     keys.forEach((key) => sessionStorage.removeItem(key));
     navigate("/login");
   };
+
+
   return (
     <div className="p-4">
       <div className="p-8 bg-white shadow mt-14">
@@ -71,6 +74,8 @@ export default function ParentProfileCom() {
           </h1>
         </div>
       </div>
-    </div>
+    </div >
   );
+
+
 }

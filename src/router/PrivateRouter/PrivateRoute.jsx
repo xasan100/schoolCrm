@@ -20,6 +20,47 @@ const pathValues = [
   "/users",
   "/chat-parent",
 ];
+const Manager = [
+  "/",
+  "/sciences",
+  "/classes",
+  "/rooms",
+  "/lesson-table",
+  "/teachers",
+  "/students",
+  "/tasks",
+  "/attandance",
+  "/staffs",
+  "/users",
+  "/chat-parent",
+];
+
+const Finance = [
+  "/",
+  "/income",
+  "/expense",
+  "/students",
+  "/chat-parent",
+];
+
+const Admin = [
+  "/",
+  "/sciences",
+  "/classes",
+  "/rooms",
+  "/lesson-table",
+  "/teachers",
+  "/students",
+  "/parents",
+  "/tasks",
+  "/attandance",
+  "/staffs",
+  "/users",
+  "/chat-parent",
+];
+
+
+
 
 const teacherPath = ["/teacher-profile"];
 const studentPath = ["/student-profile"];
@@ -55,8 +96,17 @@ function PrivateRoute({ children, path }) {
   const userType = profile?.user?.type_user;
 
   switch (userType) {
-    case "admin":
+    case "tasischi":
       defaultPath = pathValues.includes(path) ? path : pathValues[0];
+      break;
+    case "manager":
+      defaultPath = Manager[0];
+      break;
+    case "ainance":
+      defaultPath = Finance[0];
+      break;
+    case "admin":
+      defaultPath = Admin[0];
       break;
     case "teacher":
       defaultPath = teacherPath[0];

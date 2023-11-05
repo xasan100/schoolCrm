@@ -18,7 +18,7 @@ function UpdateIncome({ object }) {
   });
   const [updateIncome, { isLoading, isSuccess }] = useUpdateIncomeMutation();
   const { data } = useGetStudentsQuery();
-
+  console.log(data,'data/expenses/');
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {

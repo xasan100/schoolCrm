@@ -154,7 +154,7 @@ function UpdateExpense({ object }) {
                   <option value="0">Hech Qanday</option>
                   {data?.map((teacher) => (
                     <option key={teacher.user.id} value={teacher.user.id}>
-                      {teacher.user.first_name} &space;
+                      {teacher.user.first_name} &nbsp;
                       {teacher.user.last_name}
                     </option>
                   ))}

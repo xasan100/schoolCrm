@@ -34,8 +34,7 @@ function TeacherTab() {
     default:
       activeContent = null;
   }
-  // const { data, isLoading } = useGetStudentAttendaceQuery();
-  // console.log(data,'data');
+
   return (
     <div className="w-full max-w-screen-lg mx-auto p-4 h-[88vh] overflow-auto">
       <div className="flex border-b border-gray-200">

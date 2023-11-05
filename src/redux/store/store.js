@@ -23,6 +23,7 @@ import { ChartCrud } from "../slice/chart/chart.js";
 import { StudentProfileApi } from "../slice/student_profile/Student_Profile.js";
 import { CompanyCrud } from "../slice/company/Company.js";
 import { StudentDebts } from "../slice/students/studentsdepts.js";
+import { StudenTaskCrud } from "../slice/studentTask/StudentSlice.js";
 export const store = configureStore({
   reducer: {
     [TeachersCrud.reducerPath]: TeachersCrud.reducer,
@@ -47,7 +48,8 @@ export const store = configureStore({
     [ParentProfileApi.reducerPath]: ParentProfileApi.reducer,
     [TeachersCrud.reducerPath]: TeachersCrud.reducer,
     [ChartCrud.reducerPath]: ChartCrud.reducer,
-    [CompanyCrud.reducerPath]:CompanyCrud.reducer,
+    [CompanyCrud.reducerPath]: CompanyCrud.reducer,
+    [StudenTaskCrud.reducerPath]: StudenTaskCrud.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -75,6 +77,7 @@ export const store = configureStore({
       ChartCrud.middleware,
       CompanyCrud.middleware,
       StudentDebts.middleware,
+      StudenTaskCrud.middleware,
     ),
 });
 

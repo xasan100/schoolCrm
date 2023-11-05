@@ -42,6 +42,7 @@ const menuItems = [
   {
     id: 1,
     title: "Analiytika",
+    admins: ['Tasischi','Manager'],
     private: true,
     submenu: [
       {
@@ -50,7 +51,7 @@ const menuItems = [
         path: "/income",
         private: true,
         hidden: true,
-        element: <Income />,
+        element: <Income />  ,
         icon: <MdOutlineAttachMoney />,
       },
       {
