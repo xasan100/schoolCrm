@@ -21,8 +21,9 @@ const ExpenseTable = ({ expense, index }) => {
         </div>
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-500 flex items-center gap-2">
-            <span>{expense?.user}</span>
+            <span>{expense?.user_dict?.first_name}</span>
             {/* <span>{income?.student.user.last_name}</span> */}
+            <span>{expense?.user_dict?.last_name}</span>
           </p>
           <p className="mt-1 truncate text-sm leading-5 text-black font-bold">
             {formatNumber(expense?.amount)}
@@ -41,21 +42,21 @@ const ExpenseTable = ({ expense, index }) => {
 function TeachersTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetExpensesQuery();
-
+  console.log(data, 'data');
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
-      return data.filter(
+      return data?.filter(
         (expense) =>
-          expense.user.first_name
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          expense.user.last_name
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          expense.user.middle_name
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
+          expense?.user_dict?.first_name
+            ?.toLowerCase()
+            ?.includes(searchTerm?.toLowerCase()) ||
+          expense?.user_dict?.last_name
+            ?.toLowerCase()
+            ?.includes(searchTerm?.toLowerCase()) ||
+          expense?.user_dict?.middle_name
+            ?.toLowerCase()
+            ?.includes(searchTerm?.toLowerCase())
       );
     } else {
       return data;

@@ -30,7 +30,6 @@ function ChatComponent() {
             },
         })
             .then((response) => {
-                console.log("Response data:", response.data);
             })
             .catch((error) => {
                 console.error("Error:", error);

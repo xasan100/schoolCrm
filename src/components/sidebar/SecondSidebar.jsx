@@ -112,6 +112,8 @@ export default function SecondSidebar() {
       teacher: menuItems.filter((e) => e.path === "/teacher-profile"),
       parent: menuItems.filter((e) => e.path === "/parent-profile"),
       student: menuItems.filter((e) => e.path === "/student-profile"),
+      manager: menuItems.filter((e) => e.path === ""),
+
     };
 
     const newMenu = pathMap[typeUser] || pathMap.student;

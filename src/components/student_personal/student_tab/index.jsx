@@ -23,10 +23,11 @@ function StudenTab() {
             activeContent = <TaskCard />;
             break;
         case 'Xisobotlar':
-            activeContent = <StudenPayCom/>;
+            activeContent = <StduntsPerDebtsCom />;
             break;
         case 'tulovlar':
-            activeContent = <StduntsPerDebtsCom/>;
+            
+            activeContent = <StudenPayCom />;
             break;
         default:
             activeContent = null;
@@ -56,7 +57,7 @@ function StudenTab() {
                     <AiOutlineHome />  Vazifalari
                 </button>
                 <button
-                    className={`flex items-center gap-2 py-2 px-4 focus:outline-none ${activeTab === 'tulovlar' ? 'border-b-2' : ''
+                    className={`flex items-center gap-2 py-2 px-4 focus:outline-none ${activeTab === 'Xisobotlar' ? 'border-b-2' : ''
                         }`}
                     onClick={() => handleTabClick('Xisobotlar')}
                 >

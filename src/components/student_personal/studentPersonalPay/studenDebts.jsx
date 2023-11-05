@@ -13,7 +13,6 @@ function StduntsPerDebtsCom() {
     }
   )
 
-
   return (
     <div>
 

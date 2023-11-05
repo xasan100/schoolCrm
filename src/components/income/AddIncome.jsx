@@ -49,29 +49,7 @@ function AddIncome() {
     return newObj;
   };
 
-  //Har bir inputga qiymat berilgan yoki berilmaganini tekshirish
-  const isAnyFieldEmpty = (input) => {
-    for (let key in input) {
-      const value = input[key];
 
-      if (typeof value === "object" && value !== null) {
-        // null qiymatini "ob'ekt" sifatida hisoblamaslik uchun shart qo'shdim
-        if (Array.isArray(value) && value?.length === 0) {
-          return true;
-        }
-        if (isAnyFieldEmpty(value)) {
-          // Ichidagi ob'ektlarni rekursiv tekshirish
-          return true;
-        }
-      } else if (value === "" || value === null || value === undefined) {
-        // Bo'sh qiymatlarni aniq tekshirish
-        return true;
-      }
-    }
-    return false;
-  };
-
-  const isDisabled = isAnyFieldEmpty(inputValue);
 
   //Har bir inputdan qiymat olish
   const handleChange = (e) => {
@@ -102,6 +80,14 @@ function AddIncome() {
 
   const onClose = () => {
     setOpen(false);
+
+    setInputValue(
+      {
+        amount: "",
+        comment: "",
+        student: "",
+        type: "EACH_PAY",
+      })
   };
 
   return (
@@ -119,7 +105,6 @@ function AddIncome() {
           closeModal={onClose}
           addFunc={handleSubmit}
           loader={isLoading}
-          isDisabled={isDisabled}
         >
           <div className="grid sm:grid-rows-6 grid-cols-2 sx:grid-cols-1 gap-2">
             <InputField

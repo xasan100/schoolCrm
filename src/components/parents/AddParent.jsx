@@ -12,8 +12,7 @@ import InputField from "../../generic/InputField";
 import { memo } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { useGetStudentsQuery } from "../../redux/slice/students/students";
-import { useCreateParentMutation } from "../../redux/slice/parents/ParentsCrud";
+import { useCreateParentMutation, useGetChildrenQuery } from "../../redux/slice/parents/ParentsCrud";
 import { useGetAllUserNameQuery } from "../../redux/slice/checkUsername/CheckUsername";
 
 const INITIAL_STATE = {
@@ -32,7 +31,7 @@ function AddParent() {
   const [inputValue, setInputValue] = useState(INITIAL_STATE);
   const [createParent, { isLoading, isSuccess }] = useCreateParentMutation();
   const [skip, setSkip] = useState(true);
-  const { data } = useGetStudentsQuery();
+  const { data } = useGetChildrenQuery();
   const { data: allUserName } = useGetAllUserNameQuery(
     inputValue.user.username,
     { skip }

@@ -41,7 +41,6 @@ const IncomeTable = ({ income, index }) => {
 function TeachersTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetIncomesQuery();
-
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {

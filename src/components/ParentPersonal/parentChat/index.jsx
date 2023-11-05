@@ -65,7 +65,6 @@ function ParentChatComponent() {
         }
     };
 
-    console.log(messages,'messages');
 
     useEffect(() => {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -91,7 +90,6 @@ function ParentChatComponent() {
         fetchMessages();
     }, []);
 
-    console.log(messages, 'messages');
     return (
         <div className='grid grid-cols-2 gap-5'>
             <div>

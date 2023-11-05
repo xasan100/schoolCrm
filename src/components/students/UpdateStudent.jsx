@@ -7,14 +7,14 @@ import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import { LuEdit2 } from "react-icons/lu";
 import CustomInput from "react-phone-number-input/input";
-import {  useUpdateStudentsMutation } from "../../redux/slice/students/students.js";
+import { useUpdateStudentsMutation } from "../../redux/slice/students/students.js";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 
 export default function UpdateStudent({ object }) {
   const [opne, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(object);
-  const [updateTeacher, { isLoading,  }] = useUpdateStudentsMutation();
-  const { data: dataClas,  } = useGetStudentsClassQuery();
+  const [updateTeacher, { isLoading, }] = useUpdateStudentsMutation();
+  const { data: dataClas, } = useGetStudentsClassQuery();
 
 
 
@@ -29,11 +29,13 @@ export default function UpdateStudent({ object }) {
     formData.append('id_card', inputValue.id_card);
     formData.append('date_of_admission', inputValue.date_of_admission);
     formData.append('class_of_school', inputValue.class_of_school);
-    formData.append('image', inputValue.img);
+    formData.append('user.image', inputValue.img);
     formData.append('id_card_parents', inputValue.id_card_parents);
     formData.append('school_tab', inputValue.school_tab);
     formData.append('picture_3x4', inputValue.picture_3x4);
     formData.append('id', inputValue.id);
+    formData.append('hostel', inputValue.isChecked ? inputValue.isChecked : false);
+
 
     try {
       await updateTeacher(formData);
@@ -45,6 +47,9 @@ export default function UpdateStudent({ object }) {
   };
   const onClose = () => {
     setOpen(false);
+  };
+  const handleCheckboxChange = (e) => {
+    setInputValue({ ...inputValue, isChecked: e.target.checked });
   };
 
   return (
@@ -249,7 +254,7 @@ export default function UpdateStudent({ object }) {
               setInputValue={setInputValue}
               inputValue={inputValue}
               value={inputValue.school_tab}
-              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]} 
+              acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
             />
             <div className="col-span-1 row-span-1">
               <label
@@ -290,6 +295,16 @@ export default function UpdateStudent({ object }) {
                   })
                 }
               </select>
+            </div>
+            <div className="mt-2 flex flex-col items-center gap-3">
+              <label htmlFor="checked" name="check">Turar Joy Uchun</label>
+              <input
+                id="checked"
+                name="check"
+                type="checkbox"
+                checked={inputValue.isChecked}
+                onChange={handleCheckboxChange}
+              />
             </div>
           </div>
         </Modal>

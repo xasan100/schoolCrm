@@ -205,13 +205,13 @@ export default function DebtesCom({ ID }) {
                             }
                           />
                         ) : (
-                          val.price
+                          <span> Narx: &nbsp;{val.price}</span>
                         )}
                       </p>
                     </div>
 
                     <div className="text-sm font-semibold leading-6 text-gray-900">
-                      {val.paid ? (
+                      {val.balance>=0 ? (
                         <p className="text-sm font-semibold leading-6 text-green-500">
                           Tulov Qilingan
                         </p>
@@ -241,7 +241,7 @@ export default function DebtesCom({ ID }) {
                           }
                         />
                       ) : (
-                        val.balance
+                        <span> Qolgan: &nbsp;{val.balance}</span>
                       )}
                     </p>
                     <div>

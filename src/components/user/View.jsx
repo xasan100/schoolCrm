@@ -30,7 +30,7 @@ export default function View({ object }) {
                       className="mx-auto rounded-full w-40 h-40 object-cover"
                     />
                   ) : (
-                      <div className="w-40 h-40 rounded-full border bg-gray-200 flex justify-center items-center">
+                    <div className="w-40 h-40 rounded-full border bg-gray-200 flex justify-center items-center">
                       <FaUserTie className="text-7xl text-primary" />
                     </div>
                   )}
@@ -59,12 +59,16 @@ export default function View({ object }) {
                   <p>
                     <strong>Maosh:</strong> {object.salary}
                   </p>
+                  {object.permissions_dict.length > 0 ?
+                    <strong>Imkonyatlari:</strong> : ''
+
+                  }
                   {
-                    object.permissions_dict?.map((val, index) => {
+                    object?.permissions_dict?.map((val, index) => {
                       return (
-                        <p>
-                          <strong>Imkonyatlari:</strong> {val.title}
-                        </p>
+
+                        <p><span> {index + 1}. {val?.title} </span></p>
+
                       )
                     })
                   }

@@ -58,8 +58,8 @@ export function AddStudent() {
     img: "",
     deleteId: "",
     discount_type: "",
+    isChecked: false
   });
-  console.log(inputValue, 'inputValuee');
   const addData = async () => {
     const formData = new FormData();
     formData.append('user.username', number);
@@ -75,6 +75,7 @@ export function AddStudent() {
     formData.append('school_tab', inputValue.school_tab);
     formData.append('picture_3x4', inputValue.picture_3x4);
     formData.append('discount_type', inputValue.discount_type);
+    formData.append('hostel', inputValue.isChecked ? inputValue.isChecked : false);
 
     try {
       await createStudent(formData).unwrap();
@@ -93,6 +94,11 @@ export function AddStudent() {
         school_tab: "",
         img: "",
         deleteId: "",
+      })
+      setError({
+        salary: "",
+        username: "",
+        password: "",
       })
       setOpen(false);
     } catch (error) {
@@ -141,6 +147,9 @@ export function AddStudent() {
     }
   }, [number]);
 
+  const handleCheckboxChange = (e) => {
+    setInputValue({ ...inputValue, isChecked: e.target.checked });
+  };
 
   return (
     <div className="col-span-4">
@@ -330,7 +339,7 @@ export function AddStudent() {
               inputValue={inputValue}
             />
             <FileUpload
-              title={"Id card parents"}
+              title={"Ota-Ona Passport nusxasi"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
               LabelFor={"id_card_parents"}
               setInputValue={setInputValue}
@@ -338,7 +347,7 @@ export function AddStudent() {
               acceptedFormats={[".png", ".jpeg", ".jpg", ".gif", ".bmp", ".tiff", ".webp", ".svg"]}
             />
             <FileUpload
-              title={"school_tab"}
+              title={"Tabel"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
               LabelFor={"school_tab"}
               setInputValue={setInputValue}
@@ -396,7 +405,9 @@ export function AddStudent() {
                     discount_type: e.target.value,
                   })
                 }
-              >{
+              >
+                <option value="">Hech biri</option>
+                {
                   DISCOUNT_TYPE?.map((val) => {
                     return (
                       <option value={val?.name}>{val?.title}</option>
@@ -404,6 +415,17 @@ export function AddStudent() {
                   })
                 }
               </select>
+
+            </div>
+            <div className="mt-2 flex flex-col items-center gap-3">
+              <label htmlFor="checked" name="check">Turar Joy Uchun</label>
+              <input
+                id="checked"
+                name="check"
+                type="checkbox"
+                checked={inputValue.isChecked}
+                onChange={handleCheckboxChange}
+              />
             </div>
           </div>
         </Modal>

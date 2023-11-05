@@ -8,7 +8,6 @@ function AttandanceTableComponent() {
   const { data, isLoading } = useGetAttendanceQuery();
   const [type, setType] = useState("all");
   const [select, setSelect] = useState("all");
-  console.log(data,'data');
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");

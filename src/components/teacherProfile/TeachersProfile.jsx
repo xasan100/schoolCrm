@@ -5,7 +5,6 @@ import { useGetTeachersClassQuery } from "../../redux/slice/teachers/TeachersSli
 export default function TeachersProfile() {
   const { profile } = useContext(ThemeContext);
   const { data } = useGetTeachersClassQuery();
-  console.log(profile);
   return (
     <div className="p-4">
       <div className="p-8 bg-white shadow mt-14">

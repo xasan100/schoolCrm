@@ -18,23 +18,35 @@ export function StudentPay({ ID }) {
 
     const addData = async (e) => {
         const formData = new FormData();
-        formData.append("amount", inputValue?.payment);
+        formData.append("amount", inputValue?.payment > 0 && inputValue?.payment);
         formData.append("student", ID);
         formData.append("type", 'EACH_PAY');
 
-        
+
         try {
             await createStudent(formData).unwrap();
             toast.success(`O'quvchi To'lov qo'shildi`);
             setOpen(false);
+            setInputValue(
+                {
+                    payment: "",
+                    date: "",
+                }
+            )
         } catch (error) {
-            toast.error("O'qiuvchi To'lov qo'shilmadi");
+            toast.error("O'quv  chi To'lov qo'shilmadi");
         }
     };
 
     const res = inputValue?.payment;
     const onClose = () => {
         setOpen(false);
+        setInputValue(
+            {
+                payment: "",
+                date: "",
+            }
+        )
     };
 
     return (
@@ -43,7 +55,7 @@ export function StudentPay({ ID }) {
                 onClick={() => setOpen(true)}
                 type='button'
                 className="inline-flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-400"
-            
+
             >
                 <MdPayment className='-ml-0.5 mr-1.5 text-xl' aria-hidden='true' />
                 To'lov

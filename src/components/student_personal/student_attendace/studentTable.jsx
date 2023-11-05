@@ -1,6 +1,7 @@
 import React from "react";
 import EmptyBox from "../../EmptyBox/EmptyBox.jsx";
 import { FaUserTie } from "react-icons/fa";
+// import View from "./View.jsx";
 import Loader from "../../Loader/Loader.jsx";
 import { useGetStudenAttendanceQuery } from "../../../redux/slice/student_profile/Student_Profile.js";
 
@@ -9,9 +10,9 @@ const ParentItem = ({ parent, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {parent?.user_object?.image && parent?.user.image !== "" ? (
+        {parent?.user_object?.image && parent?.user?.image !== "" ? (
           <img
-            src={parent?.user_object.image}
+            src={parent?.user_object?.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -51,7 +52,7 @@ const ParentItem = ({ parent, index }) => {
   );
 };
 
-function StudentTableComponent() {
+function ParentPerTableComponent() {
   const { data, isLoading } = useGetStudenAttendanceQuery();
   return (
     <div className="h-ful gap-3 col-span-12">
@@ -64,9 +65,9 @@ function StudentTableComponent() {
           />
         ) : data?.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
-            {data?.map(val => val?.map((parent, index) => (
+            {data?.map((parent, index) => (
               <ParentItem parent={parent} index={index} key={parent?.id} />
-            )))}
+            ))}
           </ul>
         ) : (
           <EmptyBox />
@@ -76,4 +77,4 @@ function StudentTableComponent() {
   );
 }
 
-export default React.memo(StudentTableComponent);
+export default React.memo(ParentPerTableComponent);
