@@ -3,12 +3,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageBox, Input, Button } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
 import { apiUrl } from '../../../api/Api.jsx';
+import { useGetParentChatQuery } from '../../../redux/slice/chat/ChatCrud.js';
 
 function ParentChatComponent() {
+    const { data, isLoading, } = useGetParentChatQuery(undefined,{pollingInterval:3000});
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
     const chatContainerRef = useRef();
-
+   // date    
     const get_date = (date) => {
         let date_message = new Date(date)
         const day = date_message.getDate();
@@ -32,11 +34,7 @@ function ParentChatComponent() {
 
             };
 
-            // Update the state with the new message immediately
-            // setMessages([...messages, newMessage]);
             setMessages((prevMessages) => [...prevMessages, newMessage]);
-
-
             setInputText('');
 
             const data = {
@@ -50,9 +48,6 @@ function ParentChatComponent() {
                     "Authorization": `Bearer ${token}`,
                 },
             })
-                .then((response) => {
-
-                })
                 .catch((error) => {
                     console.error("Error:", error);
                 });
@@ -65,30 +60,14 @@ function ParentChatComponent() {
         }
     };
 
-
+    useEffect(() => {
+        if (data) {
+            setMessages(data)
+        }
+    }, [data])
     useEffect(() => {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }, [messages]);
-
-    const fetchMessages = () => {
-        const token = sessionStorage.getItem("token");
-        axios.get(`${apiUrl}parent_comments/list_comments/`, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            },
-        })
-            .then((response) => {
-                const initialMessages = response.data;
-                setMessages(initialMessages);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    };
-
-    useEffect(() => {
-        fetchMessages();
-    }, []);
 
     return (
         <div className='grid grid-cols-2 gap-5'>

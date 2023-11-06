@@ -23,11 +23,10 @@ function StudenTab() {
             activeContent = <TaskCard />;
             break;
         case 'Xisobotlar':
-            activeContent = <StduntsPerDebtsCom />;
+            activeContent = <StudenPayCom/>;
             break;
         case 'tulovlar':
-            
-            activeContent = <StudenPayCom />;
+            activeContent = <StduntsPerDebtsCom/>;
             break;
         default:
             activeContent = null;
