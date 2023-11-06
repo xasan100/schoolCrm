@@ -84,7 +84,7 @@ function PrivateRoute({ children, path }) {
   }
 
   let defaultPath = "/login";
-  const userType = profile?.user?.type_user;
+  const userType = profile?.user?.full_type;
 
   switch (userType) {
     case "tasischi":
