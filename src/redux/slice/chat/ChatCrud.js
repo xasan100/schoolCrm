@@ -11,6 +11,11 @@ export const ChatCrud = createApi({
       providesTags: (result) => 
         result ? [{ type: "Chat", id: 'LIST' }] : []
     }),
+    getParentChat: build.query({
+      query: () => "parent_comments/list_comments/",
+      providesTags: (result) =>
+        result ? [{ type: "Chat", id: 'LIST' }] : []
+    }),
     createChat: build.mutation({
       query: (body) => ({
         url: `parent_comments/`,
@@ -22,5 +27,7 @@ export const ChatCrud = createApi({
   }),
 });
 
-export const { useGetChatQuery, useCreateChatMutation } = ChatCrud;
+export const { useGetChatQuery, useCreateChatMutation,
+  useGetParentChatQuery,
+} = ChatCrud;
 

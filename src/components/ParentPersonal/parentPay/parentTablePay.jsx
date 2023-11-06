@@ -18,7 +18,9 @@ function ParentPayCom() {
       <div className="flex justify-end gap-4">
         {
           profile?.children_dict.length >1 && 
-        <select onChange={(e) => setSelect({ ...select, userName: e.target.value })}>
+          <select
+              className="block  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              onChange={(e) => setSelect({ ...select, userName: e.target.value })}>
           <option value="">Farzadlari</option>
           {profile?.children_dict?.map((value) => {
             return <option key={value.id} value={value?.user?.username}>{value?.user?.first_name}</option>

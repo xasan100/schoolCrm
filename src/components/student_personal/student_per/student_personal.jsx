@@ -1,9 +1,16 @@
 import React from "react";
 import { FaUserTie } from "react-icons/fa";
 import { useTheme } from "../../context/index.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentProfileCom() {
     const { profile: object } = useTheme();
+    const navigate = useNavigate();
+
+    const logOut = (keys) => {
+        keys.forEach((key) => sessionStorage.removeItem(key));
+        navigate("/login");
+    };
     return (
         <div>
 
@@ -28,7 +35,16 @@ export default function StudentProfileCom() {
                         <span className=" text-center font-bold truncate">
                             {object.user.last_name}
                         </span>
+                        <div className="flex justify-end w-full">
+                            <button
+                                onClick={() => logOut(["token", "profile"])}
+                                className="text-white py-2 px-3 uppercase rounded-lg bg-red-500 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                            >
+                                Chiqish
+                            </button>
+                        </div>
                     </div>
+                   
                 </div>
                 <div className="d:w-2/3 sm:w-full sx:w-full p-2 h-full">
                     <div className="bg-white rounded-lg shadow-lg border p-4">
