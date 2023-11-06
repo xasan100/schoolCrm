@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import menuItems from "../../mock/menu";
 import Logo from "../../assets/logo.png";
-import { IoMdMore } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext, useTheme } from "../context/index.jsx";
 export function SidebarItem({

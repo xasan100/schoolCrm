@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AiOutlineFileAdd } from "react-icons/ai";
 import Modal from "../../generic/Modal";
 import { useGetTeachersQuery } from "../../redux/slice/teachers/TeachersSlice";
 import { toast } from "react-toastify";
@@ -8,7 +7,6 @@ import { useEffect } from "react";
 import InputField from "../../generic/InputField";
 import { useUpdateStaffMutation } from "../../redux/slice/staff/StaffSlice";
 import { LuEdit2 } from "react-icons/lu";
-import FileUpload from "../FileUpload/FileUpload";
 import { memo } from "react";
 import ImageUpload from "../ImageUpload/ImageUpload.jsx";
 import { MdOutlineInsertPhoto } from "react-icons/md";
