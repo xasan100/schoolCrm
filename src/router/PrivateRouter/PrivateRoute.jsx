@@ -35,13 +35,7 @@ const Manager = [
   "/chat-parent",
 ];
 
-const Finance = [
-  "/",
-  "/income",
-  "/expense",
-  "/students",
-  "/chat-parent",
-];
+const Finance = ["/", "/income", "/expense", "/students", "/chat-parent"];
 
 const Admin = [
   "/",
@@ -58,9 +52,6 @@ const Admin = [
   "/users",
   "/chat-parent",
 ];
-
-
-
 
 const teacherPath = ["/teacher-profile"];
 const studentPath = ["/student-profile"];
@@ -102,7 +93,7 @@ function PrivateRoute({ children, path }) {
     case "manager":
       defaultPath = Manager[0];
       break;
-    case "ainance":
+    case "finance":
       defaultPath = Finance[0];
       break;
     case "admin":

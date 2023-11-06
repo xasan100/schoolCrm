@@ -66,17 +66,27 @@ export default function Tasks() {
       <div className="col-span-1 bg-red-100 border-2 border-r-0 p-1 flex flex-col gap-2 overflow-y-scroll">
         <AddTask />
         {allTasks.red.map((e) => (
-          <TaskCard task={e} color="red" keyword="complete_to_user" />
+          <TaskCard
+            key={e.id}
+            task={e}
+            color="red"
+            keyword="complete_to_user"
+          />
         ))}
       </div>
       <div className="col-span-1 bg-yellow-100 border-2 p-1 flex flex-col gap-2 overflow-y-scroll">
         {allTasks.yellow.map((e) => (
-          <TaskCard task={e} color="yellow" keyword="complete_from_user" />
+          <TaskCard
+            key={e.id}
+            task={e}
+            color="yellow"
+            keyword="complete_from_user"
+          />
         ))}
       </div>
       <div className="col-span-1 bg-green-100 border-2 border-l-0 p-1 flex flex-col gap-2 overflow-y-scroll">
         {allTasks.green.map((e) => (
-          <TaskCard task={e} color="green" />
+          <TaskCard key={e.id} task={e} color="green" />
         ))}
       </div>
     </div>

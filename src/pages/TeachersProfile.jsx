@@ -80,14 +80,14 @@ function TeacherTab() {
         >
           <PiChatsCircleDuotone className="text-xl" /> Xabarlar
         </button>
-        <button
+        {/* <button
           className={`flex items-center gap-2 py-2 px-4 focus:outline-none ${
             activeTab === "class-journal" ? "border-b-2" : ""
           }`}
           onClick={() => handleTabClick("class-journal")}
         >
           <BsJournalText /> Sinf jurnali
-        </button>
+        </button> */}
       </div>
       <div className="p-4">{activeContent}</div>
     </div>

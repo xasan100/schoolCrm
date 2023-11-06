@@ -20,10 +20,11 @@ export function SidebarItem({
       onClick={() => navigate(link.path)}
       className={`my-1 p-1
       font-medium rounded-md cursor-pointer
-      ${active === link.id
+      ${
+        active === link.id
           ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
           : "hover:bg-indigo-50 text-gray-600"
-        }
+      }
     `}
     >
       <div
@@ -37,8 +38,9 @@ export function SidebarItem({
       >
         {link.icon}
         <span
-          className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"
-            }`}
+          className={`overflow-hidden transition-all ${
+            expanded ? "w-52 ml-3" : "w-0"
+          }`}
         >
           {link.title}
         </span>
@@ -72,10 +74,11 @@ export function SidebarItem({
               }}
               className={`py-1 px-4
   font-medium rounded-md cursor-pointer select-none
-  ${active === sub.id
-                  ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
-                  : "hover:bg-indigo-50 text-gray-600"
-                }
+  ${
+    active === sub.id
+      ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
+      : "hover:bg-indigo-50 text-gray-600"
+  }
 `}
             >
               {sub.title}
@@ -108,12 +111,11 @@ export default function SecondSidebar() {
 
   useEffect(() => {
     const pathMap = {
-      admin: menuItems.filter((e) => !notLink.includes(e.path)),
+      tasischi: menuItems.filter((e) => !notLink.includes(e.path)),
       teacher: menuItems.filter((e) => e.path === "/teacher-profile"),
       parent: menuItems.filter((e) => e.path === "/parent-profile"),
       student: menuItems.filter((e) => e.path === "/student-profile"),
       manager: menuItems.filter((e) => e.path === ""),
-
     };
 
     const newMenu = pathMap[typeUser] || pathMap.student;
@@ -140,15 +142,17 @@ export default function SecondSidebar() {
   return (
     <aside className="h-screen shadow-xl">
       <nav
-        className={`h-full flex flex-col justify-between ${day ? "light-mode" : "dark-mode"
-          }`}
+        className={`h-full flex flex-col justify-between ${
+          day ? "light-mode" : "dark-mode"
+        }`}
       >
         <div className="pb-2 flex justify-between items-center flex-col overflow-hidden scrollbar-hide">
           <div className="p-3 flex justify-between items-center w-full">
             <img
               src={Logo}
-              className={`overflow-hidden transition-all ${expanded ? "w-52" : "w-0"
-                }`}
+              className={`overflow-hidden transition-all ${
+                expanded ? "w-52" : "w-0"
+              }`}
               alt=""
             />
             <button
@@ -174,10 +178,13 @@ export default function SecondSidebar() {
           </ul>
         </div>
 
-        {typeUser === "admin" ? (
+        {typeUser === "tasischi" ? (
           <div className="border-t flex p-3 mt-20">
             <img
-              src={object?.user?.image || object.user.first_name.join('').split('')[0]}
+              src={
+                object?.user?.image ||
+                object.user.first_name.join("").split("")[0]
+              }
               alt=""
               className="w-10 h-10 rounded-md"
             />
@@ -188,9 +195,12 @@ export default function SecondSidebar() {
           `}
             >
               <div className="leading-4">
-                <h4 className="font-semibold">{object.user
-                  .first_name || "Yo'q"}</h4>
-                <span className="text-xs text-gray-600">{object.user.username}</span>
+                <h4 className="font-semibold">
+                  {object.user.first_name || "Yo'q"}
+                </h4>
+                <span className="text-xs text-gray-600">
+                  {object.user.username}
+                </span>
               </div>
               <button
                 onClick={() => logOut(["token", "profile"])}

@@ -11,7 +11,6 @@ import { MdOutlineInsertPhoto } from "react-icons/md";
 import FileUpload from "../FileUpload/FileUpload";
 import {
   useCreateTeacherMutation,
-  useGetTeachersQuery,
 } from "../../redux/slice/teachers/TeachersSlice";
 import { useGetSciencesQuery } from "../../redux/slice/sciences/SciencesSlice";
 import { toast } from "react-toastify";
@@ -29,7 +28,6 @@ const INITIAL_STATE = {
     last_name: "",
     middle_name: "",
     image: "",
-
   },
   id_card: "",
   date_of_employment: "",
@@ -88,7 +86,11 @@ export default function AddTeacher() {
   const isAnyFieldEmpty = (input) => {
     for (let key in input) {
       // language_certificate va experience maydonlarini tashlab yuborish
-      if (key === "language_certificate" || key === "experience") {
+      if (
+        key === "language_certificate" ||
+        key === "experience" ||
+        key === "language_certificate_file"
+      ) {
         continue;
       }
 
@@ -303,8 +305,9 @@ export default function AddTeacher() {
               />
               {error.password && (
                 <p
-                  className={`text-${inputValue.user.password.length < 8 ? "red" : "green"
-                    }-600 absolute text-[12px] -bottom-3`}
+                  className={`text-${
+                    inputValue.user.password.length < 8 ? "red" : "green"
+                  }-600 absolute text-[12px] -bottom-3`}
                 >
                   {error.password}
                 </p>
@@ -406,7 +409,7 @@ export default function AddTeacher() {
             <FileUpload
               title={"Shaxsiy Rasmingiz"}
               iconName={<AiOutlineFileAdd className="text-2xl" />}
-              LabelFor={"user?.image"}
+              LabelFor={"user.image"}
               setInputValue={setInputValue}
               inputValue={inputValue}
               acceptedFormats={[".png", ".jpeg", ".jpg"]}
@@ -456,8 +459,8 @@ export default function AddTeacher() {
                     isLoading
                       ? []
                       : science.map((item) => {
-                        return { value: item.id, label: item.title };
-                      })
+                          return { value: item.id, label: item.title };
+                        })
                   }
                   noOptionsMessage={() => {
                     return <div>Ma'lumotlar yo'q</div>;
