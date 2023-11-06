@@ -5,6 +5,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import TeachersProfile from "../components/teacherProfile/TeachersProfile.jsx";
 import Tasks from "../components/teacherProfile/tasks/TeacherTasks.jsx";
 import TeachersSalary from "../components/teacherProfile/TeachersSalary.jsx";
+import TeacherAttendence from "../components/teacherProfile/TeacherAttendence.jsx";
 
 function TeacherTab() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -16,8 +17,8 @@ function TeacherTab() {
     case "profile":
       activeContent = <TeachersProfile />;
       break;
-    case "davomati":
-      //   activeContent = <StduntsPerTableComponent />;
+    case "davomat":
+      activeContent = <TeacherAttendence />;
       break;
     case "vazifalari":
       activeContent = <Tasks />;

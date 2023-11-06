@@ -105,7 +105,7 @@ export default function SecondSidebar() {
     }
   };
 
-  const typeUser = profile?.user?.type_user;
+  const typeUser = profile?.user?.full_type;
   const notLink = ["/teacher-profile", "/parent-profile", "/student-profile"];
 
   useEffect(() => {

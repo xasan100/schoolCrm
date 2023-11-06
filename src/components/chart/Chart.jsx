@@ -1,6 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -15,10 +13,35 @@ import { useGetChartQuery } from "../../redux/slice/chart/chart";
 
 export default function Chart() {
   const { data } = useGetChartQuery();
-
-  const [year, setYear] = useState("2023");
-  const [month, setMonth] = useState("");
+  const currentYear = new Date().getFullYear().toString();
+  const currentMonth = new Date().toLocaleString("en-US", { month: "long" });
+  const [year, setYear] = useState(currentYear);
+  const [month, setMonth] = useState(currentMonth);
   const [chart, setChart] = useState([]);
+
+  useEffect(() => {
+    // Yil o'zgartirilganda oy state'ini yangilash
+    // Agar yil hozirgi yilga teng bo'lsa, oy state'ini hozirgi oyga o'rnatish
+    if (year === currentYear) {
+      setMonth(currentMonth);
+    }
+  }, [year, currentYear, currentMonth]);
+
+  useEffect(() => {
+    // chart bo'shligida hozirgi yil va oyning datalarini o'rnatish
+    if (data && chart.length === 0) {
+      const currentData = data.find(
+        (item) => item.name.toString() === currentYear
+      );
+      const currentMonthData = currentData?.months.find(
+        (monthItem) => monthItem.name === currentMonth
+      );
+      setChart(currentMonthData?.days[0] || []);
+    }
+    // Eslatma: data o'zgaruvchisining o'zgartirilishini kuzatib borish kerak
+    // Agar data backenddan keladigan bo'lsa va har safar yangilanib tursa,
+    // bu useEffect hukmi har safar ishga tushib qolishi mumkin.
+  }, [data, chart, currentYear, currentMonth]);
 
   const changeData = (e) => {
     const { name, value } = e.target;
@@ -33,13 +56,13 @@ export default function Chart() {
     }
   };
 
-
   return (
     <div className="h-[60vh]  col-span-11">
       <div></div>
       <div className="flex justify-end gap-3">
         <select
           onChange={(e) => changeData(e)}
+          value={month} // Hozirgi oy qiymatini oldindan belgilash
           id="month"
           name="months"
           className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:border-blue-500"

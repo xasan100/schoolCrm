@@ -1,9 +1,9 @@
 import React from "react";
-import EmptyBox from "../../EmptyBox/EmptyBox.jsx";
 import { FaUserTie } from "react-icons/fa";
 // import View from "./View.jsx";
-import Loader from "../../Loader/Loader.jsx";
-import { useGetParentAttendanceQuery } from "../../../redux/slice/parent_profile/Parent_Profile.js";
+import { useGetTeacherAttandanceQuery } from "../../redux/slice/teachers/TeachersSlice.js";
+import EmptyBox from "../EmptyBox/EmptyBox.jsx";
+import Loader from "../Loader/Loader.jsx";
 
 const ParentItem = ({ parent, index }) => {
   return (
@@ -58,7 +58,8 @@ const ParentItem = ({ parent, index }) => {
 };
 
 function TeacherPerTableComponent() {
-  const { data, isLoading } = useGetParentAttendanceQuery();
+  const { data, isLoading } = useGetTeacherAttandanceQuery();
+
   return (
     <div className="h-ful gap-3 col-span-12">
       <div className="rounded-lg shadow-md col-span-12 grid grid-cols-12 border h-[75vh] items-start overflow-hidden">

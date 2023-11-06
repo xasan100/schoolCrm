@@ -10,7 +10,6 @@ export const TeachersCrud = createApi({
       query: () => "teachers/",
       providesTags: ["Teachers"],
     }),
-
     getTeachersbusy: build.query({
       query: () => "teachers/teachers_for_class/",
       providesTags: ["Teachers"],
@@ -21,6 +20,10 @@ export const TeachersCrud = createApi({
     }),
     getTeachersSalary: build.query({
       query: (id) => `expenses/?user=${id}`,
+      providesTags: ["Teachers"],
+    }),
+    getTeacherAttandance: build.query({
+      query: () => `users/get_me_attendances/`,
       providesTags: ["Teachers"],
     }),
     createTeacher: build.mutation({
@@ -55,6 +58,7 @@ export const {
   useGetTeachersbusyQuery,
   useGetTeachersClassQuery,
   useGetTeachersSalaryQuery,
+  useGetTeacherAttandanceQuery,
   useCreateTeacherMutation,
   useUpdateTeacherMutation,
   useDeleteTeacherMutation,

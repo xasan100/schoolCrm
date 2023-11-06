@@ -1,29 +1,60 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { MessageBox, Avatar } from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
-import { useGetParentsQuery } from "../../redux/slice/parents/ParentsCrud";
-import { useGetChatQuery } from "../../redux/slice/chat/ChatCrud";
+import {
+  useCreateChatMutation,
+  useGetChatQuery,
+} from "../../redux/slice/chat/ChatCrud";
+import { ThemeContext } from "../context";
+import ButtonLoader from "../Loader/ButtonLoader";
 
 const ChatComponent = () => {
-  const { data: parentsData, isLoading: parentsIsLoading } =
-    useGetParentsQuery();
-  const { data: chatData } = useGetChatQuery();
-
-  console.log(parentsData, chatData);
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "User 1",
-      messages: [{ text: "Hello from User 1", fromUser: true }],
-      avatar: "https://via.placeholder.com/40",
-    },
-    // ...
-  ]);
+  const { data: chatData } = useGetChatQuery(undefined, {
+    pollingInterval: 3000,
+  });
+  const { profile } = useContext(ThemeContext);
+  const [createChat, { isLoading }] = useCreateChatMutation();
+  const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [search, setSearch] = useState("");
   const messagesEndRef = useRef(null);
+
+  const mapParentsToUsers = useCallback((parentsArray) => {
+    return parentsArray?.map((parentData) => {
+      const { parent, messages } = parentData;
+
+      const mappedMessages = messages?.map((msg) => ({
+        text: msg.message,
+        fromUser: msg.type === "answer", // Agar xabar turi "answer" bo'lsa, foydalanuvchidan deb hisoblash
+        position: msg.type === "answer" ? "right" : "left", // Xabar joylashuvini aniqlash
+      }));
+
+      return {
+        id: parent.user.id,
+        name: parent.user.first_name,
+        messages: mappedMessages,
+        avatar: parent.user.image || "https://via.placeholder.com/40",
+      };
+    });
+  }, []);
+
+  // ...
+
+  useEffect(() => {
+    // Agar parentsData o'zgargan bo'lsa, mapParentsToUsers funksiyasini chaqirib, natijani setUsers orqali saqlaymiz
+    if (chatData) {
+      const usersMappedFromParents = mapParentsToUsers(chatData);
+      setUsers(usersMappedFromParents);
+    }
+  }, [mapParentsToUsers, chatData]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -35,12 +66,12 @@ const ChatComponent = () => {
   const filterUsers = useCallback(async () => {
     let result = users;
     if (search) {
-      result = result.filter((user) =>
+      result = result?.filter((user) =>
         user.name.toLowerCase().includes(search.toLowerCase())
       );
     }
     setFilteredUsers(
-      result.filter((user) => user.messages.length > 0 || search)
+      result?.filter((user) => user.messages.length > 0 || search)
     );
   }, [users, search]);
 
@@ -53,25 +84,40 @@ const ChatComponent = () => {
     setSearch(event.target.value);
   };
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (newMessage && selectedUser) {
-      const updatedUsers = users.map((user) => {
-        if (user.id === selectedUser.id) {
-          return {
-            ...user,
-            messages: [...user.messages, { text: newMessage, fromUser: true }],
-          };
-        }
-        return user;
-      });
-      setUsers(updatedUsers);
-      setNewMessage("");
+    if (newMessage && selectedUser && profile) {
+      // Foydalanuvchi xabar yozgan va tanlangan bo'lsa
+      try {
+        // createChat mutatsiyasini chaqirish
+        await createChat({
+          admin: profile.id, // Admin ID
+          parent: selectedUser.id, // Parent ID
+          message: newMessage, // Yangi xabar matni
+        });
+        // Foydalanuvchilarning yangilangan ro'yxatini o'rnatish
+        const updatedUsers = users?.map((user) => {
+          if (user.id === selectedUser.id) {
+            return {
+              ...user,
+              messages: [
+                ...user.messages,
+                { text: newMessage, fromUser: true },
+              ],
+            };
+          }
+          return user;
+        });
+        setUsers(updatedUsers);
+        setNewMessage(""); // Input maydonini tozalash
+      } catch (error) {
+        console.error("Xabar yuborishda xatolik:", error);
+      }
     }
   };
 
   const getMessages = () => {
-    const user = users.find((user) => user.id === selectedUser.id);
+    const user = users?.find((user) => user.id === selectedUser.id);
     return user ? user.messages : [];
   };
 
@@ -86,7 +132,7 @@ const ChatComponent = () => {
           className="w-full p-2 mb-4 border border-gray-300 rounded"
         />
         <ul>
-          {filteredUsers.map((user) => (
+          {filteredUsers?.map((user) => (
             <li
               key={user.id}
               className={`flex items-center p-2 cursor-pointer ${
@@ -115,7 +161,7 @@ const ChatComponent = () => {
                   position={message.fromUser ? "right" : "left"}
                   type={"text"}
                   text={message.text}
-                  title={selectedUser.name}
+                  title={selectedUser?.name}
                 />
               ))}
             <div ref={messagesEndRef} />
@@ -128,15 +174,18 @@ const ChatComponent = () => {
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type a message..."
+              placeholder="Xabar yozing..."
               className="w-full p-2 border border-gray-300 rounded"
             />
             <button
               type="submit"
-              //   onClick={handleSendMessage}
               className="px-4 py-2 bg-blue-500 text-white rounded"
             >
-              Send
+              {isLoading ? (
+                <ButtonLoader extraClass="w-max h-full" />
+              ) : (
+                "Jo'natish"
+              )}
             </button>
           </form>
         </div>
