@@ -7,6 +7,10 @@ import { AddStudentClas } from "./AddStudent.jsx"
 import DeleteStudentClas from "./DeleteStudents.jsx";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 import UpdateStudentClas from "./UpdateClas.jsx";
+import StudentClassAtandace from "./Debtes .jsx";
+import View from "./View.jsx";
+
+
 
 const TeacherItem = ({ teacher, index }) => {
 
@@ -39,9 +43,11 @@ const TeacherItem = ({ teacher, index }) => {
             {teacher?.teacher_object?.user?.first_name || `O'qtuvchi Tanlanmagan`}
           </p>
         </div>
-        
+
       </div>
       <div className="flex gap-2 items-center">
+        <View ID={teacher.id} />
+        <StudentClassAtandace ID={teacher?.id} />
         <UpdateStudentClas object={teacher} />
         <DeleteStudentClas ID={teacher?.id} />
       </div>
@@ -58,7 +64,7 @@ function StudentsClasCom() {
     if (searchTerm) {
       return data?.filter(
         (teacher) =>
-          teacher?.title.toLowerCase().includes(searchTerm?.toLowerCase()) 
+          teacher?.title.toLowerCase().includes(searchTerm?.toLowerCase())
       );
     } else {
       return data;

@@ -386,7 +386,10 @@ export function AddStudent() {
                     class_of_school: e.target.value,
                   })
                 }
-              >{
+              >
+                <option>Hech biri</option>
+
+                {
                   dataClas?.map((val) => {
                     return (
                       <option value={val.id}>{val.title}</option>

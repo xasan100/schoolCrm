@@ -7,7 +7,7 @@ export const TeacherTaskCrud = createApi({
   tagTypes: ["TeacherTasks"],
   endpoints: (build) => ({
     getTeacherTasks: build.query({
-      query: () => "teachers/add_task_to_class/",
+      query: () => "teachers/get_task_to_class/",
       providesTags: ["TeacherTasks"],
     }),
     createTeacherTask: build.mutation({

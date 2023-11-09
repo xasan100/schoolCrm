@@ -9,37 +9,27 @@ import CustomInput from "react-phone-number-input/input";
 import { toast } from "react-toastify";
 import { apiUrl } from "../../api/Api.jsx";
 
-
 const Sigin = () => {
-
-
   const { setProfile } = useContext(ThemeContext);
   const [state, setState] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const handleSubmit = async () => {
 
+  const handleSubmit = async () => {
     try {
       // POST so'rovini jo'natish
-      const response = await axios.post(
-        `${apiUrl}token/`,
-        state
-      );
+      const response = await axios.post(`${apiUrl}token/`, state);
       if (response && response.data.access) {
         const token = response.data.access;
         sessionStorage.setItem("token", token);
 
         // GET so'rovini jo'natish
-        const profileResponse = await axios.get(
-          `${apiUrl}users/me/`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const profileResponse = await axios.get(`${apiUrl}users/me/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         if (profileResponse && profileResponse.data) {
           setProfile(profileResponse.data);
-          sessionStorage.setItem(
-            "profile",
-            JSON.stringify(profileResponse.data)
-          );
+          sessionStorage.setItem("profile", JSON.stringify(profileResponse.data));
 
           navigate("/");
           window.location.reload();
@@ -53,21 +43,22 @@ const Sigin = () => {
         toast.error("Tizim xatosi");
       }
     }
-  }
-  const handleEnter = (e) => {
-    if (e.key === 'Enter') {
+  };
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
       handleSubmit();
     }
-  }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-      <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 ">
+      <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 h-full flex justify-center items-center flex-col">
           <div>
             <img src={Logo} className="w-[300px]" alt="logo" />
           </div>
-          <div className="mt-12 flex flex-col items-center justify-center ">
+          <div className="mt-12 flex flex-col items-center justify-center">
             <h1 className="text-2xl xl:text-3xl font-extrabold">Kirish</h1>
             <div className="w-full flex-1 mt-8">
               <div className="mx-auto max-w-xs relative">
@@ -76,17 +67,14 @@ const Sigin = () => {
                   maxLength={17}
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                   autoComplete="current-password"
-
-                  onChange={(e) =>
-                    setState({ ...state, username: e })} />
+                  onChange={(e) => setState({ ...state, username: e })}
+                />
                 <input
-                  onKeyDown={(e) => handleEnter(e)}
+                  onKeyDown={handleEnter}
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                   autoComplete="current-password"
                   placeholder="Parol"
-                  onChange={(e) =>
-                    setState({ ...state, password: e.target.value })
-                  }
+                  onChange={(e) => setState({ ...state, password: e.target.value })}
                   type={showPassword ? "text" : "password"}
                 />
                 <p
@@ -101,7 +89,7 @@ const Sigin = () => {
                   )}
                 </p>
                 <button
-                  onClick={() => handleSubmit()}
+                  onClick={handleSubmit}
                   className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                 >
                   <svg
@@ -122,7 +110,7 @@ const Sigin = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 bg-indigo-100 text-center  hidden lg:flex">
+        <div className="flex-1 bg-indigo-100 text-center hidden lg:flex">
           <div className="m-12 xl:m-16 w-full bg-contain bg-center h-full flex justify-center items-center bg-no-repeat">
             <img src={BigImg} alt="BigImg" />
           </div>

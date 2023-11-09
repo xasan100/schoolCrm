@@ -36,21 +36,6 @@ const TeacherItem = ({ teacher, index }) => {
             {teacher?.user?.last_name}
           </p>
         </div>
-        {/* <div className="flex flex-col gap-3 items-center">
-          <label className="cursor-pointer" htmlFor={teacher.id}>
-            {skip ? (
-              <p className="rounded-md cursor-pointer text-custom-green">Status</p>
-            ) : (
-              <p className="rounded-md cursor-pointer text-red-600">Status</p>
-            )}
-          </label>
-          <input
-            id={teacher.id}
-            type="checkbox"
-            checked={skip}
-            onChange={handleCheckboxChange}
-          />
-        </div> */}
       </div>
       <div className="flex gap-2 items-center">
         <View object={teacher} />

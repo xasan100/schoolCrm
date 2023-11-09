@@ -2,15 +2,14 @@ import React from "react";
 import { FaUserTie } from "react-icons/fa";
 import { useTheme } from "../../context/index.jsx";
 import { useNavigate } from "react-router-dom";
-
 export default function StudentProfileCom() {
     const { profile: object } = useTheme();
     const navigate = useNavigate();
-
     const logOut = (keys) => {
         keys.forEach((key) => sessionStorage.removeItem(key));
         navigate("/login");
     };
+    
     return (
         <div>
 

@@ -3,7 +3,7 @@ import { api } from "../../../api/Api.jsx";
 
 export const StudentDebts = createApi({
     reducerPath: 'StudentDebts',
-    baseQuery: api,  // This is the base API configuration from your imported "Api.jsx".
+    baseQuery: api,  
     tagTypes: ['StudentDebtss'],
     endpoints: (build) => ({
         getStudenDebts: build.query({
