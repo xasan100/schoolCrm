@@ -1,24 +1,23 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { api } from "../../../api/Api";
 
-export const StudentInforamation = createApi({
+export const StudentInformationApi = createApi({
     reducerPath: "StudentInformationData",
     baseQuery: api,
-    tagTypes: ["StudentInformation"],
-    endpoints: (build) => ({
-        getStudentInformation: build.query({
+    tagTypes: ["StudentInformationData"],
+    endpoints: (builder) => ({
+        getStudentInformation: builder.query({
             query: (id) => `/classes/${id}/get_informations_of_class_pk/`,
-            providesTags: ["Teachers"],
+            providesTags: ["StudentInformationData"],
         }),
-        getStundentAttandace: build.query({
-            query: () => "classes/{id}/get_attendances_of_class_pk/",
-            providesTags: ["StudentInformation"],
+        getStudentAttendance: builder.query({
+            query: (id) => `/classes/${id}/get_attendances_of_class_pk/`,
+            providesTags: ["StudentAttendance"],
         }),
-
     }),
 });
 
 export const {
     useGetStudentInformationQuery,
-    useLazyGetStundentAttandaceQuery,
-} = StudentInforamation;
+    useGetStudentAttendanceQuery,
+} = StudentInformationApi;

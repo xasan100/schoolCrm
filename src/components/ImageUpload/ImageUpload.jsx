@@ -8,6 +8,7 @@ export default function ImageUpload({
   LabelFor,
   setInputValue,
   inputValue,
+  value,
 
 }) {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -38,6 +39,7 @@ export default function ImageUpload({
           <label htmlFor={LabelFor}>
             <img src={image} alt="rasm" className="h-24 object-contain" />
             <input
+       
               id={LabelFor}
               name={LabelFor}
               accept="image/*"

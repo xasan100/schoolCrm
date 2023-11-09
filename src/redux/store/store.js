@@ -24,7 +24,7 @@ import { StudentProfileApi } from "../slice/student_profile/Student_Profile.js";
 import { CompanyCrud } from "../slice/company/Company.js";
 import { StudentDebts } from "../slice/students/studentsdepts.js";
 import { StudenTaskCrud } from "../slice/studentTask/StudentSlice.js";
-import { StudentInforamation } from "../slice/studentsClas/studetInforamtion.js"
+import {  StudentInformationApi } from "../slice/studentsClas/studetInforamtion.js"
 
 export const store = configureStore({
   reducer: {
@@ -52,7 +52,7 @@ export const store = configureStore({
     [ChartCrud.reducerPath]: ChartCrud.reducer,
     [CompanyCrud.reducerPath]: CompanyCrud.reducer,
     [StudenTaskCrud.reducerPath]: StudenTaskCrud.reducer,
-    [StudentInforamation.reducerPath]: StudentInforamation.reducerPath,
+    [StudentInformationApi.reducerPath]: StudentInformationApi.reducerPath,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -81,7 +81,7 @@ export const store = configureStore({
       CompanyCrud.middleware,
       StudentDebts.middleware,
       StudenTaskCrud.middleware,
-      StudentInforamation.middleware,
+      StudentInformationApi.middleware,
     ),
 });
 

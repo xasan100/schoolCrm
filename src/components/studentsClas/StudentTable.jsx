@@ -18,9 +18,9 @@ const TeacherItem = ({ teacher, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {teacher?.image && teacher?.image !== "" ? (
+        {teacher?.teacher_object?.user?.image && teacher?.teacher_object?.image !== "" ? (
           <img
-            src={teacher?.image}
+            src={teacher?.teacher_object?.user.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -58,7 +58,7 @@ const TeacherItem = ({ teacher, index }) => {
 function StudentsClasCom() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsClassQuery();
-
+  console.log(data,'datas');
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {

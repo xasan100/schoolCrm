@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUpload from "../ImageUpload/ImageUpload.jsx";
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import { useCreateCompanyMutation, useGetCompanyQuery } from "../../redux/slice/company/Company.js";
@@ -6,22 +6,47 @@ import { toast } from "react-toastify";
 
 export default function Settings({ open }) {
   const { data } = useGetCompanyQuery()
-  const [createCompany, { isLoading }] = useCreateCompanyMutation();
 
   const [inputValue, setInputValue] = useState({
     begin_date: "",
     end_date: "",
     study_price: "",
     hostel_price: "",
-    imgs: "",
+    logo: "",
+    camera_entrance: "",
+    camera_exit: "",
+    id: "",
   });
+console.log(inputValue?.id);
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      const latestData = data[data.length - 1]; // Assuming you want to use the latest data
+      setInputValue({
+        begin_date: latestData.begin_date || "",
+        end_date: latestData.end_date || "",
+        study_price: latestData.study_price || "",
+        hostel_price: latestData.hostel_price || "",
+        logo: latestData.logo || "",
+        camera_entrance: latestData.camera_entrance || "",
+        camera_exit: latestData.camera_exit || "",
+        id: latestData.id || "",
+      });
+    }
+  }, [data]);
+  const [createCompany, { isLoading }] = useCreateCompanyMutation(inputValue?.id);
+
+  console.log(inputValue, 'inputValue');
+
   const addData = async () => {
     const formData = new FormData();
     formData.append('begin_date', inputValue.begin_date);
     formData.append('end_date', inputValue.end_date);
     formData.append('study_price', inputValue.study_price);
     formData.append('hostel_price', inputValue.hostel_price);
-    formData.append('image', inputValue.imgs);
+    formData.append('logo', inputValue.logo);
+    formData.append('camera_entrance', inputValue.camera_entrance);
+    formData.append('camera_exit', inputValue.camera_exit);
 
     try {
       await createCompany(formData).unwrap();
@@ -54,6 +79,7 @@ export default function Settings({ open }) {
               type="text"
               autoComplete="salary"
               placeholder="O'qish To'lovi"
+              value={inputValue?.study_price}
               required
               pattern="[0-9]*"
               onChange={(e) => {
@@ -78,6 +104,7 @@ export default function Settings({ open }) {
               autoComplete="salary"
               placeholder="Turar Joy Uchun To'lov"
               required
+              value={inputValue?.hostel_price}
               pattern="[0-9]*"
               onChange={(e) => {
                 const inputValueCopy = { ...inputValue };
@@ -105,12 +132,28 @@ export default function Settings({ open }) {
             value={inputValue.begin_date || getCurrentDate()} // Hozirgi san'atni olish
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+          <input
+            type="text"
+            placeholder="Kirish 📷"
+            onChange={(e) => setInputValue({ ...inputValue, camera_entrance: e.target.value })}
+            value={inputValue.camera_entrance} // Hozirgi san'atni olish
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          />
+          <input
+            type="text"
+            placeholder="Chiqish 📷"
+            onChange={(e) => setInputValue({ ...inputValue, camera_exit: e.target.value })}
+            value={inputValue?.camera_exit} // Hozirgi san'atni olish
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          />
           <ImageUpload
+
+            value={inputValue?.logo}
             title={"Logo"}
             iconName={<MdOutlineInsertPhoto className="text-5xl" />}
             iconTitle={"Rasmni Yuklash"}
             fileType={"PNG, JPG, JPEG 5mb gacha"}
-            LabelFor={"imgs"}
+            LabelFor={"logo"}
             setInputValue={setInputValue}
             inputValue={inputValue}
           />

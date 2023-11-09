@@ -14,6 +14,8 @@ export default function View({ ID }) {
   const onClose = () => setOpen(!open);
   const [loading, setLoading] = useState(false)
 
+  
+
   const Open = async () => {
     setOpen(!open)
     try {
