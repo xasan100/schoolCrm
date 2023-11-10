@@ -47,7 +47,6 @@ console.log(inputValue?.id);
     formData.append('logo', inputValue.logo);
     formData.append('camera_entrance', inputValue.camera_entrance);
     formData.append('camera_exit', inputValue.camera_exit);
-
     try {
       await createCompany(formData).unwrap();
       toast.success(`Al-Xorazimiy ma'lumotlari  qo'shildi`);
@@ -69,7 +68,7 @@ console.log(inputValue?.id);
         } transition-all duration-500 p-4 flex flex-col justify-between`}
     >
       <div>
-        <h1 className="text-2xl font-bold">Settings</h1>
+        <h1 className="text-2xl font-bold">Sozlamalar</h1>
         <br />
         <div className="flex flex-col gap-5">
           <div className="col-span-1 row-span-1 relative">
