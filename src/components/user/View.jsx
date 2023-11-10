@@ -55,6 +55,9 @@ export default function View({ object }) {
                   <p>
                     <strong>Familiyasi:</strong> {object.user.last_name}
                   </p>
+                  <p>
+                    <strong>Foydalanuvchu turi:</strong> {object?.type_dict?.title}
+                  </p>
 
                   <p>
                     <strong>Maosh:</strong> {object.salary}

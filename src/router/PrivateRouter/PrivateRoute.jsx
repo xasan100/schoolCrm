@@ -91,10 +91,10 @@ function PrivateRoute({ children, path }) {
       defaultPath = pathValues.includes(path) ? path : pathValues[0];
       break;
     case "manager":
-      defaultPath = Manager[0];
+      defaultPath = Manager.includes(path) ? path : Manager[0];
       break;
     case "finance":
-      defaultPath = Finance[0];
+      defaultPath = Finance.includes(path) ? path : Finance[0];
       break;
     case "admin":
       defaultPath = Admin[0];

@@ -17,7 +17,6 @@ export default function Settings({ open }) {
     camera_exit: "",
     id: "",
   });
-console.log(inputValue?.id);
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -35,8 +34,6 @@ console.log(inputValue?.id);
     }
   }, [data]);
   const [createCompany, { isLoading }] = useCreateCompanyMutation(inputValue?.id);
-
-  console.log(inputValue, 'inputValue');
 
   const addData = async () => {
     const formData = new FormData();

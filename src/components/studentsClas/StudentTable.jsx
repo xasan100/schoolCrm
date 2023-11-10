@@ -58,7 +58,6 @@ const TeacherItem = ({ teacher, index }) => {
 function StudentsClasCom() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsClassQuery();
-  console.log(data,'datas');
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
