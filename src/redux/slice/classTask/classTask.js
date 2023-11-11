@@ -20,7 +20,7 @@ export const TeacherTaskCrud = createApi({
     }),
     updateTeacherTask: build.mutation({
       query: (body) => ({
-        url: `teachers/add_task_to_class/${body.id}/`,
+        url: `teachers/${body.id}/update_task_to_class/`,
         method: "PATCH",
         body,
       }),
@@ -28,7 +28,7 @@ export const TeacherTaskCrud = createApi({
     }),
     deleteTeacherTask: build.mutation({
       query: (body) => ({
-        url: `teachers/add_task_to_class/${body.id}/`,
+        url: `teachers/${body.id}/delete_task_to_class/`,
         method: "DELETE",
         body,
       }),

@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   amount: "",
   comment: "",
   user: "",
-  type: "OTHER",
+  type: "",
 };
 
 function AddExpense() {
@@ -52,6 +52,11 @@ function AddExpense() {
   //Har bir inputga qiymat berilgan yoki berilmaganini tekshirish
   const isAnyFieldEmpty = (input) => {
     for (let key in input) {
+      if (key === "comment" || key === "user") {
+        // Agar kalit 'comment' yoki 'user' bo'lsa, tekshiruvni o'tkazib yuborish
+        continue;
+      }
+
       const value = input[key];
 
       if (typeof value === "object" && value !== null) {

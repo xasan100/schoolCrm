@@ -116,7 +116,6 @@ export default function UpdateTeacher({ object }) {
     try {
       setHasSubmitted(true);
       await updateTeacher(formData);
-      setInputValue("");
       setHasSubmitted(false);
     } catch (error) {
       toast.error("O'qituvchi o'zgartirishda xatolik xatolik", error.message);

@@ -26,7 +26,7 @@ function TeacherTab() {
     case "salary":
       activeContent = <TeachersSalary />;
       break;
-    case "Xabarlar":
+    case "fanlar":
       //   activeContent = <StduntsPerDebtsCom />;
       break;
     case "Sinf jurnali":
@@ -75,11 +75,11 @@ function TeacherTab() {
         </button>
         <button
           className={`flex items-center gap-2 py-2 px-4 focus:outline-none ${
-            activeTab === "chat" ? "border-b-2" : ""
+            activeTab === "salary" ? "border-b-2" : ""
           }`}
-          onClick={() => handleTabClick("chat")}
+          onClick={() => handleTabClick("fanlar")}
         >
-          <PiChatsCircleDuotone className="text-xl" /> Xabarlar
+          <BsJournalText /> Dars jadvali
         </button>
         {/* <button
           className={`flex items-center gap-2 py-2 px-4 focus:outline-none ${

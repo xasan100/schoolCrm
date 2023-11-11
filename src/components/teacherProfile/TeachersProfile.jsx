@@ -1,22 +1,28 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../context";
 import { useGetTeachersClassQuery } from "../../redux/slice/teachers/TeachersSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function TeachersProfile() {
+  const navigate = useNavigate();
   const { profile } = useContext(ThemeContext);
-  const { data } = useGetTeachersClassQuery();
+  // const { data } = useGetTeachersClassQuery();
+  const logOut = () => {
+    ["token", "profile"].forEach((e) => sessionStorage.removeItem(e));
+    navigate("/login");
+  };
   return (
     <div className="p-4">
       <div className="p-8 bg-white shadow mt-14">
         <div className="grid grid-cols-1 md:grid-cols-3">
           <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
             <div>
-              <p className="font-bold text-gray-700 text-xl">30</p>
+              <p className="font-bold text-gray-700 text-xl">0</p>
               <p className="text-gray-400">O'quvchilarim</p>
             </div>
             <div>
               <p className="font-bold text-gray-700 text-xl">
-                {data?.class === null ? 0 : data?.class?.title}
+                {/* {data?.class === null ? 0 : data?.class?.title} */}0
               </p>
               <p className="text-gray-400">Sinflarim</p>
             </div>
@@ -52,7 +58,10 @@ export default function TeachersProfile() {
             </div>
           </div>
           <div className="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
-            <button className="text-white py-2 px-4 uppercase rounded bg-red-500 hover:bg-red-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+            <button
+              onClick={() => logOut()}
+              className="text-white py-2 px-4 uppercase rounded bg-red-500 hover:bg-red-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+            >
               Chiqish
             </button>
             <button className="text-white py-2 px-4 uppercase rounded bg-blue-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
