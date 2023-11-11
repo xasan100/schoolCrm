@@ -13,7 +13,7 @@ export const CompanyCrud = createApi({
     createCompany: build.mutation({
       query: (body) => ({
         url: `company/`,
-        method: "POST",
+        method: "PUT",
         body,
       }),
       invalidatesTags: ["Company"],

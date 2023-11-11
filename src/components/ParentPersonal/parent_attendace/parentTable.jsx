@@ -1,7 +1,6 @@
 import React from "react";
 import EmptyBox from "../../EmptyBox/EmptyBox.jsx";
 import { FaUserTie } from "react-icons/fa";
-// import View from "./View.jsx";
 import Loader from "../../Loader/Loader.jsx";
 import { useGetParentAttendanceQuery } from "../../../redux/slice/parent_profile/Parent_Profile.js";
 

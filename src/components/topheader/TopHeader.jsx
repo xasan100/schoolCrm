@@ -29,13 +29,13 @@ export default function TopHeader() {
       }`}
     >
       <div className="flex itmes-center gap-6">
-        <span
+        {/* <span
           className={`hover:bg-gray-200 p-2 rounded-full text-3xl cursor-pointer select-none delay-150`}
           onClick={toggleTheme}
         >
           {day ? <BsSun /> : <BsMoon />}
-        </span>
-        <span
+        </span> */}
+        {/* <span
           onClick={() => handleChange("notification")}
           className={`hover:bg-gray-200 ${
             open === "notification" && "bg-gray-200"
@@ -45,7 +45,7 @@ export default function TopHeader() {
           <span className="w-5 h-5 bg-red-500 rounded-full absolute -top-1 -left-1 text-[12px] text-white flex items-center justify-center">
             3
           </span>
-        </span>
+        </span> */}
         {typeUser === "admin" ? (
           <span
             onClick={() => handleChange("settings")}

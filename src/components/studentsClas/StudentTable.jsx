@@ -7,6 +7,10 @@ import { AddStudentClas } from "./AddStudent.jsx"
 import DeleteStudentClas from "./DeleteStudents.jsx";
 import { useGetStudentsClassQuery } from "../../redux/slice/studentsClas/studentsClas.js";
 import UpdateStudentClas from "./UpdateClas.jsx";
+import StudentClassAtandace from "./Debtes .jsx";
+import View from "./View.jsx";
+
+
 
 const TeacherItem = ({ teacher, index }) => {
 
@@ -14,9 +18,9 @@ const TeacherItem = ({ teacher, index }) => {
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {teacher?.image && teacher?.image !== "" ? (
+        {teacher?.teacher_object?.user?.image && teacher?.teacher_object?.image !== "" ? (
           <img
-            src={teacher?.image}
+            src={teacher?.teacher_object?.user.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -39,9 +43,11 @@ const TeacherItem = ({ teacher, index }) => {
             {teacher?.teacher_object?.user?.first_name || `O'qtuvchi Tanlanmagan`}
           </p>
         </div>
-        
+
       </div>
       <div className="flex gap-2 items-center">
+        <View ID={teacher.id} />
+        <StudentClassAtandace ID={teacher?.id} />
         <UpdateStudentClas object={teacher} />
         <DeleteStudentClas ID={teacher?.id} />
       </div>
@@ -52,13 +58,12 @@ const TeacherItem = ({ teacher, index }) => {
 function StudentsClasCom() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetStudentsClassQuery();
-
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
       return data?.filter(
         (teacher) =>
-          teacher?.title.toLowerCase().includes(searchTerm?.toLowerCase()) 
+          teacher?.title.toLowerCase().includes(searchTerm?.toLowerCase())
       );
     } else {
       return data;

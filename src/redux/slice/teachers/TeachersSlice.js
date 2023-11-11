@@ -23,7 +23,7 @@ export const TeachersCrud = createApi({
       providesTags: ["Teachers"],
     }),
     getTeacherAttandance: build.query({
-      query: () => `users/get_me_attendances/`,
+      query: () => `users/get_my_attendances/`,
       providesTags: ["Teachers"],
     }),
     createTeacher: build.mutation({

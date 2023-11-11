@@ -10,6 +10,7 @@ export const StudentsClasCrud = createApi({
             query: () => "classes/",
             providesTags: ['StudentsClass'],
         }),
+
         createStudentClass: build.mutation({
             query: (body) => ({
                 url: 'classes/',
@@ -18,13 +19,6 @@ export const StudentsClasCrud = createApi({
             }),
             invalidatesTags: ["StudentsClass"]
         }),
-        transformResponse: (response, meta) => {
-            return {
-                data: response, // Buni qo'llash uchun, natijadagi ma'lumotni qaytaradi.
-                status: meta.status, // Javob statusini qaytaradi.
-            };
-        },
-        invalidatesTags: ["StudentsClass"],
 
         updateStudentsClass: build.mutation({
             query: (body) => ({
@@ -47,8 +41,9 @@ export const StudentsClasCrud = createApi({
 });
 
 export const {
+
     useGetStudentsClassQuery,
     useCreateStudentClassMutation,
     useUpdateStudentsClassMutation,
-     useDeleteStudentsClasMutation,
+    useDeleteStudentsClasMutation,
 } = StudentsClasCrud

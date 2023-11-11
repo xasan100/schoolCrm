@@ -42,7 +42,6 @@ const ExpenseTable = ({ expense, index }) => {
 function TeachersTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading } = useGetExpensesQuery();
-  console.log(data, 'data');
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {

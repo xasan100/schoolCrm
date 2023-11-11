@@ -19,27 +19,25 @@ export function SidebarItem({
       onClick={() => navigate(link.path)}
       className={`my-1 p-1
       font-medium rounded-md cursor-pointer
-      ${
-        active === link.id
+      ${active === link?.id
           ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
           : "hover:bg-indigo-50 text-gray-600"
-      }
+        }
     `}
     >
       <div
         onClick={() => {
           if (link.submenu) {
-            setOpenDropdown(openDropdown === link.id ? null : link.id);
+            setOpenDropdown(openDropdown === link?.id ? null : link?.id);
           }
-          setActive(link.id);
+          setActive(link?.id);
         }}
         className="relative flex items-center py-2 px-3 group"
       >
         {link.icon}
         <span
-          className={`overflow-hidden transition-all ${
-            expanded ? "w-52 ml-3" : "w-0"
-          }`}
+          className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"
+            }`}
         >
           {link.title}
         </span>
@@ -61,23 +59,22 @@ export function SidebarItem({
           </div>
         )}
       </div>
-      {openDropdown === link.id && (
+      {openDropdown === link?.id && (
         <ul className="p-2 flex flex-col list-none bg-white overflow-hidden rounded-md">
           {link.submenu.map((sub) => (
             <li
-              key={sub.id}
+              key={sub?.id}
               onClick={(event) => {
                 event.stopPropagation(); // Bu yerga qo'shildi
                 navigate(sub.path);
-                setActive(sub.id);
+                setActive(sub?.id);
               }}
               className={`py-1 px-4
   font-medium rounded-md cursor-pointer select-none
-  ${
-    active === sub.id
-      ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
-      : "hover:bg-indigo-50 text-gray-600"
-  }
+  ${active === sub?.id
+                  ? "bg-gradient-to-tr from-primary to-indigo-400 text-white"
+                  : "hover:bg-indigo-50 text-gray-600"
+                }
 `}
             >
               {sub.title}
@@ -108,18 +105,41 @@ export default function SecondSidebar() {
   const typeUser = profile?.user?.full_type;
   const notLink = ["/teacher-profile", "/parent-profile", "/student-profile"];
 
-  useEffect(() => {
+  const Finance = [
+    "/sciences",
+    "/classes",
+    "/rooms",
+    '/education',
+    "/lesson-table",
+    "/teachers",
+    "/parents",
+    "/tasks",
+    "/attandance",
+    "/staffs",
+    "/users",
+    "/teacher-profile", "/parent-profile", "/student-profile"
+  ];
+
+  const Manager = [
+    "/analiytics",
+    "/teacher-profile",
+    "/parent-profile",
+    "/student-profile"
+  ];
+// TODO ADMIN PERMISSION
+  useEffect(() => { 
     const pathMap = {
       tasischi: menuItems.filter((e) => !notLink.includes(e.path)),
       teacher: menuItems.filter((e) => e.path === "/teacher-profile"),
       parent: menuItems.filter((e) => e.path === "/parent-profile"),
       student: menuItems.filter((e) => e.path === "/student-profile"),
-      manager: menuItems.filter((e) => e.path === ""),
+      finance: menuItems.filter((e) => !Finance.includes(e.path)),
+      manager: menuItems.filter((e) => !Manager.includes(e.path)),
     };
 
     const newMenu = pathMap[typeUser] || pathMap.student;
     setFilterMenu(newMenu);
-    setActive(newMenu[0].id);
+    setActive(newMenu[0]?.id);
   }, [typeUser]);
 
   useEffect(() => {
@@ -141,17 +161,15 @@ export default function SecondSidebar() {
   return (
     <aside className="h-screen shadow-xl">
       <nav
-        className={`h-full flex flex-col justify-between ${
-          day ? "light-mode" : "dark-mode"
-        }`}
+        className={`h-full flex flex-col justify-between ${day ? "light-mode" : "dark-mode"
+          }`}
       >
         <div className="pb-2 flex justify-between items-center flex-col overflow-hidden scrollbar-hide">
           <div className="p-3 flex justify-between items-center w-full">
             <img
               src={Logo}
-              className={`overflow-hidden transition-all ${
-                expanded ? "w-52" : "w-0"
-              }`}
+              className={`overflow-hidden transition-all ${expanded ? "w-52" : "w-0"
+                }`}
               alt=""
             />
             <button
@@ -164,7 +182,7 @@ export default function SecondSidebar() {
           <ul className={`px-3 mt-16 overflow-y-scroll select-none `}>
             {filterMenu.map((link) => (
               <SidebarItem
-                key={link.id}
+                key={link?.id}
                 link={link}
                 active={active}
                 expanded={expanded}
@@ -177,12 +195,12 @@ export default function SecondSidebar() {
           </ul>
         </div>
 
-        {typeUser === "tasischi" ? (
+        {typeUser === "tasischi" || 'finance' || 'manager' || 'admin' ? (
           <div className="border-t flex p-3 mt-20">
             <img
               src={
                 object?.user?.image ||
-                object.user.first_name.join("").split("")[0]
+                object?.user?.first_name?.join("").split("")[0]
               }
               alt=""
               className="w-10 h-10 rounded-md"
@@ -195,10 +213,10 @@ export default function SecondSidebar() {
             >
               <div className="leading-4">
                 <h4 className="font-semibold">
-                  {object.user.first_name || "Yo'q"}
+                  {object?.user?.first_name || "Yo'q"}
                 </h4>
                 <span className="text-xs text-gray-600">
-                  {object.user.username}
+                  {object?.user?.username}
                 </span>
               </div>
               <button

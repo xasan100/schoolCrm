@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import { FaUserTie } from "react-icons/fa";
@@ -9,17 +9,19 @@ import View from "./View.jsx";
 import UpdateStudent from "./UpdateStudent.jsx";
 import StudentPay from "./StudentPay.jsx";
 import DebtesCom from "./Debtes.jsx";
+import { ThemeContext } from "../context/index.jsx";
 
 
 const TeacherItem = ({ teacher, index }) => {
-
+  const { profile } = useContext(ThemeContext);
+  console.log(profile, 'profile');
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
         <h1>{index + 1}.</h1>
-        {teacher?.user?.image && teacher?.user.image !== "" ? (
+        {teacher?.user?.image && teacher?.user?.image !== "" ? (
           <img
-            src={teacher?.user.image}
+            src={teacher?.user?.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />
@@ -36,28 +38,13 @@ const TeacherItem = ({ teacher, index }) => {
             {teacher?.user?.last_name}
           </p>
         </div>
-        {/* <div className="flex flex-col gap-3 items-center">
-          <label className="cursor-pointer" htmlFor={teacher.id}>
-            {skip ? (
-              <p className="rounded-md cursor-pointer text-custom-green">Status</p>
-            ) : (
-              <p className="rounded-md cursor-pointer text-red-600">Status</p>
-            )}
-          </label>
-          <input
-            id={teacher.id}
-            type="checkbox"
-            checked={skip}
-            onChange={handleCheckboxChange}
-          />
-        </div> */}
       </div>
       <div className="flex gap-2 items-center">
         <View object={teacher} />
-        <StudentPay ID={teacher?.id} />
-        <UpdateStudent object={teacher} />
-        <DebtesCom ID={teacher?.id} />
-        <DeleteStudent ID={teacher?.id} />
+        {['Tasischi', 'Finance'].includes(profile.type_dict.title) ? < StudentPay ID={teacher?.id} /> : ''}
+        {['Manager', 'Admin','Tasischi'].includes(profile.type_dict.title) ? < UpdateStudent ID={teacher?.id} /> : ''}
+        {['Tasischi', 'Finance'].includes(profile.type_dict.title) ? < DebtesCom ID={teacher?.id} /> : ''}
+        {['Manager', 'Admin', 'Tasischi'].includes(profile.type_dict.title) ? < DeleteStudent ID={teacher?.id} /> : ''}
       </div>
     </li>
   );
@@ -71,9 +58,8 @@ function TeachersTableComponent() {
     if (searchTerm) {
       return data?.filter(
         (teacher) =>
-          teacher?.user.first_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-          teacher?.user.last_name.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-          teacher?.user.middle_name.toLowerCase().includes(searchTerm?.toLowerCase())
+          teacher?.user?.last_name.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+          teacher?.user?.middle_name.toLowerCase()?.includes(searchTerm?.toLowerCase())
       );
     } else {
       return data;

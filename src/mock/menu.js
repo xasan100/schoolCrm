@@ -42,7 +42,8 @@ const menuItems = [
   {
     id: 1,
     title: "Analiytika",
-    admins: ['Tasischi','Manager'],
+    path: '/analiytics',
+    admins: ['Tasischi', 'Manager'],
     private: true,
     submenu: [
       {
@@ -51,7 +52,7 @@ const menuItems = [
         path: "/income",
         private: true,
         hidden: true,
-        element: <Income />  ,
+        element: <Income />,
         icon: <MdOutlineAttachMoney />,
       },
       {
@@ -69,6 +70,7 @@ const menuItems = [
   {
     id: 10,
     title: "Ta'lim",
+    path: '/education',
     private: true,
     submenu: [
       {
