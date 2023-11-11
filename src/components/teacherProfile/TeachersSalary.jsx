@@ -26,7 +26,7 @@ const SalaryTable = ({ salary, index }) => {
             {formatNumber(salary?.amount)}
           </p>
         </div>
-        <div>{salary.comment}</div>
+        <div>{salary.created_date}</div>
       </div>
       <div className="flex gap-2 items-center"></div>
     </li>

@@ -17,8 +17,7 @@ export default function AddTask() {
     task_message: "",
     complete_to_user: false,
     complete_from_user: false,
-    from_user: 1,
-    to_user: 0,
+    to_class: 0,
   });
 
   const handleChange = (e) => {
@@ -31,8 +30,11 @@ export default function AddTask() {
       await createTeacherTask(inputValue);
       toast.success("Topshiriq qo'shildi");
       setInputValue({
-        task_title: "string",
-        task_message: "string",
+        task_title: "",
+        task_message: "",
+        complete_to_user: false,
+        complete_from_user: false,
+        from_user: 1,
         to_class: 0,
       });
       setOpen(false);
@@ -63,22 +65,24 @@ export default function AddTask() {
             />
             <div className="col-span-1 row-span-1">
               <label
-                htmlFor="to_user"
+                htmlFor="to_class"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
                 Kim uchun
               </label>
               <div className="mt-2">
                 <select
-                  id="to_user"
-                  name="to_user"
+                  id="to_class"
+                  name="to_class"
                   onChange={(e) => handleChange(e)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value={null}>Hech Qanday</option>
                   {!isLoading &&
                     data.map((item) => (
-                      <option value={item.id}>{item.title}</option>
+                      <option key={item.id} value={item.id}>
+                        {item.title}
+                      </option>
                     ))}
                 </select>
               </div>

@@ -28,31 +28,30 @@ export default function Chart() {
   }, [year, currentYear, currentMonth]);
 
   useEffect(() => {
-    // chart bo'shligida hozirgi yil va oyning datalarini o'rnatish
-    if (data && chart.length === 0) {
-      const currentData = data.find(
-        (item) => item.name.toString() === currentYear
-      );
-      const currentMonthData = currentData?.months.find(
-        (monthItem) => monthItem.name === currentMonth
-      );
-      setChart(currentMonthData?.days[0] || []);
-    }
-    // Eslatma: data o'zgaruvchisining o'zgartirilishini kuzatib borish kerak
-    // Agar data backenddan keladigan bo'lsa va har safar yangilanib tursa,
-    // bu useEffect hukmi har safar ishga tushib qolishi mumkin.
-  }, [data, chart, currentYear, currentMonth]);
+    const selectedYearData = data?.find(
+      (item) => item.name.toString() === year
+    );
+    const selectedMonthData = selectedYearData?.months.find(
+      (monthItem) => monthItem.name === month
+    );
+    setChart(selectedMonthData?.days[0] || []);
+  }, [data, year, month]);
 
   const changeData = (e) => {
     const { name, value } = e.target;
     if (name === "years") {
-      const selectedYear = data?.find((item) => item.name.toString() === value);
-      setChart(selectedYear?.months);
+      setYear(value);
+      const selectedYear = data.find((item) => item.name.toString() === value);
+      setChart(selectedYear?.months[0] || []);
     } else if (name === "months") {
-      const selectedMonth = data
-        ?.find((item) => item.name.toString() === year)
-        .months?.find((item) => item.name.toString() === value);
-      setChart(selectedMonth?.days[0]);
+      setMonth(value);
+      const selectedYearData = data.find(
+        (item) => item.name.toString() === year
+      );
+      const selectedMonthData = selectedYearData?.months.find(
+        (monthItem) => monthItem.name === value
+      );
+      setChart(selectedMonthData?.days[0] || []);
     }
   };
 

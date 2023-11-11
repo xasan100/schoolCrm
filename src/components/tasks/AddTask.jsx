@@ -26,20 +26,25 @@ export default function AddTask() {
   };
 
   const handleSubmit = async () => {
-    try {
-      await createTask(inputValue);
-      toast.success("Topshiriq qo'shildi");
-      setInputValue({
-        task_title: "string",
-        task_message: "string",
-        complete_to_user: false,
-        complete_from_user: false,
-        from_user: 1,
-        to_user: 0,
-      });
-      setOpen(false);
-    } catch (error) {
-      toast.error(`Topshiriq qo'shishda xatolik: ${error}`);
+    if (inputValue.task_title !== "" && inputValue.to_user > 0) {
+      try {
+        await createTask(inputValue);
+        toast.success("Topshiriq qo'shildi");
+        setInputValue({
+          task_title: "string",
+          task_message: "string",
+          complete_to_user: false,
+          complete_from_user: false,
+          to_user: 0,
+        });
+        setOpen(false);
+      } catch (error) {
+        toast.error(`Topshiriq qo'shishda xatolik: ${error}`);
+      }
+    } else {
+      toast.warning(
+        "Iltimos Sarlavha va Foydalanuvchi beliglanganligiga ishonch hosil qiling"
+      );
     }
   };
 
@@ -53,7 +58,12 @@ export default function AddTask() {
         <GrAddCircle className="text-2xl" />
       </div>
       {open && (
-        <Modal closeModal={onClose} addFunc={handleSubmit} loader={taskLoading}>
+        <Modal
+          closeModal={onClose}
+          addFunc={handleSubmit}
+          loader={taskLoading}
+          isDisabled={!inputValue.task_title !== "" && !inputValue.to_user > 0}
+        >
           <div className="grid grid-cols-1 gap-2">
             <InputField
               label="Topshiriq nomi"
@@ -80,7 +90,7 @@ export default function AddTask() {
                   <option value={null}>Hech Qanday</option>
                   {!isLoading &&
                     data.map((item) => (
-                      <option value={item.id}>
+                      <option key={item.id} value={item.id}>
                         {item.user.first_name} {item.user.last_name}
                       </option>
                     ))}
