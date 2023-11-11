@@ -126,8 +126,8 @@ export default function SecondSidebar() {
     "/parent-profile",
     "/student-profile"
   ];
-
-  useEffect(() => {
+// TODO ADMIN PERMISSION
+  useEffect(() => { 
     const pathMap = {
       tasischi: menuItems.filter((e) => !notLink.includes(e.path)),
       teacher: menuItems.filter((e) => e.path === "/teacher-profile"),
