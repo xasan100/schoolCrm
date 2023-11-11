@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import { FaUserTie } from "react-icons/fa";
@@ -7,9 +7,25 @@ import UpdateParent from "./UpdateParent";
 import ViewParent from "./ViewParent";
 import DeleteParent from "./DeleteParent";
 import { useGetParentsQuery } from "../../redux/slice/parents/ParentsCrud";
+import { baseUrl } from "../../api/Api.jsx";
 
-const StaffItem = ({ parent, index }) => {
+const StaffItem = ({ parent, index, onStatusChange }) => {
   // JSX for each teacher
+  const [status, setStatus] = useState({
+    is_active: parent.user.is_active,
+    id: '',
+  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetch(`${baseUrl}users/${status.id}/change_status/?status=${status.is_active}`);
+        onStatusChange();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    if (status?.is_active !== parent.user.is_active) fetchData();
+  }, [status.is_active, parent.user.is_active, status.id, onStatusChange]);
   return (
     <li className="flex justify-between gap-x-6 px-2 py-3 cursor-pointer hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
@@ -33,6 +49,29 @@ const StaffItem = ({ parent, index }) => {
             {parent.user.last_name}
           </p>
         </div>
+        <div class="flex items-center">
+          <input
+            checked={status.is_active}
+            onChange={() =>
+              setStatus({
+                ...status,
+                is_active: !status.is_active,
+                id: parent.id,
+              })
+            }
+            id={parent.id}
+            type="checkbox"
+            value={status.is_active}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+
+          <label
+            htmlFor={parent.id}
+            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            {status.is_active ? <p className=" text-green-700">Status</p> : <p className="text-red-600">Status</p>}
+          </label>
+        </div>
       </div>
       <div className="flex gap-2 items-center">
         <ViewParent object={parent} />
@@ -45,7 +84,7 @@ const StaffItem = ({ parent, index }) => {
 
 function ParentsTableComponent() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading } = useGetParentsQuery();
+  const { data, isLoading, refetch } = useGetParentsQuery();
   const filteredStaff = useMemo(() => {
     // Computing the filtered teachers list
     if (searchTerm) {
@@ -111,7 +150,7 @@ function ParentsTableComponent() {
         ) : filteredStaff.length > 0 ? (
           <ul className="divide-y-reverse overflow-y-scroll h-[68vh] divide-gray-100 border rounded-lg col-span-12">
             {filteredStaff.map((parent, index) => (
-              <StaffItem parent={parent} index={index} key={parent.id} />
+              <StaffItem parent={parent} index={index} key={parent.id} onStatusChange={refetch} />
             ))}
           </ul>
         ) : (

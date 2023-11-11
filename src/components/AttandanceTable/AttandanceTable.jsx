@@ -141,7 +141,7 @@ function AttandanceTableComponent() {
                   <img
                     className="h-12 w-12 flex-none rounded-full border"
                     src={
-                      users?.user_dict?.image ||
+                      users?.user_object?.image ||
                       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG6a6KfKK66Jy1eCuDau7yp2rb5dIfGvl45g&usqp=CAU"
                     }
                     alt="teacher_image"

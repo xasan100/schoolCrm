@@ -126,8 +126,8 @@ export default function SecondSidebar() {
     "/parent-profile",
     "/student-profile"
   ];
-// TODO ADMIN PERMISSION
-  useEffect(() => { 
+  // TODO ADMIN PERMISSION
+  useEffect(() => {
     const pathMap = {
       tasischi: menuItems.filter((e) => !notLink.includes(e.path)),
       teacher: menuItems.filter((e) => e.path === "/teacher-profile"),
@@ -199,10 +199,8 @@ export default function SecondSidebar() {
           <div className="border-t flex p-3 mt-20">
             <img
               src={
-                object?.user?.image ||
-                object?.user?.first_name?.join("").split("")[0]
-              }
-              alt=""
+                object?.user?.image || 'https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg'}
+              alt="user"
               className="w-10 h-10 rounded-md"
             />
             <div
