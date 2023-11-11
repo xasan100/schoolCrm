@@ -3,7 +3,7 @@ import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import DeleteTeacher from "./DeleteUser.jsx";
 import { FaUserTie } from "react-icons/fa";
-import {  useGetUserQuery } from "../../redux/slice/user/user.js";
+import { useGetUserQuery } from "../../redux/slice/user/user.js";
 import AddUser from "./AddUser.jsx"
 import UpdateUserCom from "./UpdateUsers.jsx";
 
@@ -48,29 +48,31 @@ const TeacherItem = ({ teacher, index, onStatusChange }) => {
             {teacher?.user.last_name}
           </p>
         </div>
-        <div class="flex items-center">
-          <input
-            checked={status.is_active}
-            onChange={() =>
-              setStatus({
-                ...status,
-                is_active: !status.is_active,
-                id: teacher.id,
-              })
-            }
-            id={teacher.id}
-            type="checkbox"
-            value={status.is_active}
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
+        {
+          teacher?.user?.full_type !== 'tasischi' ? <div class="flex items-center">
+            <input
+              checked={status?.is_active}
+              onChange={() =>
+                setStatus({
+                  ...status,
+                  is_active: !status.is_active,
+                  id: teacher.id,
+                })
+              }
+              id={teacher?.id}
+              type="checkbox"
+              value={status?.is_active}
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
 
-          <label
-            htmlFor={teacher.id}
-            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            {status.is_active ? <p className=" text-green-700">Status</p> : <p className="text-red-600">Status</p>}
-          </label>
-        </div>
+            <label
+              htmlFor={teacher?.id}
+              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              {status?.is_active ? <p className=" text-green-700">Status</p> : <p className="text-red-600">Status</p>}
+            </label>
+          </div> : ""
+        }
       </div>
       <div className="flex gap-2 items-center">
         <View object={teacher} />
@@ -82,7 +84,7 @@ const TeacherItem = ({ teacher, index, onStatusChange }) => {
 };
 
 function UserTableCom() {
-  const { data, isLoading ,refetch} = useGetUserQuery();
+  const { data, isLoading, refetch } = useGetUserQuery();
 
 
 
@@ -141,7 +143,7 @@ function UserTableCom() {
                 onChange={handleSearchChange}
               />
             </div>
-            
+
           </div>
           <AddUser />
         </div>
