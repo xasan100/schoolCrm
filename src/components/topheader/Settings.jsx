@@ -4,8 +4,9 @@ import { MdOutlineInsertPhoto } from "react-icons/md";
 import { useCreateCompanyMutation, useGetCompanyQuery } from "../../redux/slice/company/Company.js";
 import { toast } from "react-toastify";
 
-export default function Settings({ open }) {
-  const { data } = useGetCompanyQuery()
+export default function Settings({ skip }) {
+  console.log(skip,'skip');
+  const { data } = useGetCompanyQuery({ skip })
 
   const [inputValue, setInputValue] = useState({
     begin_date: "",
@@ -61,7 +62,7 @@ export default function Settings({ open }) {
 
   return (
     <div
-      className={`fixed bottom-0 h-[89vh] w-80 bg-white border z-10 ${open === "settings" ? "right-0" : "-right-[20rem]"
+      className={`fixed bottom-0 h-[89vh] w-80 bg-white border z-10 ${skip === true ? "right-0" : "-right-[20rem]"
         } transition-all duration-500 p-4 flex flex-col justify-between`}
     >
       <div>

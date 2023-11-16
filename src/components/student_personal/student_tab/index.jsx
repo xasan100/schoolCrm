@@ -7,6 +7,7 @@ import StudenPayCom from "../studentPersonalPay/studentTablePay.jsx"
 import StudentTableComponent from "../student_attendace/studentTable.jsx"
 import TaskCard from "../tasks/Tasks.jsx"
 import { PiStudent } from "react-icons/pi";
+import LessonTableStudent from '../lesson_tabel/LessonTable.jsx';
 
 const tabs = [
     {
@@ -31,13 +32,20 @@ const tabs = [
         id: "Xisobotlar",
         label: "Xisobotlar",
         icon: AiOutlineCalculator,
-        component: StudenPayCom,
+        component: StduntsPerDebtsCom,
     },
+
     {
         id: "pay",
         label: "To'lovlar",
         icon: BsCoin,
-        component: StduntsPerDebtsCom,
+        component: StudenPayCom,
+    },
+    {
+        id: "Lesson_table",
+        label: "Dars Jadvali",
+        icon: AiOutlineCalculator,
+        component: LessonTableStudent,
     },
 ];
 

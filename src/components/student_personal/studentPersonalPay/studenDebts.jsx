@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { FaUserTie } from "react-icons/fa";
 import { useTheme } from "../../context/index.jsx";
-import { useGetStudentPaysQuery } from "../../../redux/slice/student_profile/Student_Profile.js";
+import { useGetStudentDebtsQuery, useGetStudentPaysQuery } from "../../../redux/slice/student_profile/Student_Profile.js";
 import EmptyBox from "../../EmptyBox/EmptyBox.jsx";
 
 function StduntsPerDebtsCom() {
-  const { data, isLoading } = useGetStudentPaysQuery();
+  const { data, isLoading } = useGetStudentDebtsQuery();
   const { profile } = useTheme()
   const [select, setSelect] = useState(
     {

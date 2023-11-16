@@ -17,6 +17,11 @@ export const StudentProfileApi = createApi({
       providesTags: ['tagTypes'],
 
     }),
+    getStudentLeeson: build.query({
+      query: () => "students/get_lessons_of_student/",
+      providesTags: ['tagTypes'],
+
+    }),
     getStudentPays: build.query({
       query: () => "students/student_pays/",
       providesTags: ['tagTypes'],
@@ -29,4 +34,5 @@ export const {
   useGetStudenAttendanceQuery,
   useGetStudentDebtsQuery,
   useGetStudentPaysQuery,
+  useGetStudentLeesonQuery,
 } = StudentProfileApi;

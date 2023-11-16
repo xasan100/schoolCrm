@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Notification({ open }) {
+export default function Notification({ skip }) {
   return (
     <div
       className={`fixed bottom-0 h-[89vh] w-80 bg-white border z-10 ${
-        open === "notification" ? "right-0" : "-right-[20rem]"
+        skip === "notification" ? "right-0" : "-right-[20rem]"
       } transition-all duration-500 p-4 flex flex-col justify-start gap-3`}
     >
       <h1 className="text-2xl font-bold">Message</h1>

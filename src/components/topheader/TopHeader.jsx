@@ -7,8 +7,8 @@ import Notification from "./Notification";
 import { ThemeContext, useTheme } from "../context/index.jsx";
 
 export default function TopHeader() {
+  const [open, setOpen] = useState(false);
   // const [day, setDay] = useState(true);
-  const [open, setOpen] = useState("");
   const { day, toggleTheme } = useTheme();
   const { profile } = useContext(ThemeContext);
   const typeUser = profile?.user?.type_user;
@@ -16,17 +16,14 @@ export default function TopHeader() {
     document.body.className = day ? "light-mode" : "dark-mode";
   }, [day]);
 
-  const handleChange = (title) => {
-    setOpen(title);
-    if (title === open) {
-      setOpen("");
-    }
+
+  const handleChange = () => {
+    setOpen(!open);
   };
   return (
     <div
-      className={`shadow-lg flex justify-end p-4 ${
-        day ? "light-mode" : "dark-mode"
-      }`}
+      className={`shadow-lg flex justify-end p-4 ${day ? "light-mode" : "dark-mode"
+        }`}
     >
       <div className="flex itmes-center gap-6">
         {/* <span
@@ -48,17 +45,16 @@ export default function TopHeader() {
         </span> */}
         {typeUser === "admin" ? (
           <span
-            onClick={() => handleChange("settings")}
-            className={`hover:bg-gray-200 ${
-              open === "settings" && "bg-gray-200"
-            } p-2 rounded-full text-3xl cursor-pointer select-none delay-150`}
+            onClick={handleChange}
+            className={`hover:bg-gray-200 ${open && "bg-gray-200"
+              } p-2 rounded-full text-3xl cursor-pointer select-none delay-150`}
           >
             <FiSettings />
           </span>
         ) : (
           <></>
         )}
-        <Settings open={open} />
+        {open && <Settings skip={true} />}
         <Notification open={open} />
       </div>
     </div>
