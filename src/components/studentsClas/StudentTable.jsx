@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from "react";
-
 import EmptyBox from "../EmptyBox/EmptyBox";
 import Loader from "../Loader/Loader";
 import { FaUserTie } from "react-icons/fa";
@@ -10,8 +9,6 @@ import UpdateStudentClas from "./UpdateClas.jsx";
 import StudentClassAtandace from "./Debtes .jsx";
 import View from "./View.jsx";
 
-
-
 const TeacherItem = ({ teacher, index }) => {
 
   return (
@@ -20,7 +17,7 @@ const TeacherItem = ({ teacher, index }) => {
         <h1>{index + 1}.</h1>
         {teacher?.teacher_object?.user?.image && teacher?.teacher_object?.image !== "" ? (
           <img
-            src={teacher?.teacher_object?.user.image}
+            src={teacher?.teacher_object?.user?.image}
             alt="Teacher"
             className="h-12 w-12 flex-none rounded-full border object-cover"
           />

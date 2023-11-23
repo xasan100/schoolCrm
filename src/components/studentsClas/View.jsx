@@ -14,13 +14,17 @@ export default function View({ ID }) {
   const onClose = () => setOpen(!open);
   const [loading, setLoading] = useState(false)
 
-  
+
 
   const Open = async () => {
     setOpen(!open)
     try {
       setLoading(true);
-      const response = await fetch(`${apiUrl}/classes/${ID}/get_informations_of_class_pk/`);
+      const response = await fetch(`${apiUrl}classes/${ID}/get_informations_of_class_pk/`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+      });
       const responseData = await response.json();
       if (responseData) {
         setData(responseData);
@@ -121,7 +125,7 @@ export default function View({ ID }) {
                                 {val?.discount_type === 'EMPLOYER_CHILDREN' ? 'Xodim Farzadi' : '' || val?.discount_type === 'GRANT_FULL' ? 'Tuliq chegirma' : '' || val?.discount_type === 'GRANT_MONTH' ? 'Oylik chegirma' : '' || val.discount_type === 'FAMILY_CHILDREN' ? "Oilaviy Chegirma" : ''}
                               </td>
                               <td className="border p-2">
-                                {val?.hostel ? 'Bor' :"Yoq"}
+                                {val?.hostel ? 'Bor' : "Yoq"}
                               </td>
                             </tr>
                           ))}

@@ -43,6 +43,7 @@ function ParentPerDebtsCom() {
 
             {
               isLoading ? 'Loading...' :
+              data.length > 0 ?
                 data?.filter(item => {
                   const isDebtorMatch = (select?.debtor === 'true' ? item?.paid : select?.debtor === 'false' ? !item.paid : true);
                   return isDebtorMatch;
@@ -73,7 +74,9 @@ function ParentPerDebtsCom() {
                         </div>
                       </div>
                     </div> 
-                  ))}
+                  ) ): "ma'lumot topilmadi"
+               
+                }
           </div>
         </fieldset>
       </div>

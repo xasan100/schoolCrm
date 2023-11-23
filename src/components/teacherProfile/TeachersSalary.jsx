@@ -37,7 +37,7 @@ function TeachersSalary() {
   const [searchTerm, setSearchTerm] = useState("");
   const { profile } = useContext(ThemeContext);
   const ID = profile.id;
-  const { data, isLoading } = useGetTeachersSalaryQuery(ID);
+  const { data, isLoading } = useGetTeachersSalaryQuery();
 
   const filteredTeachers = useMemo(() => {
     // Computing the filtered teachers list

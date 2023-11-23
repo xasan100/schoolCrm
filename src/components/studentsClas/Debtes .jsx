@@ -68,7 +68,11 @@ export default function StudentClassAtandace({ ID }) {
     setOpen(!skip);
     try {
       setLoading(true);
-      const response = await fetch(`${apiUrl}classes/${ID}/get_attendances_of_class_pk/`);
+      const response = await fetch(`${apiUrl}classes/${ID}/get_attendances_of_class_pk/`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+      });
       const responseData = await response.json();
       if (responseData) {
         setData(responseData);

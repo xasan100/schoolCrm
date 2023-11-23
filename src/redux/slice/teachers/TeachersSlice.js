@@ -19,7 +19,7 @@ export const TeachersCrud = createApi({
       providesTags: ["Teachers"],
     }),
     getTeachersSalary: build.query({
-      query: (id) => `expenses/?user=${id}`,
+      query: (id) => `users/get_salaries/`,
       providesTags: ["Teachers"],
     }),
     getTeacherAttandance: build.query({

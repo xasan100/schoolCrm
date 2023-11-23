@@ -23,10 +23,10 @@ export default function ParentProfileCom() {
               </p>
               <p className="text-gray-400">Farzandlarim</p>
             </div>
-            <div>
+            {/* <div>
               <p className="font-bold text-gray-700 text-xl">100</p>
               <p className="text-gray-400">Xabarlarim</p>
-            </div>
+            </div> */}
             <div>
               <p className="font-bold text-gray-700 text-xl">4</p>
               <p className="text-gray-400">To'lovlarim</p>

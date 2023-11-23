@@ -89,7 +89,11 @@ function AddStaff() {
     }
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`);
+    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`,{
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          }
+        });
     
     const data = await response.json();
     if (data.exists) {

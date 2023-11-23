@@ -18,6 +18,7 @@ export function AddStudent() {
   // state
   const [open, setOpen] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
+  const [page, setPage] = useState([])
   const [number, setNumber] = useState('')
   const [error, setError] = useState({ sallery: "", username: "", password: '' });
   const [types, setTypes] = useState()
@@ -32,8 +33,6 @@ export function AddStudent() {
     salary: null,
     img: '',
     middleName: '',
-
-
   },
   );
   const TypesName = types?.match(/[A-z]/g)?.join('');
@@ -42,7 +41,9 @@ export function AddStudent() {
   const { data } = useGetTypeQuery()
   const [createUser, { isLoading }] = useCreateUserMutation();
   const { data: permitiondata } = useGetPermitionQuery()
-  const handleCheckboxChange = (id, isChecked) => {
+
+  const handleCheckboxChange = (id, isChecked, title) => {
+    console.log(title,'val.title,');
     if (isChecked) {
       setCheckedIds(prevIds => [...prevIds, id]);
     } else {
@@ -61,6 +62,8 @@ export function AddStudent() {
     formData.append('types', types?.match(/\d+/g)?.join(''))
     formData.append('user.middle_name', inputValue.middleName);
     formData.append('user.image', inputValue.img);
+    formData.append('pageName', inputValue.img);
+
 
     if (checkedIds && Array.isArray(checkedIds)) {
       checkedIds.forEach((id) => {
@@ -81,7 +84,11 @@ export function AddStudent() {
     setOpen(false);
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`);
+    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      }
+    });
     const data = await response.json();
     if (data.exists) {
       setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })
@@ -306,10 +313,10 @@ export function AddStudent() {
                         type="checkbox"
                         value={val.id}
                         checked={checkedIds.includes(val.id)}
-                        onChange={e => handleCheckboxChange(val.id, e.target.checked)}
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onChange={e => handleCheckboxChange(val.id, e.target.checked, val.title)}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label for={val.title} class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                      <label htmlFor={val.title} className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                         {val.title}
                       </label>
                     </div>

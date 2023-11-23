@@ -17,7 +17,12 @@ const TeacherItem = ({ teacher, index, onStatusChange }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetch(`${baseUrl}users/${status.id}/change_status/?status=${status.is_active}`);
+        await fetch(`${baseUrl}users/${status.id}/change_status/?status=${status.is_active}`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          }
+        }
+        );
         onStatusChange();
       } catch (error) {
         console.error('Error fetching data:', error);

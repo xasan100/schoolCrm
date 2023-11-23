@@ -131,7 +131,11 @@ export function AddStudent() {
     }
   };
   const fetchFromBackend = async () => {
-    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`);
+    const response = await fetch(`${apiUrl}users/check_username_exists/?username=${number}`,{
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+      });
     const data = await response.json();
     if (data.exists) {
       setError({ ...error, username: 'Ushbu username allaqachon mavjud!' })
@@ -262,7 +266,7 @@ export function AddStudent() {
                 htmlFor="username"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                First Name
+                Ismi
               </label>
               <div className="mt-2">
                 <input
@@ -283,7 +287,7 @@ export function AddStudent() {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                Last Name
+                Familyasi
               </label>
               <div className="mt-2">
                 <input
@@ -304,7 +308,7 @@ export function AddStudent() {
                 htmlFor="salary"
                 className="block text-sm font-medium leading-6 text-gray-900 w-72"
               >
-                Middle Name
+                Otasini Ismi
               </label>
               <div className="mt-2">
                 <input
@@ -377,7 +381,7 @@ export function AddStudent() {
             </div>
 
             <div className="mt-2">
-              <label htmlFor="">class of school</label>
+              <label htmlFor="">Sinif darajasi</label>
               <select
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 onChange={(e) =>
